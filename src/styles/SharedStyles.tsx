@@ -46,10 +46,6 @@ export const COLORS = {
     dark: 'hsl(0deg, 0%, 70%)',
   },
 };
-
-export const COLOR_MODE_KEY = 'color-mode';
-export const INITIAL_COLOR_MODE_CSS_PROP = '--initial-color-mode';
-
 export const BREAKPOINT_SIZES = {
   xs: 320,
   sm: 540,
@@ -113,45 +109,7 @@ const Container = styled.div`
 `
 const Main = styled.div`
   flex: 1;
-`
-
-const Demo = styled.div`
-  grid-area: demo;
-  position: sticky;
-  z-index: 3;
-  top: 32px;
-  align-self: start;
-  display: flex;
-  -moz-box-pack: center;
-  justify-content: center;
-  height: 100%;
-  max-height: min(860px, -64px + 100vh);
-  background-color: white;
-  filter: drop-shadow(0px 0px 16px hsl(210deg, 30%, 8%));
-`
-const DemoContainer = styled.div`
-  flex: 1 1 0;
-  width: 100%;
-  border: 2px solid hsl(210deg, 15%, 20%);
-  border-radius: 8px;
-  color: #fff;
-  padding: 16px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  height: auto;
-`
-
-const Header = styled.header`
-  position: relative;
-  z-index: 3;
-  grid-area: header;
-  display: flex;
-  flex-direction: column;
-  -moz-box-align: center;
-  align-items: center;
-  text-align: center;
-  padding-top: 32px;
-  isolation: isolate;
+  padding: 12px;
 `
 
 const Title = styled.h1`
@@ -280,5 +238,5 @@ const MobileOnly = styled.div`
     }
 `;
 
-export {AppBar, Header, Container, Main, Demo, DemoContainer, Title, Description, Code, CodeType, CodeTitle, CodeContainer, CopyRowButton, CopyRow, Controls, DesktopOnly, MobileOnly};
+export {AppBar, Container, Main, Title, Description, Code, CodeType, CodeTitle, CodeContainer, CopyRowButton, CopyRow, Controls, DesktopOnly, MobileOnly};
 
