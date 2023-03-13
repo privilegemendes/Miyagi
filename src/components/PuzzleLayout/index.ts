@@ -1,2 +1,2 @@
 export * from './PuzzleLayout';
-export { default } from './PuzzleLayout';
+export { PuzzleLayout } from './PuzzleLayout';

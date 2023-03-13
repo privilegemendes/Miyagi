@@ -2,6 +2,7 @@
   "name": "miyagi",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://github.com/privilegemendes/miyagi",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -10,9 +11,11 @@
     "@types/node": "^16.18.14",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@react-icons/all-files": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "styled-components": "^5.3.8",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -41,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.26",
     "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.2.1"
   }

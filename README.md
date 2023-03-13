@@ -18,3 +18,20 @@ The goal of the game is to move the tiles around the board to match the goal sta
 | `d` | Move right |
 | `r` | Reset |
 | `q` | Quit |
+
+
+## Project Structure
+```
+.
+├── public
+│   └── index.html
+├── src
+│   ├── components
+│   │   ├── Light.js
+│   │   ├── Scene.js
+│   │   └── TessellatedPlane.js
+│   ├── App.js
+│   ├── index.js
+│   └── index.css
+└── package.json
+```
