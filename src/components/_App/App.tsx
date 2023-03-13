@@ -2,7 +2,7 @@ import * as React from "react";
 import { FC } from "react";
 import { AppBar, Container, Description, Main, Title } from "../../styles/SharedStyles";
 import { GitHubShareButton } from "../GitHubShareButton";
-import {PuzzleLayout} from "../PuzzleLayout";
+import {PuzzleLayout} from "../Puzzle";
 import {PuzzleConfigurations} from "../PuzzleConfigurations";
 import {PuzzleProvider} from "../../contexts/puzzle-provider/PuzzleProvider";
 

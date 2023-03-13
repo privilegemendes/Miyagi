@@ -2,8 +2,9 @@ import * as React from 'react';
 import {FC, useRef} from 'react';
 import styled from "styled-components";
 import {usePuzzleSize} from "../../contexts/puzzle-provider/PuzzleProvider";
+import {PuzzleCell} from "./PuzzleCell";
 
-export const PuzzleCell:FC = () => {
+export const PuzzleCells:FC = () => {
 
 	const {rows, columns} = usePuzzleSize();
 
@@ -14,9 +15,10 @@ export const PuzzleCell:FC = () => {
 			return <PuzzleCellContainer
 				ref={gridRef}
 				key={`[${row+1},${col+1}]`}
-				style={{gridArea:`${row+1} / ${col+1} / ${row+2} / ${col+2}`,
-					height: '1fr', width: '1fr'}}
-			></PuzzleCellContainer>
+				style={{gridArea:`${row+1} / ${col+1} / ${row+2} / ${col+2}`}}
+			>
+				<PuzzleCell/>
+			</PuzzleCellContainer>
 		})
 	);
 
@@ -27,10 +29,13 @@ export const PuzzleCell:FC = () => {
 }
 
 const PuzzleCellContainer = styled.div`
-  border: 0.1px dotted white;
+  //border: 0.1px dotted white;
   transition: 0.2s all ease;
   cursor: move;
   position: relative;
   z-index: 1000;
-  opacity: 0.2;
+  //opacity: 0.2;
+  height: 1fr;
+  width: 1fr;
+  padding: 2px;
 `
