@@ -1,20 +1,20 @@
 import * as React from 'react';
 import {FC} from 'react';
 import styled from "styled-components";
-import {usePuzzleSize} from "../../contexts/puzzle-provider/PuzzleProvider";
-import {Button} from "../Button";
+import {
+	usePuzzle
+} from "../../contexts/puzzle-provider/PuzzleProvider";
+import {Button3D} from "../atoms/Button3D";
 
 
 export const PuzzleConfigurations:FC = () => {
 
-    const {puzzleSize, onSliderChange, startNewGame} = usePuzzleSize();
+	const {puzzleSize, onSliderChange, startNewGame} = usePuzzle();
 
-  return <SettingsContainer>
-    <Slider onChange={onSliderChange} type="range" min="2" max="10" value={puzzleSize}/>
-    <Controls>
-        <Button text={"Start New Game"} onClick={startNewGame}/>
-    </Controls>
-  </SettingsContainer>;
+	return <SettingsContainer>
+		<Slider onChange={onSliderChange} type="range" min="4" max="6" value={puzzleSize}/>
+		<Button3D text={"Start New Game"} onClick={startNewGame}/>
+	</SettingsContainer>;
 }
 
 const SettingsContainer = styled.div`
@@ -34,19 +34,6 @@ const Slider = styled.input`
   margin-left: auto;
   margin-right: auto;
   display: block;
-`
-const Controls = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 8px;
-    width: 50%;
-    margin: 16px auto;
-    
-    @media (max-width: 768px) {
-        flex-direction: column;
-    }
-
 `
 
 
