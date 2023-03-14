@@ -10,13 +10,16 @@ import {
 import {
 	useAndRequireContext
 } from "../../hooks/useAndRequireContext/useAndRequireContext";
-
+import {PuzzleResult} from "../../components/PuzzleResult";
 
 type Context = {
 	rows: number
 	columns: number
 	puzzle: number[]
 	puzzleSize: number
+	moves: number
+	startTime: number
+	endTime: number
 	movePuzzlePiece: (_: number) => void
 	startNewGame: () => void
 	onSliderChange: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -34,9 +37,9 @@ export const PuzzleProvider: FC<Props> =
 	(
 		{
 			children,
-			defaultPuzzleSize = 2,
-			defaultRows = 2,
-			defaultColumns = 2,
+			defaultPuzzleSize = 4,
+			defaultRows = 4,
+			defaultColumns = 4,
 
 		}
 	) =>
@@ -78,8 +81,8 @@ export const PuzzleProvider: FC<Props> =
 				newPuzzle[emptyIndex] = puzzle[index];
 				newPuzzle[index] = 0;
 				setMoves(moves + 1);
-				console.log("Moves: ", moves);
-				console.log("Puzzle: ", newPuzzle);
+				// console.log("Moves: ", moves);
+				// console.log("Puzzle: ", newPuzzle);
 				setPuzzle(newPuzzle);
 				checkIfPuzzleSolved(newPuzzle);
 			}
@@ -106,13 +109,14 @@ export const PuzzleProvider: FC<Props> =
 
 		const checkIfPuzzleSolved = (puzzle: number[]) => {
 			let isPuzzleSolved = true;
+			const checkPuzzle = [...puzzle];
 			// Check if the puzzle pieces are in order
-			for (let i = 0; i < puzzle.length; i++) {
-				if (puzzle[puzzle.length - 1] === 0) {
-					puzzle.pop();
+			for (let i = 0; i < checkPuzzle.length; i++) {
+				if (checkPuzzle[checkPuzzle.length - 1] === 0) {
+					checkPuzzle.pop();
 				}
 
-				if (puzzle[i] > puzzle[i + 1]) {
+				if (checkPuzzle[i] > checkPuzzle[i + 1]) {
 					isPuzzleSolved = false;
 					break;
 				}
@@ -120,8 +124,8 @@ export const PuzzleProvider: FC<Props> =
 
 			if (isPuzzleSolved) {
 				setEndTime(Date.now());
-				console.log("Time: ", Math.floor((endTime - startTime) / 1000));
-				alert(`Congratulations! You solved the puzzle in ${moves} moves and ${Math.floor((endTime - startTime) / 1000)} seconds.`);
+				console.log("Time: ", Math.floor((endTime - startTime) / 3600));
+				return <PuzzleResult/>
 			}
 		}
 
@@ -130,11 +134,14 @@ export const PuzzleProvider: FC<Props> =
 			rows,
 			columns,
 			puzzle,
+			moves,
+			startTime,
+			endTime,
 			puzzleSize,
 			startNewGame,
 			onSliderChange,
 			movePuzzlePiece,
-		}), [rows, columns, puzzle, puzzleSize]);
+		}), [rows, columns, puzzle, startTime, endTime, moves, puzzleSize]);
 
 		return <ContextRef.Provider value={contextValue}>
 				{children}
@@ -142,8 +149,18 @@ export const PuzzleProvider: FC<Props> =
 };
 
 
-export const usePuzzleSize = () => {
+export function usePuzzle() {
 
 	return useAndRequireContext(ContextRef);
 }
 
+export function usePuzzleStartTime() {
+	return useAndRequireContext(ContextRef).startTime;
+}
+export function usePuzzleEndTime() {
+	return useAndRequireContext(ContextRef).endTime;
+}
+
+export function usePuzzleMoves() {
+	return useAndRequireContext(ContextRef).moves;
+}
