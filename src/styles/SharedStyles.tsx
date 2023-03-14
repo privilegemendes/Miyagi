@@ -92,8 +92,19 @@ const AppBar = styled.header`
   justify-content: space-between;
   -moz-box-align: baseline;
   align-items: baseline;
-  padding: 18px;
+  padding: 8px;
   // border-bottom: 1px solid hsl(210deg, 15%, 20%);
+`;
+
+const BottomAppBar = styled.footer`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 8px;
+  @media screen and (orientation: portrait) and (max-width: 768px) {
+    padding: 8px;
+    justify-content: space-around;
+  }
 `;
 
 const Container = styled.div`
@@ -110,6 +121,12 @@ const Container = styled.div`
 const Main = styled.div`
   flex: 1;
   padding: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+
+  @media screen and (orientation: portrait) and (max-width: 768px) {
+    padding: 8px;
+  }
 `
 
 const Title = styled.h1`
@@ -124,14 +141,14 @@ const Title = styled.h1`
    background-size: 100%;
    background-clip: text;
    // -webkit-text-fill-color: transparent;
-    margin-top: 16px;
+    margin-top: 8px;
     margin-bottom: 0;
    //filter: drop-shadow(0px 0px 2px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 4px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 8px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 16px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 32px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 64px hsl(var(--background-values) / 0.5));
 `
 
 const Description = styled.p`
   position: relative;
-  padding-top: 16px;
+  padding-top: 8px;
   z-index: 3;
   font-size: 1.25rem;
   text-align: center;
@@ -139,91 +156,6 @@ const Description = styled.p`
   margin: 0;
   color: hsl(210deg, 14%, 66%);
 `
-
-const Controls = styled.div`
-  grid-area: controls;
-  position: relative;
-  z-index: 4;
-  filter: drop-shadow(0px 0px 16px hsl(210deg, 30%, 8%));
- `;
-
-const Code = styled.code`
-  grid-area: code;
-  position: relative;
-  z-index: 1;
-  min-width: 0;
-`
-
-const CodeTitle = styled.div`
-  display: flex;
-  -moz-box-pack: justify;
-  justify-content: space-between;
-  -moz-box-align: baseline;
-  align-items: baseline;
-  margin-bottom: 8px;
-  user-select: none;
-  font-weight: 500;
-  color: hsl(0deg,0%,100%);
-`;
-
-const CodeContainer = styled.input`
-  position: relative;
-  text-align: left;
-  box-sizing: border-box;
-  overflow: visible !important;
-  white-space: pre;
-  // font-family: 'League Mono' 'Fira Mono', monospace;
-  color: #fff;
-  background-color: hsl(210deg, 30%, 12%);
-  font-size: 1rem;
-  padding: 8px 16px;
-  border: none;
-  width: 100%;
-  height: 100%;
-`;
-const CodeType = styled.div`
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  right: 14px;
-  transform: translateY(-100%);
-  font-size: 18px;
-  padding: 2px 12px 0;
-  background: hsl(210deg, 30%, 12%);
-  border-radius: 8px 8px 0 0;
-  text-transform: uppercase;
-  color: hsl(210deg, 14%, 66%);
-  font-weight: 500;
-  // font-family: 'League Mono' 'Fira Mono', monospace;
-  pointer-events: none;
-  user-select: none;
-`;
-
-const CopyRow = styled.div`
-  display: flex;
-  -moz-box-pack: end;
-  justify-content: flex-end;
-  gap: 16px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transform: translateY(calc(100% + 16px));
-`;
-
-const CopyRowButton = styled.button`
-  display: flex;
-  -moz-box-align: center;
-  align-items: center;
-  -moz-box-pack: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 8px 12px;
-  font-size: 0.875rem;
-  border: 2px solid hsl(210deg, 15%, 20%);
-  border-radius: 4px;
-  color: white;
-`;
 
 
 const DesktopOnly = styled.div`
@@ -238,5 +170,5 @@ const MobileOnly = styled.div`
     }
 `;
 
-export {AppBar, Container, Main, Title, Description, Code, CodeType, CodeTitle, CodeContainer, CopyRowButton, CopyRow, Controls, DesktopOnly, MobileOnly};
+export {AppBar, Container, Main, Title, Description, BottomAppBar, DesktopOnly, MobileOnly};
 

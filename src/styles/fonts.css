@@ -1,0 +1,24 @@
+/*---------------------------------------------------------------*
+ *                       Roboto                                  *
+ *---------------------------------------------------------------*/
+
+@font-face {
+    font-family: 'Roboto';
+    font-weight: normal;
+    src: local('FiraSans'), url(./fonts/roboto/Roboto-Regular.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Roboto';
+    font-weight: bold;
+    src: local('FiraSans'), url(./fonts/roboto/Roboto-Bold.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Roboto';
+    font-weight: 300;
+    src: local('FiraSans'), url(./fonts/roboto/Roboto-Light.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Roboto';
+    font-weight: 100;
+    src: local('FiraSans'), url(./fonts/roboto/Roboto-Thin.ttf) format('truetype');
+}
