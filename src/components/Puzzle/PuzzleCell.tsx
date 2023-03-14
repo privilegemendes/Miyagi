@@ -1,37 +1,11 @@
 import * as React from 'react';
-import {FC, useEffect, useState} from 'react';
+import {FC} from 'react';
 import styled from "styled-components";
 import {usePuzzleSize} from "../../contexts/puzzle-provider/PuzzleProvider";
 
 export const PuzzleCell:FC = () => {
 
-	const {puzzleSize} = usePuzzleSize();
-
-	const [puzzle, setPuzzle] = useState<number[]>([]);
-
-	useEffect(() => {
-		const setupPuzzle = Array.from({ length: puzzleSize * puzzleSize }, (_, index) => index + 1);
-		const emptyCell = puzzleSize * puzzleSize;
-		setupPuzzle[emptyCell - 1] = 0;
-		setPuzzle(setupPuzzle);
-
-	}, [puzzleSize]);
-	const movePuzzlePiece = (index: number) => {
-		const emptyIndex = puzzle.indexOf(0);
-		const row = Math.floor(emptyIndex / puzzleSize);
-		const col = emptyIndex % puzzleSize;
-		const moveRow = Math.floor(index / puzzleSize);
-		const moveCol = index % puzzleSize;
-		if (
-			(row === moveRow && Math.abs(col - moveCol) === 1) ||
-			(col === moveCol && Math.abs(row - moveRow) === 1)
-		) {
-			const newPuzzle = [...puzzle];
-			newPuzzle[emptyIndex] = puzzle[index];
-			newPuzzle[index] = 0;
-			setPuzzle(newPuzzle);
-		}
-	};
+	const {puzzle, movePuzzlePiece} = usePuzzleSize();
 
 	return <>
 		{puzzle.map((value, index) => (

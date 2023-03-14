@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FC} from "react";
+import {FC} from 'react';
 import styled from "styled-components";
 import {usePuzzleSize} from "../../contexts/puzzle-provider/PuzzleProvider";
 import {Button} from "../Button";
@@ -7,14 +7,12 @@ import {Button} from "../Button";
 
 export const PuzzleConfigurations:FC = () => {
 
-  const {puzzleSize, onSliderChange} = usePuzzleSize();
+    const {puzzleSize, onSliderChange, startNewGame} = usePuzzleSize();
 
   return <SettingsContainer>
     <Slider onChange={onSliderChange} type="range" min="2" max="10" value={puzzleSize}/>
     <Controls>
-        <Button text={"Reset"}/>
-        <Button text={"Solve"}/>
-        <Button text={"Shuffle"}/>
+        <Button text={"Start New Game"} onClick={startNewGame}/>
     </Controls>
   </SettingsContainer>;
 }

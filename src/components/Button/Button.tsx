@@ -4,16 +4,17 @@ import styles from './Button.module.css'
 
 type Props = {
   text: string;
+  onClick: (e: React.MouseEvent) => void;
 }
 export const Button:FC<Props> =
   (
       {
         text,
-          ...delegated
+          onClick
       }
   ) => {
 
-  return <button className={styles.pushable}  {...delegated}>
+  return <button className={styles.pushable} onClick={onClick}>
     <span className={styles.shadow}/>
     <span className={styles.edge}/>
     <span className={styles.front}>
