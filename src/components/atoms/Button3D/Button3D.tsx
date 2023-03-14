@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {FC} from "react";
-import styles from './Button.module.css'
+import styles from './Button3D.module.css'
 
 type Props = {
   text: string;
   onClick: (e: React.MouseEvent) => void;
 }
-export const Button:FC<Props> =
+export const Button3D:FC<Props> =
   (
       {
         text,

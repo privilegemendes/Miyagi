@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import styles from "../../styles/styles.module.css";
+import styles from "../../../styles/styles.module.css";
 //import * as config from "../../lib/config";
 
 export const GitHubShareButton: React.FC = () => {
@@ -14,8 +14,8 @@ export const GitHubShareButton: React.FC = () => {
         aria-label='View source on GitHub'
     >
       <svg
-        width='80'
-        height='80'
+        width='60'
+        height='60'
         viewBox='0 0 250 250'
         style={{
           fill: '#006eff',
