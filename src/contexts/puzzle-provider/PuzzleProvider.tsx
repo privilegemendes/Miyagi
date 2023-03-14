@@ -8,8 +8,8 @@ import {
 type Context = {
 	rows: number
 	columns: number
-	gridSize: number
-	setGridSize: (gridSize: number) => void
+	puzzleSize: number
+	setPuzzleSize: (puzzleSize: number) => void
 	onSliderChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 export interface PuzzleSize {
@@ -21,7 +21,7 @@ const ContextRef = createContext<Context | undefined>(undefined);
 
 type Props = {
 	children: React.ReactNode
-	defaultGridSize?: number
+	defaultPuzzleSize?: number
 	defaultRows?: number
 	defaultColumns?: number
 }
@@ -29,19 +29,19 @@ export const PuzzleProvider: FC<Props> =
 	(
 		{
 			children,
-			defaultGridSize = 5,
-			defaultRows = 5,
-			defaultColumns = 5,
+			defaultPuzzleSize = 2,
+			defaultRows = 2,
+			defaultColumns = 2,
 
 		}
 	) =>
 	{
-		const [gridSize, setGridSize] = useState<number>(defaultGridSize);
+		const [puzzleSize, setPuzzleSize] = useState<number>(defaultPuzzleSize);
 		const [rows, setRows] = useState<number>(defaultRows);
 		const [columns, setColumns] = useState<number>(defaultColumns);
 		const onSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 			const value = parseInt(event.target.value);
-			setGridSize(value);
+			setPuzzleSize(value);
 			setRows(value);
 			setColumns(value);
 		}
@@ -49,10 +49,10 @@ export const PuzzleProvider: FC<Props> =
 		const contextValue = useMemo(() => ({
 			rows,
 			columns,
-			gridSize,
-			setGridSize,
+			puzzleSize,
+			setPuzzleSize,
 			onSliderChange,
-		}), [rows, columns, gridSize]);
+		}), [rows, columns, puzzleSize]);
 
 		return <ContextRef.Provider value={contextValue}>
 				{children}
