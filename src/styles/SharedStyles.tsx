@@ -129,21 +129,27 @@ const Main = styled.div`
   }
 `
 
+const HomeGridContainer = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    grid-template-rows: 1fr 0.2fr;
+    grid-template-areas: "stats puzzle profile" "nav nav nav";
+  
+`;
 const Title = styled.h1`
-    position: relative;
-    z-index: 2;
-    font-size: 2rem;
-    font-weight: 600;
-    line-height: 1.2;
-    color: #006eff;
-    //background-color: rgb(255, 178, 62);
-    //background-image: radial-gradient(rgb(255, 230, 128), rgba(255, 230, 128, 0) 40%), conic-gradient(from 90deg, rgb(255, 198, 26), rgb(255, 238, 128), rgb(255, 198, 26), rgb(255, 238, 128), rgb(255, 198, 26), rgb(255, 252, 230), rgb(255, 198, 26));
-   background-size: 100%;
-   background-clip: text;
-   // -webkit-text-fill-color: transparent;
-    margin-top: 8px;
-    margin-bottom: 0;
-   //filter: drop-shadow(0px 0px 2px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 4px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 8px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 16px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 32px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 64px hsl(var(--background-values) / 0.5));
+  position: fixed;
+  z-index: 2;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #006eff;
+  //background-color: rgb(255, 178, 62);
+  //background-image: radial-gradient(rgb(255, 230, 128), rgba(255, 230, 128, 0) 40%), conic-gradient(from 90deg, rgb(255, 198, 26), rgb(255, 238, 128), rgb(255, 198, 26), rgb(255, 238, 128), rgb(255, 198, 26), rgb(255, 252, 230), rgb(255, 198, 26));
+  background-size: 100%;
+  background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  margin: 8px auto 0;
+  //filter: drop-shadow(0px 0px 2px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 4px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 8px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 16px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 32px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 64px hsl(var(--background-values) / 0.5));
 `
 
 const Description = styled.p`
