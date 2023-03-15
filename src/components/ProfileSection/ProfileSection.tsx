@@ -3,10 +3,17 @@ import styled from "styled-components";
 import {GitHubShareButton} from "../atoms/GitHubShareButton";
 import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 import {FC} from "react";
+import {
+  useWindowDimensions
+} from "../../hooks/useWindowDimensions/useWindowDimensions";
 
 function ProfileSection() {
 
+  const {width} = useWindowDimensions();
 
+  if (width < 768) {
+    return null;
+  }
 
   return <ProfileContainer>
     <GitHubShareButton/>

@@ -1,11 +1,21 @@
 import * as React from 'react';
 import styled from "styled-components";
 import {Title} from "../../styles/SharedStyles";
+import {
+    useWindowDimensions
+} from "../../hooks/useWindowDimensions/useWindowDimensions";
 
 function StatsSection() {
-  return <StatsContainer>
-   <Title>Miyagi</Title>
-  </StatsContainer>;
+
+    const {width} = useWindowDimensions();
+
+    if (width < 768) {
+        return null;
+    }
+
+    return <StatsContainer>
+    <Title>Miyagi</Title>
+    </StatsContainer>;
 }
 
 export default StatsSection;
