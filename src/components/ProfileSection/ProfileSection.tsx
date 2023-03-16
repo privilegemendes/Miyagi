@@ -11,7 +11,7 @@ function ProfileSection() {
 
   const {width} = useWindowDimensions();
 
-  if (width < 768) {
+  if (width <= 768) {
     return null;
   }
 
@@ -33,13 +33,13 @@ const Difficulty: FC = () => {
   return <Setting>
     <SettingTitle>Difficulty</SettingTitle>
     <SettingControl>
-     <Slider onChange={onSliderChange} type="range" min="4" max="6" value={puzzleSize}/>
+     <Slider onChange={onSliderChange} type="range" min="3" max="6" value={puzzleSize}/>
     </SettingControl>
   </Setting>
 }
 
 const ProfileContainer = styled.div`
-  grid-area: profile;
+  grid-area: 2 / 2 / 3 / 3;
   display: flex;
   flex-direction: column;
 

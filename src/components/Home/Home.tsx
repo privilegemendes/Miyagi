@@ -7,18 +7,24 @@ import styled from "styled-components";
 import StatsSection from "../StatsSection";
 import ProfileSection from "../ProfileSection";
 import NavBar from "../NavBar";
+import Toast from "../Toast";
 
 export const Home:FC = () => {
 
   return <HomeGridContainer>
       <PuzzleProvider>
-        <StatsSection/>
-        <PuzzleContainer>
-            <PuzzleLayout/>
-            <PuzzleControls/>
-        </PuzzleContainer>
-        <ProfileSection/>
-        <NavBar/>
+        {/*<StatsSection/>*/}
+          <Toast variant={"success"}>Hello</Toast>
+            <PuzzleContainer>
+                <PuzzleLayout/>
+                <PuzzleControls/>
+            </PuzzleContainer>
+          <NavContainer>
+                <NavBar/>
+          </NavContainer>
+          <ProfileContainer>
+                <ProfileSection/>
+          </ProfileContainer>
       </PuzzleProvider>
   </HomeGridContainer>
 }
@@ -28,26 +34,31 @@ export default Home;
 
 const HomeGridContainer = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1.5fr 1fr;
-    grid-template-rows: 1.5fr 0.1fr;
-    grid-template-areas: "stats puzzle profile" "nav nav nav";
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: 0.1fr 1fr;
+    grid-template-areas:  "puzzle nav" "puzzle profile";
     grid-gap: 1rem;
     height: 100vh;
     width: 100vw;
+    
+    max-width: 1200px;
+    margin: auto;
     
     background: hsl(210deg, 30%, 8%);
     color: #fff;
     @media screen and (orientation: portrait) and (max-width: 768px) {
         grid-template-columns: 1fr;
+        grid-template-rows: 1fr 0.1fr;
         grid-template-areas: "puzzle" "nav";
         grid-gap: 0;
     }
-  
 `;
 
 const PuzzleContainer = styled.div`
+    //grid-area: 1 / 1 / 3 / 2;
     grid-area: puzzle;
     margin: auto;
+    max-width: 800px;
 `;
 
 const StatsContainer = styled.div`

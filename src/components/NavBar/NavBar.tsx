@@ -15,7 +15,6 @@ function NavBar() {
 export default NavBar;
 
 const NavContainer = styled.div`
-    grid-area: nav;
     display: flex;
     justify-content: space-around;
     align-items: center;

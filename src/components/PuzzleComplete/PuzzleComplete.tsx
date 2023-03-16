@@ -10,16 +10,11 @@ import {
   usePuzzleStartTime
 } from "../../contexts/puzzle-provider/PuzzleProvider";
 
-export const PuzzleResult: FC = () => {
+export const PuzzleComplete: FC = () => {
   const {width, height} = useWindowDimensions();
-  const numberOfMovesUsed = usePuzzleMoves();
-  const startTime = usePuzzleStartTime();
-  const endTime = usePuzzleEndTime();
 
   return <Confetti
     width={width}
     height={height}
-  >
-    alert(`Congratulations! You solved the puzzle in ${numberOfMovesUsed} moves and ${Math.floor((endTime - startTime) / 3600)} seconds.`);
-  </Confetti>;
+  />;
 };

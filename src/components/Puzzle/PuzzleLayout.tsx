@@ -29,7 +29,8 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
     width: 90vw;
     height: 50vh;
   }
-  width: 50vw;
-  height: 50vh;
+  
+  width: 40vw;
+  height: 60vh;
   margin: auto;
 `
