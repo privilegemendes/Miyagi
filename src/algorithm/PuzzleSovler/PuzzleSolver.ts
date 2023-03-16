@@ -16,7 +16,7 @@ interface PuzzleNode {
 
 export type PuzzleDirection = 'up' | 'down' | 'left' | 'right' | null;
 
-export function PuzzleSolver(puzzle: number[]): PuzzleDirection[] | null {
+export function PuzzleSolver(puzzle: number[]): { path: PuzzleDirection[] | null; pathValue: number[] } | null {
 	const pq = new PriorityQueue<PuzzleNode>((a, b) => a.totalEstimatedCost - b.totalEstimatedCost);
 	const visited = new Set<string>();
 
@@ -137,8 +137,9 @@ function getNeighborStates(state: PuzzleState): PuzzleState[] {
 	return neighborStates;
 }
 
-function getPath(currentNode: PuzzleNode): PuzzleDirection[] {
+function getPath(currentNode: PuzzleNode): {path: PuzzleDirection[], pathValue: number[]} {
 	const path: PuzzleDirection[] = [];
+	const pathValue: number[] = [];
 
 	// Traverse the parent nodes until we reach the root node
 	while (currentNode.parent !== null) {
@@ -147,13 +148,18 @@ function getPath(currentNode: PuzzleNode): PuzzleDirection[] {
 			currentNode.parent.state,
 			currentNode.state
 		);
+		const currentNodeValueDirection = determineValueDirection(
+			currentNode.parent.state,
+			currentNode.state
+		);
 		// Add the direction to the path
 		path.unshift(currentDirection);
+		pathValue.unshift(currentNodeValueDirection);
 		// Move to the parent node
 		currentNode = currentNode.parent;
 	}
 
-	return path;
+	return {path, pathValue};
 }
 
 function determineDirection(parentState: PuzzleState, currentState: PuzzleState): PuzzleDirection {
@@ -173,6 +179,26 @@ function determineDirection(parentState: PuzzleState, currentState: PuzzleState)
 		throw new Error('Invalid direction');
 	}
 }
+
+function determineValueDirection(parentState: PuzzleState, currentState: PuzzleState) {
+	const parentEmptyIndex = parentState.emptyIndex;
+	const currentEmptyIndex = currentState.emptyIndex;
+
+	if (currentEmptyIndex - parentEmptyIndex === 1) {
+		return currentState.tiles[currentEmptyIndex - 1];
+	} else if (parentEmptyIndex - currentEmptyIndex === 1) {
+		return currentState.tiles[currentEmptyIndex + 1];
+	} else if (currentEmptyIndex - parentEmptyIndex === currentState.puzzleSize) {
+		return currentState.tiles[currentEmptyIndex - currentState.puzzleSize];
+	} else if (parentEmptyIndex - currentEmptyIndex === currentState.puzzleSize) {
+		return currentState.tiles[currentEmptyIndex + currentState.puzzleSize];
+	} else {
+
+		throw new Error('Invalid direction');
+	}
+}
+
+
 /*
  *This function simply checks if every tile in the current state is the same as the
  corresponding tile in the goal state. If they are all the same, it returns true,

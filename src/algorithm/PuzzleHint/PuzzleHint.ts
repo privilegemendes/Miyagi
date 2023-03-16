@@ -22,7 +22,7 @@ export function PuzzleHint(puzzle: number[], goalState: number[], directions: Pu
 
 		if (
 			(direction === 'up' && emptyIndex < puzzleSize) ||
-			(direction === 'down' && emptyIndex > puzzleSize ** 2 - puzzleSize) ||
+			(direction === 'down' && emptyIndex >= puzzleSize ** 2 - puzzleSize - 1) ||
 			(direction === 'left' && emptyIndex % puzzleSize === 0) ||
 			(direction === 'right' && emptyIndex % puzzleSize === puzzleSize - 1)
 		) {
@@ -59,12 +59,12 @@ export function PuzzleHint(puzzle: number[], goalState: number[], directions: Pu
 
 	switch (movedDirection) {
 		case 'up':
-			return `Move ${movedIndex} up`;
+			return `Move ${movedValue} up`;
 		case 'down':
-			return `Move ${movedIndex} down`;
+			return `Move ${movedValue} down`;
 		case 'left':
-			return `Move ${movedIndex} left`;
+			return `Move ${movedValue} left`;
 		case 'right':
-			return `Move ${movedIndex} right`;
+			return `Move ${movedValue} right`;
 	}
 }

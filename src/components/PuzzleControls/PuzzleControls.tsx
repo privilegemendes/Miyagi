@@ -22,6 +22,7 @@ export const PuzzleControls:FC = () => {
 		<StatsContainer>
 			<Stats>{formatTime(timer)}</Stats>
 			<Stats>Moves: {numberOfMoves}</Stats>
+			<Stats>Hints: {numberOfMoves}</Stats>
 		</StatsContainer>
 		<NewGame>
 			<Button3D
@@ -29,7 +30,6 @@ export const PuzzleControls:FC = () => {
 				onClick={startNewGame}
 				disabled={puzzleSolved}
 			/>
-			<Button3D text={"Reset"} onClick={resetGame}/>
 		</NewGame>
 		<NewGame>
 			<Button3D
@@ -37,6 +37,7 @@ export const PuzzleControls:FC = () => {
 				onClick={solvePuzzle}
 				disabled={reset || puzzleSolved}
 			/>
+			<Button3D text={"Reset"} onClick={resetGame}/>
 		</NewGame>
 
 	</SettingsContainer>;

@@ -30,6 +30,7 @@ type Context = {
 	moves?: number
 	gameState: string
 	reset: boolean
+	hint?: number
 	puzzleSolved: boolean
 	movePuzzlePiece: (_: number) => void
 	startNewGame: () => void
@@ -57,6 +58,7 @@ export const PuzzleProvider: FC<Props> =
 		const [puzzle, setPuzzle] = useState<number[]>([]);
 		const [reset, setReset] = useState<boolean>(true);
 		const [puzzleSolved, setPuzzleSolved] = useState<boolean>(false);
+		const [hint, setHint] = useState<number>();
 		const {timer, handleStart, handleResume, handleReset, handlePause, isPaused, isActive} = useTimer(0);
 		const [gameState, setGameState] = useState<"Play" | "Pause" | "Resume">("Play");
 
@@ -148,11 +150,9 @@ export const PuzzleProvider: FC<Props> =
 		};
 
 		const solvePuzzle = useCallback(() => {
-			const newPuzzle = generateOrderedPuzzle(puzzleSize);
 			const solution = PuzzleSolver(puzzle);
-			const nextMove = PuzzleHint(puzzle, newPuzzle, solution);
-			consoleLog("Next move: ", nextMove, "info");
-			console.log("solution: ", solution);
+			setHint(solution!.pathValue[0]);
+			console.log("solution: ", solution!.pathValue[0]);
 
 		}, [puzzle]);
 
@@ -161,6 +161,7 @@ export const PuzzleProvider: FC<Props> =
 			moves,
 			reset,
 			timer,
+			hint,
 			puzzleSize,
 			puzzleSolved,
 			gameState,
@@ -169,7 +170,7 @@ export const PuzzleProvider: FC<Props> =
 			solvePuzzle,
 			onSliderChange,
 			movePuzzlePiece,
-		}), [puzzle, moves, reset, timer, puzzleSize, puzzleSolved, gameState]);
+		}), [puzzle, hint, moves, reset, timer, puzzleSize, puzzleSolved, gameState]);
 
 		return <ContextRef.Provider value={contextValue}>
 			{puzzleSolved && <PuzzleComplete/>}
@@ -180,13 +181,6 @@ export const PuzzleProvider: FC<Props> =
 
 export function usePuzzle() {
 
-	return useAndRequireContext(ContextRef);
-}
-
-export function usePuzzleStartTime() {
-	return useAndRequireContext(ContextRef);
-}
-export function usePuzzleEndTime() {
 	return useAndRequireContext(ContextRef);
 }
 
@@ -221,9 +215,6 @@ const generateAndShuffleSolution = (puzzleSize: number) => {
 	const shuffledPuzzle = shufflePuzzle(orderedPuzzle);
 	const solution = PuzzleSolver(shuffledPuzzle);
 	consoleLog("Solution: ", solution, "info");
-
-	const nextMove = PuzzleHint(shuffledPuzzle, orderedPuzzle, solution);
-	consoleLog("Next move: ", nextMove, "info");
 	return shuffledPuzzle;
 };
 
