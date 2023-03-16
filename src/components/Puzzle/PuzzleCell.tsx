@@ -6,15 +6,6 @@ import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 export const PuzzleCell:FC = () => {
 
 	const {puzzle, puzzleSolved, reset, hint, movePuzzlePiece} = usePuzzle();
-	const [showHint, setShowHint] = useState(false);
-
-	// useEffect(() => {
-	// 	puzzle.forEach((value, index) => {
-	// 		if (value === hint) {
-	// 			setShowHint(true);
-	// 		}
-	// 	});
-	// },[hint]);
 
 	return <>
 		{puzzle.map((value, index) => (
@@ -27,8 +18,10 @@ export const PuzzleCell:FC = () => {
 					reset={reset}
 				>
 					<HighlightCell
-						className={showHint ? "showHint" : ""}
-						value={value}>
+						hint={hint}
+						value={value}
+						puzzleSolved={puzzleSolved}
+					>
 						{value === 0 ? "" : value}
 					</HighlightCell>
 				</Cell>
@@ -55,7 +48,7 @@ const PuzzleCellContainer = styled.div`
 const HighlightCell = styled.div<StyleProps>`
   display: flex;
   border-radius: 6px;
-  background: transparent;
+  background: ${props => (!props.reset || !props.puzzleSolved) ? (props.hint === props.value ? "#13d531" : "none"): "none"};
   justify-content: center;
   align-items: center;
   font-size: 2rem;
@@ -63,20 +56,21 @@ const HighlightCell = styled.div<StyleProps>`
   height: 100%;
   width: 100%;
   cursor: cell;
-  transition: highlightHint 0.2s ease-in-out;
-  
-  .showHint {
-    background: #13d531;
-  }
-  
-  @keyframes highlightHint {
-    from {
-     opacity: 0;
-    }
-    to {
-     opacity: 1;
-    }
-  }
+  //animation-name: highlightHint ;
+  //animation-duration: 2s;
+  //
+  //.active {
+  //  background: #13d531;
+  //}
+  //
+  //@keyframes highlightHint {
+  //  from {
+  //   opacity: 0;
+  //  }
+  //  to {
+  //   opacity: 1;
+  //  }
+  //}
 
 `;
 
@@ -104,5 +98,4 @@ const Cell = styled.div<StyleProps>`
           ? "none"
           : "#0066ff"
 	  )};
-  	transition: all 0.2s ease-in-out;
 `;
