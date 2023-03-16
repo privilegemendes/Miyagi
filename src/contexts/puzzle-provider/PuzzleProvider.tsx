@@ -12,8 +12,7 @@ import {
 } from "../../hooks/useAndRequireContext/useAndRequireContext";
 
 import {
-	PuzzleSolver,
-	PuzzleState
+	PuzzleSolver
 } from "../../algorithm/PuzzleSovler/PuzzleSolver";
 import Toast from "../../components/Toast";
 import {useTimer} from "../../hooks/useTimer/useTimer";
@@ -25,7 +24,7 @@ type Context = {
 	puzzle: number[]
 	puzzleSize: number
 	moves?: number
-	gameState?: "Play" | "Pause" | "Resume"
+	gameState: string
 	movePuzzlePiece: (_: number) => void
 	startNewGame: () => void
 	resetGame: () => void
@@ -116,10 +115,11 @@ export const PuzzleProvider: FC<Props> =
 		const resetGame = useCallback(() => {
 			handleReset();
 			const newPuzzle = generateAndShuffleSolution(puzzleSize);
+			setGameState("Play");
 			setPuzzle(newPuzzle);
 			setMoves(0);
 
-		}, [puzzleSize]);
+		}, [puzzleSize, handleReset]);
 
 		const startNewGame = useCallback(() => {
 
@@ -131,14 +131,15 @@ export const PuzzleProvider: FC<Props> =
 				handleStart();
 				console.log("Start time: ", formatTime(timer));
 			} else if (isPaused) {
-				handlePause();
 				setGameState("Resume");
+				handlePause();
 			} else {
 				handleResume();
 				setGameState("Pause");
 			}
 
-		}, [puzzleSize, timer]);
+			console.log(isPaused, isActive);
+		}, [puzzleSize, timer, isPaused, isActive, handlePause, handleResume, handleStart]);
 
 		const checkIfPuzzleSolved = (puzzle: number[]) => {
 			let isPuzzleSolved = true;
@@ -178,12 +179,13 @@ export const PuzzleProvider: FC<Props> =
 			moves,
 			timer,
 			puzzleSize,
+			gameState,
 			startNewGame,
 			resetGame,
 			solvePuzzle,
 			onSliderChange,
 			movePuzzlePiece,
-		}), [puzzle, moves, timer, puzzleSize]);
+		}), [puzzle, moves, timer, puzzleSize, gameState]);
 
 		return <ContextRef.Provider value={contextValue}>
 				{children}
@@ -215,24 +217,6 @@ export function useGameTimer() {
 	return useAndRequireContext(ContextRef);
 }
 
-
-function GetHint(puzzle: number[], puzzleSize: number) {
-
-	const emptyIndex = puzzle.indexOf(0);
-	const initialPuzzleState: PuzzleState = {
-		tiles: puzzle,
-		emptyIndex: emptyIndex,
-		puzzleSize: puzzleSize,
-	}
-	// const solutionPath = PuzzleSolver(initialPuzzleState);
-	// console.log("Solution path: ", solutionPath);
-}
-
-
-
-/*
-
- */
 
 function shufflePuzzle(puzzle: number[]) {
 

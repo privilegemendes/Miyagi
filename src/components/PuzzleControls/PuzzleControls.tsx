@@ -17,6 +17,7 @@ export const PuzzleControls:FC = () => {
 	const {timer, isPaused, isActive} = useGameTimer();
 	const numberOfMoves = usePuzzleMoves();
 	const solvePuzzle = useSolvePuzzle();
+	console.log(isPaused, isActive, gameState);
 
 	return <SettingsContainer>
 		<StatsContainer>
@@ -24,13 +25,7 @@ export const PuzzleControls:FC = () => {
 			<Stats>Moves: {numberOfMoves}</Stats>
 		</StatsContainer>
 		<NewGame>
-			{(!isActive && !isPaused) ?
-			 <Button3D text={"Start"} onClick={startNewGame}/>
-				: isPaused
-					? <Button3D text={"Resume"} onClick={startNewGame}/>
-					: <Button3D text={"Pause"} onClick={startNewGame}/>
-			}
-			{/*<Button3D text={"Play"} onClick={startNewGame}/>*/}
+			<Button3D text={gameState} onClick={startNewGame}/>
 			<Button3D text={"Reset"} onClick={resetGame}/>
 		</NewGame>
 		<NewGame>
