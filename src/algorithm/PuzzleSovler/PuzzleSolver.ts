@@ -179,8 +179,7 @@ function determineDirection(parentState: PuzzleState, currentState: PuzzleState)
  */
 function isGoalState(state: PuzzleState, goal: PuzzleState): boolean {
 	return state.tiles.every((tile, index) => tile === goal.tiles[index]);
-};
-
+}
 function createGoalState(puzzleSize: number): PuzzleState {
 	const tiles: number[] = Array.from({ length: puzzleSize * puzzleSize }, (_, i) => i + 1);
 	tiles[tiles.length - 1] = 0;

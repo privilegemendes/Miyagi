@@ -62,7 +62,6 @@ const Toast: FC<Props> =
                 </CloseButton>
             </ToastContainer>
         </ToastWrapper>;
-;
 }
 
 export default Toast;
@@ -196,7 +195,7 @@ const IconContainer = styled.div`
 
 const TextContainer = styled.p`
   flex: 1;
-  padding: 12px 0px;
+  padding: 12px 0;
   font-weight: 600;
 
 `;

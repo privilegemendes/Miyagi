@@ -4,7 +4,6 @@ import {PuzzleProvider} from "../../contexts/puzzle-provider/PuzzleProvider";
 import {PuzzleLayout} from "../Puzzle";
 import {PuzzleControls} from "../PuzzleControls";
 import styled from "styled-components";
-import StatsSection from "../StatsSection";
 import ProfileSection from "../ProfileSection";
 import NavBar from "../NavBar";
 import Toast from "../Toast";

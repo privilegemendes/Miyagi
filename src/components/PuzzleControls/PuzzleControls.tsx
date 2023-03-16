@@ -1,13 +1,14 @@
 import * as React from 'react';
-import {FC, useState} from 'react';
+import {FC} from 'react';
 import styled from "styled-components";
 import {
 	useGameTimer,
-	usePuzzle, usePuzzleMoves, useSolvePuzzle
+	usePuzzle,
+	usePuzzleMoves,
+	useSolvePuzzle
 } from "../../contexts/puzzle-provider/PuzzleProvider";
 import {Button3D} from "../atoms/Button3D";
 import {formatTime} from "../../common/time";
-import {useTimer} from "../../hooks/useTimer/useTimer";
 
 
 export const PuzzleControls:FC = () => {

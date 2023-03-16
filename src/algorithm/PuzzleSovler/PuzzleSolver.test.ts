@@ -1,4 +1,4 @@
-import { PuzzleSolver } from './PuzzleSolver';
+import {PuzzleSolver} from './PuzzleSolver';
 
 test('solves the puzzle correctly', () => {
 	const puzzle = [1, 0, 3, 4, 2, 5, 7, 8, 6];
