@@ -21,6 +21,7 @@ type Props = {
     variant: 'notice' | 'warning' | 'success' | 'error';
     children: React.ReactNode;
     onClose?: () => void;
+    onClick?: () => void;
 }
 const Toast: FC<Props> =
     (
@@ -28,13 +29,13 @@ const Toast: FC<Props> =
             variant = 'notice',
             children,
             onClose,
+            onClick
         }
     ) => {
 
   const Icon = ICONS_BY_VARIANT[variant];
 
         const [visible, setVisible] = useState(true);
-
 
         const onHandleClose = () => {
             setVisible(false);
@@ -74,17 +75,15 @@ const ToastWrapper = styled.div`
     transition: transform 0.4s ease-out; /* animate transform property */
     display: flex;
     align-items: center;
-    gap: 16px;
     border-radius: 16px;
-    color: black;
-    color-scheme: light;
-    background: white;
-    max-width: 100%;
+    max-width: 100vw;
     width: 350px;
     
     @media (max-width: 768px) {
-        top: 24px;
-        bottom: auto;
+        //top: 50%;
+        //left: 50%;
+        //transform: translate(-50%, -50%);
+        z-index: 2000;
     }
 
     &.show {
@@ -121,8 +120,6 @@ const ToastContainer = styled.div`
   gap: 16px;
   border-radius: 16px;
   color: black;
-  color-scheme: light;
-  background: white;
   max-width: 100%;
   width: 350px;
 

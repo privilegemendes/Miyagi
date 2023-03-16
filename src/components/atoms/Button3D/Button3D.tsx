@@ -5,16 +5,18 @@ import styles from './Button3D.module.css'
 type Props = {
   text: string;
   onClick: (e: React.MouseEvent) => void;
+  disabled?: boolean;
 }
 export const Button3D:FC<Props> =
   (
       {
         text,
-          onClick
+          onClick,
+          disabled
       }
   ) => {
 
-  return <button className={styles.pushable} onClick={onClick}>
+  return <button className={styles.pushable} onClick={onClick} disabled={disabled}>
     <span className={styles.shadow}/>
     <span className={styles.edge}/>
     <span className={styles.front}>

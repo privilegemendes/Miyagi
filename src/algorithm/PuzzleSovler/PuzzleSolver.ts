@@ -14,7 +14,7 @@ interface PuzzleNode {
 	// direction: PuzzleDirection
 }
 
-type PuzzleDirection = 'up' | 'down' | 'left' | 'right' | null;
+export type PuzzleDirection = 'up' | 'down' | 'left' | 'right' | null;
 
 export function PuzzleSolver(puzzle: number[]): PuzzleDirection[] | null {
 	const pq = new PriorityQueue<PuzzleNode>((a, b) => a.totalEstimatedCost - b.totalEstimatedCost);
@@ -169,7 +169,8 @@ function determineDirection(parentState: PuzzleState, currentState: PuzzleState)
 	} else if (parentEmptyIndex - currentEmptyIndex === currentState.puzzleSize) {
 		return 'down';
 	} else {
-		return null;
+
+		throw new Error('Invalid direction');
 	}
 }
 /*

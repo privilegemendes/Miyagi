@@ -13,11 +13,10 @@ import {formatTime} from "../../common/time";
 
 export const PuzzleControls:FC = () => {
 
-	const {startNewGame, resetGame, gameState} = usePuzzle();
-	const {timer, isPaused, isActive} = useGameTimer();
+	const {startNewGame, resetGame, reset, puzzleSolved, gameState} = usePuzzle();
+	const {timer} = useGameTimer();
 	const numberOfMoves = usePuzzleMoves();
 	const solvePuzzle = useSolvePuzzle();
-	console.log(isPaused, isActive, gameState);
 
 	return <SettingsContainer>
 		<StatsContainer>
@@ -25,11 +24,19 @@ export const PuzzleControls:FC = () => {
 			<Stats>Moves: {numberOfMoves}</Stats>
 		</StatsContainer>
 		<NewGame>
-			<Button3D text={gameState} onClick={startNewGame}/>
+			<Button3D
+				text={gameState}
+				onClick={startNewGame}
+				disabled={puzzleSolved}
+			/>
 			<Button3D text={"Reset"} onClick={resetGame}/>
 		</NewGame>
 		<NewGame>
-			<Button3D text={"Solve Puzzle"} onClick={solvePuzzle}/>
+			<Button3D
+				text={"Hint"}
+				onClick={solvePuzzle}
+				disabled={reset || puzzleSolved}
+			/>
 		</NewGame>
 
 	</SettingsContainer>;

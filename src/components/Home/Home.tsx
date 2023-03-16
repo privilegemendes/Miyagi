@@ -12,8 +12,6 @@ export const Home:FC = () => {
 
   return <HomeGridContainer>
       <PuzzleProvider>
-        {/*<StatsSection/>*/}
-          <Toast variant={"success"}>Hello</Toast>
             <PuzzleContainer>
                 <PuzzleLayout/>
                 <PuzzleControls/>
@@ -32,6 +30,7 @@ export default Home;
 
 
 const HomeGridContainer = styled.div`
+    position: relative;
     display: grid;
     grid-template-columns: 1.5fr 1fr;
     grid-template-rows: 0.1fr 1fr;
@@ -39,12 +38,11 @@ const HomeGridContainer = styled.div`
     grid-gap: 1rem;
     height: 100vh;
     width: 100vw;
-    
     max-width: 1200px;
     margin: auto;
-    
     background: hsl(210deg, 30%, 8%);
     color: #fff;
+    
     @media screen and (orientation: portrait) and (max-width: 768px) {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 0.1fr;
@@ -54,10 +52,10 @@ const HomeGridContainer = styled.div`
 `;
 
 const PuzzleContainer = styled.div`
-    //grid-area: 1 / 1 / 3 / 2;
     grid-area: puzzle;
     margin: auto;
     max-width: 800px;
+    padding: 16px;
 `;
 
 const StatsContainer = styled.div`
@@ -66,6 +64,7 @@ const StatsContainer = styled.div`
 
 const ProfileContainer = styled.div`
     grid-area: profile;
+    min-width: 0px;
 `;
 
 const NavContainer = styled.div`

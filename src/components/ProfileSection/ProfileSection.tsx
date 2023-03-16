@@ -2,21 +2,21 @@ import * as React from 'react';
 import styled from "styled-components";
 import {GitHubShareButton} from "../atoms/GitHubShareButton";
 import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
-import {FC} from "react";
+import {FC, useState} from "react";
 import {
   useWindowDimensions
 } from "../../hooks/useWindowDimensions/useWindowDimensions";
 
 function ProfileSection() {
 
+  const [isDisplay, setDisplay] = useState<boolean>(true);
   const {width} = useWindowDimensions();
 
   if (width <= 768) {
     return null;
   }
 
-  return <ProfileContainer>
-    <GitHubShareButton/>
+  return <ProfileContainer isDisplay={isDisplay}>
     <Profile/>
     <SettingsContainer>
       <Name>Game Settings</Name>
@@ -38,29 +38,21 @@ const Difficulty: FC = () => {
   </Setting>
 }
 
-const ProfileContainer = styled.div`
-  grid-area: 2 / 2 / 3 / 3;
+type StyleProps = {
+    isDisplay: boolean;
+}
+const ProfileContainer = styled.div<StyleProps>`
   display: flex;
   flex-direction: column;
-
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  -webkit-flex-wrap: nowrap;
-  -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
-  -webkit-align-content: stretch;
-  -ms-flex-line-pack: stretch;
   align-content: stretch;
-  -webkit-align-items: flex-start;
-  -ms-flex-align: start;
   align-items: flex-start;
   //border-left: 1px solid #08a0ff;
+  background: linear-gradient(to bottom, rgba(19, 19, 33, 0.51) 0%, rgba(31, 28, 44, 0.58) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  box-shadow: 0 2px 20px 0 #000000;
+  padding: 16px;
+  margin: 16px;
 `;
 
 const Avatar = styled.img`
@@ -94,14 +86,8 @@ const Profile = styled.div`
 `;
 
 const SettingsContainer = styled.div`
-  -webkit-order: 1;
-  -ms-flex-order: 1;
   order: 1;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  -webkit-align-self: auto;
-  -ms-flex-item-align: auto;
   align-self: center;
 `;
 
