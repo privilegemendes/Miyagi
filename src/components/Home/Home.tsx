@@ -4,9 +4,8 @@ import {PuzzleProvider} from "../../contexts/puzzle-provider/PuzzleProvider";
 import {PuzzleLayout} from "../Puzzle";
 import {PuzzleControls} from "../PuzzleControls";
 import styled from "styled-components";
-import ProfileSection from "../ProfileSection";
 import NavBar from "../NavBar";
-import Toast from "../Toast";
+import {GitHubShareButton} from "../atoms/GitHubShareButton";
 
 export const Home:FC = () => {
 
@@ -19,9 +18,12 @@ export const Home:FC = () => {
           <NavContainer>
                 <NavBar/>
           </NavContainer>
-          <ProfileContainer>
-                <ProfileSection/>
-          </ProfileContainer>
+          <RightContainer>
+              <GitHubShareButton/>
+          </RightContainer>
+          {/*<ProfileContainer>*/}
+          {/*      <ProfileSection/>*/}
+          {/*</ProfileContainer>*/}
       </PuzzleProvider>
   </HomeGridContainer>
 }
@@ -32,21 +34,29 @@ export default Home;
 const HomeGridContainer = styled.div`
     position: relative;
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: 1fr min(65ch, 100%) 1fr;
     grid-template-rows: 0.1fr 1fr;
-    grid-template-areas:  "puzzle nav" "puzzle profile";
-    grid-gap: 1rem;
+    grid-template-areas:  
+        "left nav right" 
+        "left puzzle right";
+    //grid-gap: 1rem;
     height: 100vh;
     width: 100vw;
     max-width: 1200px;
     margin: auto;
     background: hsl(210deg, 30%, 8%);
     color: #fff;
+
+    // move all content to the 2nd column and leave 1 and 2 empty
+    & > * {
+        grid-column: 2;
+    }
     
     @media screen and (orientation: portrait) and (max-width: 768px) {
-        grid-template-columns: 1fr;
         grid-template-rows: 1fr 0.1fr;
-        grid-template-areas: "puzzle" "nav";
+        grid-template-areas:  
+        "left puzzle right" 
+        "left nav right";
         grid-gap: 0;
     }
 `;
@@ -56,6 +66,10 @@ const PuzzleContainer = styled.div`
     margin: auto;
     max-width: 800px;
     padding: 16px;
+`;
+
+const RightContainer = styled.div`
+    grid-area: right;
 `;
 
 const StatsContainer = styled.div`
@@ -70,25 +84,3 @@ const ProfileContainer = styled.div`
 const NavContainer = styled.div`
     grid-area: nav;
 `;
-
-
-// return <Container>
-//   <AppBar>
-//     <Title>Miyagi</Title>
-//     <Description>
-//       A puzzle slider game with a twist
-//     </Description>
-//     <GitHubShareButton/>
-//   </AppBar>
-//   <Main>
-//     <PuzzleProvider>
-//       <PuzzleLayout/>
-//       <PuzzleConfigurations/>
-//     </PuzzleProvider>
-//   </Main>
-//   <BottomAppBar>
-//     <RankButton/>
-//     <GameButton/>
-//     <ProfileButton/>
-//   </BottomAppBar>
-// </Container>;
