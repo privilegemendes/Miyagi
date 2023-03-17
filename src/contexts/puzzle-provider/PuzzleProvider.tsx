@@ -51,7 +51,7 @@ export const PuzzleProvider: FC<Props> =
 		{
 			children,
 			defaultPuzzleSize = 3,
-			defaultNumberOfHints = 10,
+			defaultNumberOfHints = 50,
 			defaultMovesPerHint = -1
 		}
 	) =>
