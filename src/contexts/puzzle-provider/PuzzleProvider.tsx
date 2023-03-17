@@ -11,16 +11,11 @@ import {
 	useAndRequireContext
 } from "../../hooks/useAndRequireContext/useAndRequireContext";
 
-import {
-	PuzzleDirection,
-	PuzzleSolver
-} from "../../algorithm/PuzzleSovler/PuzzleSolver";
-import Toast from "../../components/Toast";
+import {PuzzleSolver} from "../../algorithm/PuzzleSovler/PuzzleSolver";
 import {useTimer} from "../../hooks/useTimer/useTimer";
 import {formatTime} from "../../common/time";
 import {consoleLog} from "../../common/debug";
 import {PuzzleComplete} from "../../components/PuzzleComplete";
-import {PuzzleHint} from "../../algorithm/PuzzleHint/PuzzleHint";
 
 type Context = {
 	rows?: number
@@ -30,12 +25,15 @@ type Context = {
 	moves?: number
 	gameState: string
 	reset: boolean
-	hint?: number
+	hintValue?: number
+	hintsUsed?: number
+	showHintToggle?: boolean
 	puzzleSolved: boolean
 	movePuzzlePiece: (_: number) => void
 	startNewGame: () => void
 	resetGame: () => void
-	solvePuzzle: () => void
+	showHint: () => void
+	hideHint: () => void
 	timer: number
 	onSliderChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -45,12 +43,16 @@ const ContextRef = createContext<Context | undefined>(undefined);
 type Props = {
 	children: React.ReactNode
 	defaultPuzzleSize?: number
+	defaultNumberOfHints?: number
+	defaultMovesPerHint?: number
 }
 export const PuzzleProvider: FC<Props> =
 	(
 		{
 			children,
 			defaultPuzzleSize = 3,
+			defaultNumberOfHints = 10,
+			defaultMovesPerHint = -1
 		}
 	) =>
 	{
@@ -58,24 +60,52 @@ export const PuzzleProvider: FC<Props> =
 		const [puzzle, setPuzzle] = useState<number[]>([]);
 		const [reset, setReset] = useState<boolean>(true);
 		const [puzzleSolved, setPuzzleSolved] = useState<boolean>(false);
-		const [hint, setHint] = useState<number>();
+
 		const {timer, handleStart, handleResume, handleReset, handlePause, isPaused, isActive} = useTimer(0);
 		const [gameState, setGameState] = useState<"Play" | "Pause" | "Resume">("Play");
 
 		const [moves, setMoves] = useState(0);
+		const [checkMovesForHint, setCheckMovesForHint] = useState(defaultMovesPerHint);
+		const [hintsUsed, setHintsUsed] = useState(defaultNumberOfHints);
+		const [hintValue, setHintValue] = useState<number>();
+		const [showHintToggle, setShowHintToggle] = useState<boolean>(false);
+
+
 
 		useEffect(() => {
 			const newPuzzle = generateOrderedPuzzle(puzzleSize);
 			setPuzzle(newPuzzle);
 		}, [puzzleSize]);
 
-		const onSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+		const onSliderChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 			const value = parseInt(event.target.value);
 			setPuzzleSize(value);
 			handleReset();
-		};
+		}, [handleReset]);
+
+
+		const checkWinCondition = useCallback((puzzle: number[]) => {
+			const isPuzzleSolved = puzzle.every((puzzlePiece, index) => {
+					if (index === puzzle.length - 1) {
+						// handle special case where last element is 0
+						return puzzlePiece === 0;
+					}
+					return puzzlePiece === index + 1;
+				}
+			);
+
+			if (isPuzzleSolved) {
+				setPuzzleSolved(true);
+				handlePause();
+				consoleLog("info", "End time: ", formatTime(timer));
+				setGameState("Play");
+			}
+		}, [handlePause, timer]);
+
+
 		const movePuzzlePiece = useCallback ((index: number) => {
-			if (puzzleSolved || reset) {
+			if (puzzleSolved || reset || !isPaused) {
 				return;
 			}
 			const emptyIndex = puzzle.indexOf(0);
@@ -94,12 +124,12 @@ export const PuzzleProvider: FC<Props> =
 				setPuzzle(newPuzzle);
 				checkWinCondition(newPuzzle);
 			}
-		},[puzzle, puzzleSize, puzzleSolved, moves]);
+		},[puzzleSolved, reset, isPaused, puzzle, puzzleSize, moves, checkWinCondition]);
 
 
 
 		const resetGame = useCallback(() => {
-			consoleLog("info", "Elapsed time: ", formatTime(timer));
+			consoleLog("Elapsed time: ", formatTime(timer), "info");
 			setReset(true);
 			handleReset();
 			setPuzzleSolved(false);
@@ -107,8 +137,10 @@ export const PuzzleProvider: FC<Props> =
 			setGameState("Play");
 			setPuzzle(newPuzzle);
 			setMoves(0);
+			setCheckMovesForHint(defaultMovesPerHint);
+			setHintsUsed(defaultNumberOfHints);
 
-		}, [timer, puzzleSize, handleReset]);
+		}, [timer, handleReset, puzzleSize, defaultMovesPerHint, defaultNumberOfHints]);
 
 		const startNewGame = useCallback(() => {
 
@@ -116,11 +148,14 @@ export const PuzzleProvider: FC<Props> =
 				const newPuzzle = generateAndShuffleSolution(puzzleSize);
 				setPuzzle(newPuzzle);
 				setMoves(0);
+				setCheckMovesForHint(defaultMovesPerHint);
+				setHintsUsed(defaultNumberOfHints);
 				setGameState("Pause");
 				handleStart();
 				setPuzzleSolved(false);
 				setReset(false);
-				consoleLog("info", "Start time: ", formatTime(timer));
+				setShowHintToggle(false);
+				consoleLog("Start time: ", formatTime(timer), "info");
 			} else if (isPaused) {
 				setGameState("Resume");
 				handlePause();
@@ -128,49 +163,56 @@ export const PuzzleProvider: FC<Props> =
 				handleResume();
 				setGameState("Pause");
 			}
-		}, [puzzleSize, timer, isPaused, isActive, handlePause, handleResume, handleStart]);
+		}, [puzzleSize, timer, defaultMovesPerHint, defaultNumberOfHints, isPaused, isActive, handlePause, handleResume, handleStart]);
 
-		const checkWinCondition = (puzzle: number[]) => {
 
-			const isPuzzleSolved = puzzle.every((puzzlePiece, index) => {
-					if (index === puzzle.length - 1) {
-						// handle special case where last element is 0
-						return puzzlePiece === 0;
-					}
-					return puzzlePiece === index + 1;
-				}
-			);
 
-			if (isPuzzleSolved) {
-				setPuzzleSolved(true);
-				handlePause();
-				consoleLog("info", "End time: ", formatTime(timer));
-				setGameState("Play");
+		const showHint = useCallback(() => {
+			if (!isPaused ) {
+				return;
 			}
-		};
 
-		const solvePuzzle = useCallback(() => {
-			const solution = PuzzleSolver(puzzle);
-			setHint(solution!.pathValue[0]);
-			console.log("solution: ", solution!.pathValue[0]);
+			// only use hint per move
+			if (checkMovesForHint < moves) {
+				setShowHintToggle(true);
+				setHintsUsed(hintsUsed - 1);
+				setCheckMovesForHint(checkMovesForHint + 1);
+				const solution = PuzzleSolver(puzzle);
+				if (hintsUsed > 0) {
 
-		}, [puzzle]);
+					setHintValue(solution!.pathValue[0]);
+				}
+				consoleLog("solution: ", solution!.pathValue);
+			}
+
+		}, [moves, puzzle, hintsUsed, isPaused, checkMovesForHint]);
+
+		const hideHint = useCallback(() => {
+
+			setTimeout(() => {
+				setShowHintToggle(false);
+			}, 1000);
+
+		}, []);
 
 		const contextValue = useMemo(() => ({
 			puzzle,
 			moves,
 			reset,
 			timer,
-			hint,
+			hintValue,
+			hintsUsed,
+			showHint,
+			hideHint,
 			puzzleSize,
 			puzzleSolved,
 			gameState,
 			startNewGame,
 			resetGame,
-			solvePuzzle,
+			showHintToggle,
 			onSliderChange,
 			movePuzzlePiece,
-		}), [puzzle, hint, moves, reset, timer, puzzleSize, puzzleSolved, gameState]);
+		}), [puzzle, moves, reset, timer, hintValue, hintsUsed, showHint, hideHint, puzzleSize, puzzleSolved, gameState, startNewGame, resetGame, showHintToggle, onSliderChange, movePuzzlePiece]);
 
 		return <ContextRef.Provider value={contextValue}>
 			{puzzleSolved && <PuzzleComplete/>}
@@ -189,7 +231,7 @@ export function usePuzzleMoves() {
 }
 
 export function useSolvePuzzle() {
-	return useAndRequireContext(ContextRef).solvePuzzle;
+	return useAndRequireContext(ContextRef).showHint;
 }
 
 export function useGameTimer() {
@@ -212,10 +254,7 @@ const generateAndShuffleSolution = (puzzleSize: number) => {
 	// Add the empty cell to the end of the array
 	orderedPuzzle[emptyCell - 1] = 0;
 
-	const shuffledPuzzle = shufflePuzzle(orderedPuzzle);
-	const solution = PuzzleSolver(shuffledPuzzle);
-	consoleLog("Solution: ", solution, "info");
-	return shuffledPuzzle;
+	return shufflePuzzle(orderedPuzzle);
 };
 
 function shufflePuzzle(puzzle: number[]) {

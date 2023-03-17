@@ -1,11 +1,11 @@
 import * as React from 'react';
-import {FC, useEffect, useState} from 'react';
+import {FC} from 'react';
 import styled from "styled-components";
 import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 
 export const PuzzleCell:FC = () => {
 
-	const {puzzle, puzzleSolved, reset, hint, movePuzzlePiece} = usePuzzle();
+	const {puzzle, puzzleSolved, reset, hintValue, showHintToggle, movePuzzlePiece} = usePuzzle();
 
 	return <>
 		{puzzle.map((value, index) => (
@@ -18,7 +18,7 @@ export const PuzzleCell:FC = () => {
 					reset={reset}
 				>
 					<HighlightCell
-						hint={hint}
+						hint={showHintToggle ? hintValue : -1}
 						value={value}
 						puzzleSolved={puzzleSolved}
 					>
@@ -56,21 +56,7 @@ const HighlightCell = styled.div<StyleProps>`
   height: 100%;
   width: 100%;
   cursor: cell;
-  //animation-name: highlightHint ;
-  //animation-duration: 2s;
-  //
-  //.active {
-  //  background: #13d531;
-  //}
-  //
-  //@keyframes highlightHint {
-  //  from {
-  //   opacity: 0;
-  //  }
-  //  to {
-  //   opacity: 1;
-  //  }
-  //}
+  transition: background 0.1s ease-in-out;
 
 `;
 
@@ -79,6 +65,7 @@ const Cell = styled.div<StyleProps>`
   border-radius: 6px;
   height: 100%;
   width: 100%;
+  transition: background 0.2s ease-in-out;
   border: ${props =>
     props.reset ? "1px solid #ffffff" 
     : props.puzzleSolved 

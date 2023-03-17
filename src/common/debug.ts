@@ -21,6 +21,7 @@ export const consoleLog = ( message: any, optionalParams: any, variant?: string)
 				console.log(message, optionalParams);
 				break;
 			default:
+				console.log(message, optionalParams);
 				break;
 		}
 	}

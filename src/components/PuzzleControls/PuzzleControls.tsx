@@ -4,8 +4,7 @@ import styled from "styled-components";
 import {
 	useGameTimer,
 	usePuzzle,
-	usePuzzleMoves,
-	useSolvePuzzle
+	usePuzzleMoves
 } from "../../contexts/puzzle-provider/PuzzleProvider";
 import {Button3D} from "../atoms/Button3D";
 import {formatTime} from "../../common/time";
@@ -13,16 +12,15 @@ import {formatTime} from "../../common/time";
 
 export const PuzzleControls:FC = () => {
 
-	const {startNewGame, resetGame, reset, puzzleSolved, gameState} = usePuzzle();
+	const {startNewGame, resetGame, reset, puzzleSolved, gameState, hintsUsed, showHint, hideHint} = usePuzzle();
 	const {timer} = useGameTimer();
 	const numberOfMoves = usePuzzleMoves();
-	const solvePuzzle = useSolvePuzzle();
 
 	return <SettingsContainer>
 		<StatsContainer>
 			<Stats>{formatTime(timer)}</Stats>
 			<Stats>Moves: {numberOfMoves}</Stats>
-			<Stats>Hints: {numberOfMoves}</Stats>
+			<Stats>Hints: {hintsUsed}</Stats>
 		</StatsContainer>
 		<NewGame>
 			<Button3D
@@ -34,8 +32,11 @@ export const PuzzleControls:FC = () => {
 		<NewGame>
 			<Button3D
 				text={"Hint"}
-				onClick={solvePuzzle}
-				disabled={reset || puzzleSolved}
+				// onClick={solvePuzzle}
+				onMouseDown={showHint}
+				onMouseUp={hideHint}
+				onMouseLeave={hideHint}
+				disabled={reset || puzzleSolved || hintsUsed === 0}
 			/>
 			<Button3D text={"Reset"} onClick={resetGame}/>
 		</NewGame>
