@@ -4,34 +4,42 @@ import styled from "styled-components";
 import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 import {FC} from "react";
 import NavBar from "../NavBar";
+import {
+    useGetNameFromStorage
+} from "../../hooks/useGetPlayerDetails/useGetPlayerDetails";
 
 export const Settings: FC = () => {
 
+    const name = useGetNameFromStorage('name');
 
-  return<>
-      <NavBar/>
-      <ProfileContainer>
-          <SettingsContainer>
-              <Name>Game Settings</Name>
-              <Difficulty/>
-
-          </SettingsContainer>
-      </ProfileContainer>
-  </>
+      return<>
+          <NavBar/>
+          <ProfileContainer>
+              <SettingsContainer>
+                  <Name>Game Settings</Name>
+                  <h1>{name}</h1>
+                  <Difficulty/>
+              </SettingsContainer>
+          </ProfileContainer>
+      </>
 
 }
 
 const Difficulty: FC = () => {
   const {puzzleSize, onSliderChange} = usePuzzle();
+  const minPuzzleSize = 3;
+  const maxPuzzleSize = 6;
+
   return <Setting>
       <SettingTitle>Difficulty</SettingTitle>
+      {puzzleSize}
       <SettingControl>
-          <Slider onChange={onSliderChange} type="range" min="3" max="6" value={puzzleSize}>
+
+          <Slider onChange={onSliderChange} type="range" min={minPuzzleSize} max={maxPuzzleSize} value={puzzleSize}/>
               {/*<SliderRange>*/}
-              {/*    <span>3</span>*/}
-              {/*    <span>6</span>*/}
+              {/*    <span>{minPuzzleSize}</span>*/}
+              {/*    <span>{maxPuzzleSize}</span>*/}
               {/*</SliderRange>*/}
-          </Slider>
       </SettingControl>
     </Setting>
 }
@@ -74,7 +82,7 @@ const Setting = styled.div`
   align-items: center;
   gap: 12px;
   border-radius: 8px;
-  background-color: #3d3d3d;
+  //background-color: #3d3d3d;
   margin-top: 12px;
   padding-left: 12px;
   padding-right: 12px;
@@ -109,7 +117,4 @@ const SliderRange = styled.div`
     justify-content: space-between;
     font-size: 20px;
     color: #FFFFFF;
-    //& > span:first-child{
-    //    margin-left: 10px;
-    //}
 `;

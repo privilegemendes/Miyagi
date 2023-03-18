@@ -9,9 +9,10 @@ export const ErrorFallback: FC<FallbackProps> =({error, resetErrorBoundary}) =>{
     return <Toast
             variant="error"
             action={"Try again"}
+            enableAction={false}
             onClick={resetErrorBoundary}
         >
-            {myErrorPrompts.somethingWentWrong}
+            {myErrorPrompts.somethingWentWrong}<br/><br/>
             {error.message}
         </Toast>;
 }

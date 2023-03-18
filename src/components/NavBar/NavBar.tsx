@@ -23,7 +23,7 @@ const NavContainer = styled.div`
     padding: 16px;
     
 
-  @media screen and (min-width: 768px) {
+  @media screen  and (min-width: 769px) {
     flex-direction: column;
     justify-content: space-around;
     background: linear-gradient(to bottom, rgba(19, 19, 33, 0.51) 0%, rgba(31, 28, 44, 0.58) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */

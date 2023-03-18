@@ -32,6 +32,7 @@ export const PuzzleComplete: FC<Props> = (
         variant={"success"}
         onClick={onClick}
         action={"Play Again"}
+        enableAction={true}
     >
         Puzzle Complete!<br/>
         Moves: {moves}<br/>

@@ -9,6 +9,7 @@ type Props = {
   onMouseUp?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
   disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset' | undefined;
 }
 export const Button3D:FC<Props> =
   (
@@ -19,6 +20,7 @@ export const Button3D:FC<Props> =
         onMouseLeave,
         onMouseDown,
         onMouseUp,
+        type,
       }
   ) => {
 
@@ -29,6 +31,7 @@ export const Button3D:FC<Props> =
       onMouseDown={onMouseDown}
       onMouseLeave={onMouseLeave}
       disabled={disabled}
+      type={type}
 
   >
     <span className={styles.shadow}/>

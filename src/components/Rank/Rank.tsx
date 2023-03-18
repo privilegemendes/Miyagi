@@ -19,31 +19,42 @@ export const Rank: FC = () => {
 
     return <>
         <NavBar/>
-        <RankTable>
-            <RankTableHeader>
-                <RankTableCell>Rank</RankTableCell>
-                <RankTableCell>Name</RankTableCell>
-                <RankTableCell>Moves</RankTableCell>
-                <RankTableCell>Time</RankTableCell>
-            </RankTableHeader>
-            {players.map((player) => (
-                <RankTableRow key={player.rank}>
-                    <RankTableCell>{player.rank}</RankTableCell>
-                    <RankTableCell>{player.name}</RankTableCell>
-                    <RankTableCell>{player.moves}</RankTableCell>
-                    <RankTableCell>{player.time}</RankTableCell>
-                </RankTableRow>
-            ))}
-        </RankTable>
+        <RankContainer>
+            <RankTable>
+                <RankTableHeader>
+                    <RankTableCell>Rank</RankTableCell>
+                    <RankTableCell>Name</RankTableCell>
+                    <RankTableCell>Moves</RankTableCell>
+                    <RankTableCell>Time</RankTableCell>
+                </RankTableHeader>
+                {players.map((player) => (
+                    <RankTableRow key={player.rank}>
+                        <RankTableCell>{player.rank}</RankTableCell>
+                        <RankTableCell>{player.name}</RankTableCell>
+                        <RankTableCell>{player.moves}</RankTableCell>
+                        <RankTableCell>{player.time}</RankTableCell>
+                    </RankTableRow>
+                ))}
+            </RankTable>
+        </RankContainer>
+
     </>;
 };
 
-const RankTable = styled.div`
+const RankContainer = styled.div`
     grid-area: puzzle;
     display: flex;
     flex-direction: column;
     align-items: stretch;
+`;
+
+const RankTable = styled.div`
+    
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     font-size: 16px;
+    flex: 1 1 auto;
 
     background: linear-gradient(to bottom, rgba(19, 19, 33, 0.51) 0%, rgba(31, 28, 44, 0.58) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     box-shadow: 0 2px 20px 0 #000000;

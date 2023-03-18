@@ -1,6 +1,7 @@
 import * as React from "react";
 import {PrimaryButton} from "../Button";
 import {Link} from "react-router-dom";
+import styled from "styled-components";
 
 
 type SVGProps = {
@@ -22,7 +23,8 @@ export const GameButton: React.FC<SVGProps> =
         }
     ) => {
 
-  return <Link to={'/game'}>
+  return <GameButtonContainer>
+      <Link to={'/game'}>
           <PrimaryButton
               aria-label={text}
               onClick={onClick}
@@ -55,7 +57,17 @@ export const GameButton: React.FC<SVGProps> =
             c11.66,0,21.113-9.453,21.113-21.122C429.046,215.7,419.593,206.247,407.933,206.247z"/>
                   </g>
               </svg>
-        </PrimaryButton>
+          </PrimaryButton>
       </Link>
+      <h1>Game</h1>
+  </GameButtonContainer>
 
 }
+
+const GameButtonContainer = styled.div`
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+`;

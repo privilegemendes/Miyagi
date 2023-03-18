@@ -24,7 +24,9 @@ type Props = {
     children: React.ReactNode;
     action?: string;
     onClose?: () => void;
-    onClick?: () => void;
+    onClick?: (value?: any) => void;
+    buttonType?: 'button' | 'form' | undefined;
+    enableAction?: boolean;
 }
 const  Toast: FC<Props> =
     (
@@ -33,7 +35,8 @@ const  Toast: FC<Props> =
             children,
             onClose,
             onClick,
-            action
+            action,
+            enableAction = false,
         }
     ) => {
 
@@ -68,15 +71,20 @@ const  Toast: FC<Props> =
                     <VisuallyHidden>Close</VisuallyHidden>
                 </CloseButton>
             </ToastContainer>
+            {enableAction &&
             <Action>
-                <Button3D text={action} onClick={onClick || onClose}/>
-            </Action>
+                <Button3D
+                    text={action}
+                    onClick={onClick || onClose}
+                />
+            </Action>}
         </ToastWrapper>;
 }
 
 export default Toast;
 
 const ToastWrapper = styled.div`
+    grid-area: puzzle;
     position: absolute;
     top: 50%;
     left: 50%;

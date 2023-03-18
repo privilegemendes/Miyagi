@@ -1,5 +1,5 @@
 import * as React from "react";
-import {createContext, FC, useMemo} from "react";
+import {createContext, FC, useMemo, useState} from "react";
 
 import {
 	useAndRequireContext
@@ -20,6 +20,9 @@ export const SettingsProvider: FC<Props> =
 		}
 	) =>
 	{
+
+		const [minimumPuzzleSize, setMinimumPuzzleSize] = useState<number>(3);
+		const [maximumPuzzleSize, setMaximumPuzzleSize] = useState<number>(10);
 
 		const contextValue = useMemo(() => ({
 
