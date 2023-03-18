@@ -18,6 +18,7 @@ type Props = {
 export const Rank: FC = () => {
 
     return <>
+        <NavBar/>
         <RankTable>
             <RankTableHeader>
                 <RankTableCell>Rank</RankTableCell>
@@ -34,7 +35,6 @@ export const Rank: FC = () => {
                 </RankTableRow>
             ))}
         </RankTable>
-        <NavBar/>
     </>;
 };
 
@@ -42,7 +42,7 @@ const RankTable = styled.div`
     grid-area: puzzle;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     font-size: 16px;
 
     background: linear-gradient(to bottom, rgba(19, 19, 33, 0.51) 0%, rgba(31, 28, 44, 0.58) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */

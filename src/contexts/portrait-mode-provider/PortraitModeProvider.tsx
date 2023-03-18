@@ -68,7 +68,7 @@ export function useSettings() {
 const PortraitMode = styled.div`
   display: none;
   
-  @media screen and (orientation: portrait) and (max-height: 825px) {
+  @media screen and (orientation: portrait) and (max-height: 2000px) {
     height: 100%;
     width: 100%;
     display: block;

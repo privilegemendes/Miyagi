@@ -9,6 +9,7 @@ export const Settings: FC = () => {
 
 
   return<>
+      <NavBar/>
       <ProfileContainer>
           <SettingsContainer>
               <Name>Game Settings</Name>
@@ -16,7 +17,6 @@ export const Settings: FC = () => {
 
           </SettingsContainer>
       </ProfileContainer>
-      <NavBar/>
   </>
 
 }

@@ -71,15 +71,14 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
   /* Tablet 768px */
   @media screen and (orientation: portrait) and (min-width: 426px) and (max-width: 768px) {
     width: 70vw;
-    height: 60vh;
+    height: 50vh;
   }
 
   @media screen and (orientation: landscape) and (min-width: 426px) and (max-width: 768px) {
     width: 50vw;
-    height: 90vh;
+    height: 45vh;
   }
   
-
 	/* Laptop 1024px */
   @media screen and (min-width: 769px) and (max-width: 1024px) {
     width: 50vw;

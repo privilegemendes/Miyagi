@@ -10,11 +10,11 @@ type Props = {};
 export const Game: FC<Props> = () => {
 
 	return<>
+		<NavBar/>
 		<GameContainer>
 			<PuzzleLayout/>
 			<PuzzleControls/>
 		</GameContainer>
-		<NavBar/>
 		</>;
 }
 

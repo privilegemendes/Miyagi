@@ -11,14 +11,14 @@ export const GitHubShareButton: React.FC = () => {
         aria-label='View source on GitHub'
     >
       <svg
-        width='50'
-        height='50'
+        width='70'
+        height='70'
         viewBox='0 0 250 250'
         style={{
           fill: '#006eff',
           color: '#fff',
           position: 'fixed',
-          zIndex: 1001,
+          zIndex: 0,
           top: 0,
           right: 0,
           border: 0,
@@ -48,6 +48,9 @@ export const GitHubShareButton: React.FC = () => {
 
 
 const GitHubCorner = styled.a`
+    @media (max-width: 768px) {
+        display: none;
+    }
 
     &:hover {
         animation: octocat-wave 560ms ease-in-out;

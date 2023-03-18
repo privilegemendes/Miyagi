@@ -60,7 +60,6 @@ export const Home:FC = () => {
                               router={router}
                               fallbackElement={<div>loading...</div>}
                           />
-                          <LeftContainer/>
                           <RightContainer>
                               <GitHubShareButton/>
                           </RightContainer>
@@ -79,34 +78,37 @@ const HomeGridContainer = styled.div`
     position: relative;
     display: grid;
     grid-template-columns: 1fr min(65ch, 100%) 1fr;
-    grid-template-rows: 0.1fr 1fr;
-    grid-template-areas:  
-        "left nav right" 
-        "left puzzle right";
+    grid-template-rows: 1fr;
+    grid-template-areas:
+        "nav puzzle right";
     height: 100vh;
     width: 100vw;
     background: hsl(210deg, 30%, 8%);
     color: #fff;
+    grid-gap: 1rem;
 
-    // move all content to the 2nd column and leave 1 and 2 empty
-    & > * {
+    // move all content to the 2nd column and leave 1 and 4 empty
+    & > :not(:first-child) {
         grid-column: 2;
     }
+    // move the (navbar) to the 2nd row and leave 1 and 4 empty
+    //& > *:last-child {
+    //    grid-column: 2;
+    //}
     
     @media screen and (max-width: 768px) {
         grid-template-rows: 1fr 0.1fr;
+        grid-template-columns: 1fr min(65ch, 100%) 1fr;
         grid-template-areas:  
         "left puzzle right" 
         "left nav right";
-        grid-gap: 0;
         height: 100%;
-        
     }
 
-    @media screen and (min-width: 769px) {
-        grid-template-columns: 1fr 2fr 1fr;
-        grid-template-rows: 0.1fr 1fr;
-    }
+    //@media screen and (min-width: 769px) {
+    //    grid-template-columns: 1fr 2fr 1fr;
+    //    grid-template-rows: 0.1fr 1fr;
+    //}
     
     //@media screen and (orientation: landscape) and (max-height: 425px) {
     //    transform: rotate(-90deg);
@@ -123,8 +125,8 @@ const HomeGridContainer = styled.div`
 
 const RightContainer = styled.div`
     grid-area: right;
-`;
-
-const LeftContainer = styled.div`
-    grid-area: left;
+    @media screen and (max-width: 768px) {
+        display: none;
+        
+    }
 `;
