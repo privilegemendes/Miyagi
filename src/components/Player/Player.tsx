@@ -3,11 +3,21 @@ import {Form} from './Form';
 import useNameStorage from "../../hooks/useNameStorage/useNameStorage";
 import Toast from "../Toast";
 import NavBar from "../NavBar";
+import {
+    useRandomNameGenerator
+} from "../../hooks/useRandomNameGenerator/useRandomNameGenerator";
 
 export const Player: FC = () => {
-    const [name, setName] = useNameStorage('player-name', '');
+
+
+    const randomName = useRandomNameGenerator();
+    const [name, setName] = useNameStorage('player-name', randomName);
 
     const handleNameSubmit = (value: string) => {
+        if (value.length === 0 || null) {
+            setName(randomName);
+        }
+
         setName(value);
     };
 
@@ -21,7 +31,7 @@ export const Player: FC = () => {
             <h1>Welcome to Miyagi!</h1>
             <p>Please enter your name:</p><br/>
             <Form onSubmit={handleNameSubmit}/>
-            {name && <p>Hi {name}!</p>}
+            {name && <p>Hello, {name}!</p>}
         </Toast>
     </>
 };

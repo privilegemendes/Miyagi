@@ -5,12 +5,12 @@ import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 import {FC} from "react";
 import NavBar from "../NavBar";
 import {
-    useGetNameFromStorage
-} from "../../hooks/useGetPlayerDetails/useGetPlayerDetails";
+    useGetNameFromWebStorage
+} from "../../hooks/useGetNameFromWebStorage/useGetNameFromWebStorage";
 
 export const Settings: FC = () => {
 
-    const name = useGetNameFromStorage('name');
+    const name = useGetNameFromWebStorage();
 
       return<>
           <NavBar/>

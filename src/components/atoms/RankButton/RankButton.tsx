@@ -3,6 +3,7 @@ import {PrimaryButton} from "../Button";
 import {Link, useHistory} from "react-router-dom";
 import styled from "styled-components";
 import {useEffect} from "react";
+import {NavButtonStyleProps} from "../../../types/types";
 
 
 type SVGProps = {
@@ -12,6 +13,7 @@ type SVGProps = {
     color?: string;
     onClick?: (e: React.MouseEvent) => void;
 }
+
 
 export const RankButton: React.FC<SVGProps> =
     (
@@ -35,7 +37,7 @@ export const RankButton: React.FC<SVGProps> =
 
 
 
-  return<RankButtonContainer>
+  return <RankButtonContainer activeRouteColor={activeRouteColor} >
       <Link to={'/rank'}>
           <PrimaryButton
               aria-label={text}
@@ -55,11 +57,14 @@ export const RankButton: React.FC<SVGProps> =
   </RankButtonContainer>
 }
 
-const RankButtonContainer = styled.div`
+const RankButtonContainer = styled.div<NavButtonStyleProps>`
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color: #fff;
+        color: ${props => props.activeRouteColor};
+        transition: color 0.1s ease-in-out;
+        & > h1 {
+            color: ${props => props.activeRouteColor};
+        }
 `;
-

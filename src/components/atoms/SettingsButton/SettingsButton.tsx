@@ -3,15 +3,8 @@ import {PrimaryButton} from "../Button";
 import {Link, useHistory} from "react-router-dom";
 import styled from "styled-components";
 import {useEffect} from "react";
+import {NavButtonStyleProps, SVGProps} from "../../../types/types";
 
-
-type SVGProps = {
-    text?: string;
-    height?: string;
-    width?: string;
-    color?: string;
-    onClick?: (e: React.MouseEvent) => void;
-}
 
 export const SettingsButton: React.FC<SVGProps> =
     (
@@ -33,7 +26,7 @@ export const SettingsButton: React.FC<SVGProps> =
             }
         }, [history]);
 
-        return <SettingsButtonContainer>
+        return <SettingsButtonContainer activeRouteColor={activeRouteColor}>
             <Link to={'/settings'}>
                 <PrimaryButton
                     aria-label={text}
@@ -50,10 +43,14 @@ export const SettingsButton: React.FC<SVGProps> =
 
 }
 
-const SettingsButtonContainer = styled.div`
+const SettingsButtonContainer = styled.div<NavButtonStyleProps>`
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color: #fff;
+        color: ${props => props.activeRouteColor};
+        transition: color 0.1s ease-in-out;
+        & > h1 {
+            color: ${props => props.activeRouteColor};
+        }
 `;

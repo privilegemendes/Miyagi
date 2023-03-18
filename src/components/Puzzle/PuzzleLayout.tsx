@@ -81,8 +81,8 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
   
 	/* Laptop 1024px */
   @media screen and (min-width: 769px) and (max-width: 1024px) {
-    width: 50vw;
-    height: 50vh;
+    width: 45vw;
+    height: 40vh;
   }
 
   @media screen and (min-width: 1025px) and (max-width: 1440px) {

@@ -3,15 +3,9 @@ import {PrimaryButton} from "../Button";
 import {Link, useHistory} from "react-router-dom";
 import styled from "styled-components";
 import {useEffect} from "react";
+import {NavButtonStyleProps, SVGProps} from "../../../types/types";
 
 
-type SVGProps = {
-    text?: string;
-    height?: string;
-    width?: string;
-    color?: string;
-    onClick?: (e: React.MouseEvent) => void;
-}
 
 export const GameButton: React.FC<SVGProps> =
     (
@@ -34,7 +28,7 @@ export const GameButton: React.FC<SVGProps> =
         }, [history]);
 
 
-        return <GameButtonContainer>
+        return <GameButtonContainer activeRouteColor={activeRouteColor}>
       <Link to={'/game'}>
           <PrimaryButton
               aria-label={text}
@@ -75,10 +69,14 @@ export const GameButton: React.FC<SVGProps> =
 
 }
 
-const GameButtonContainer = styled.div`
+const GameButtonContainer = styled.div<NavButtonStyleProps>`
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color: #fff;
+        color: ${props => props.activeRouteColor};
+        transition: color 0.1s ease-in-out;
+        & > h1 {
+            color: ${props => props.activeRouteColor};
+        }
 `;
