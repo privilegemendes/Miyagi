@@ -30,21 +30,19 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
 	background: linear-gradient(to bottom, rgba(19, 19, 33, 0.51) 0%, rgba(31, 28, 44, 0.58) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	box-shadow: 0 2px 20px 0 #000000;
 	padding: 16px;
-	margin:auto;
+	//margin:auto;
 	width: 500px;
 	height: 500px;
   
-
   /* Mobile S 320px */
   @media screen and (orientation: portrait) and (max-width: 320px) {
     width: 90vw;
     height: 40vh;
-    //padding: 0;
+    padding: 20px;
   }
   @media screen and (orientation: landscape) and (max-height: 320px) {
-    width: 45vw;
+    width: 38vw;
     height: 90vh;
-    padding: 0;
     margin-top: auto;
     margin-bottom: auto;
   }
@@ -69,12 +67,13 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
     height: 50vh;
     padding: 0;
   }
-
+  
   /* Tablet 768px */
   @media screen and (orientation: portrait) and (min-width: 426px) and (max-width: 768px) {
     width: 60vw;
     height: 60vh;
   }
+  
 
 	/* Laptop 1024px */
   @media screen and (min-width: 769px) and (max-width: 1024px) {

@@ -15,6 +15,10 @@ import {Rank} from "../Rank";
 import {ZoomDisabler} from "../ZoomDisabler";
 
 import {ErrorRouterFallback} from "../ErrorFallback";
+import {usePortraitMode} from "../../hooks/usePortraitMode/usePortraitMode";
+import {
+    PortraitModeProvider
+} from "../../contexts/portrait-mode-provider/PortraitModeProvider";
 
 
 const router = createBrowserRouter([
@@ -46,22 +50,25 @@ const router = createBrowserRouter([
 ]);
 export const Home:FC = () => {
 
+    usePortraitMode();
   return <>
           <ZoomDisabler/>
-          <HomeGridContainer>
-              <SettingsProvider>
-                  <PuzzleProvider>
-                      <RouterProvider
-                          router={router}
-                          fallbackElement={<div>loading...</div>}
-                      />
-                      <LeftContainer/>
-                      <RightContainer>
-                          <GitHubShareButton/>
-                      </RightContainer>
-                  </PuzzleProvider>
-              </SettingsProvider>
-          </HomeGridContainer>
+          {/*<PortraitModeProvider>*/}
+              <HomeGridContainer>
+                  <SettingsProvider>
+                      <PuzzleProvider>
+                          <RouterProvider
+                              router={router}
+                              fallbackElement={<div>loading...</div>}
+                          />
+                          <LeftContainer/>
+                          <RightContainer>
+                              <GitHubShareButton/>
+                          </RightContainer>
+                      </PuzzleProvider>
+                  </SettingsProvider>
+              </HomeGridContainer>
+          {/*</PortraitModeProvider>*/}
         </>
 
 }
