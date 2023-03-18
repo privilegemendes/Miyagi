@@ -3,7 +3,6 @@ import {FC} from 'react';
 import {PuzzleProvider} from "../../contexts/puzzle-provider/PuzzleProvider";
 import styled from "styled-components";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import NavBar from "../NavBar";
 import {GitHubShareButton} from "../atoms/GitHubShareButton";
 import {Game} from "../Game";
 import {Settings} from "../Settings";
@@ -24,7 +23,7 @@ import {
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <NavBar/>,
+        element: <Game/>,
         children: [],
         errorElement: <ErrorRouterFallback/>,
     },
@@ -53,7 +52,7 @@ export const Home:FC = () => {
     usePortraitMode();
   return <>
           <ZoomDisabler/>
-          {/*<PortraitModeProvider>*/}
+          <PortraitModeProvider>
               <HomeGridContainer>
                   <SettingsProvider>
                       <PuzzleProvider>
@@ -68,7 +67,7 @@ export const Home:FC = () => {
                       </PuzzleProvider>
                   </SettingsProvider>
               </HomeGridContainer>
-          {/*</PortraitModeProvider>*/}
+          </PortraitModeProvider>
         </>
 
 }
@@ -109,15 +108,15 @@ const HomeGridContainer = styled.div`
         grid-template-rows: 0.1fr 1fr;
     }
     
-    @media screen and (orientation: landscape) and (max-height: 768px) {
-        transform: rotate(-90deg);
-        transform-origin: left top;
-        width: 100vh;
-        height: 100vw;
-        position: absolute;
-        top: 100%;
-        left: 0;
-    }
+    //@media screen and (orientation: landscape) and (max-height: 425px) {
+    //    transform: rotate(-90deg);
+    //    transform-origin: left top;
+    //    width: 100vh;
+    //    height: 100vw;
+    //    position: absolute;
+    //    top: 100%;
+    //    left: 0;
+    //}
 `;
 
 

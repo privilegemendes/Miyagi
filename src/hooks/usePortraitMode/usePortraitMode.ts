@@ -2,6 +2,7 @@ import {useEffect} from "react";
 
 export const usePortraitMode = () => {
 
+
     useEffect(() => {
         const portraitOrientation = window.matchMedia("(orientation: portrait)");
         const lockOrientation = () => {

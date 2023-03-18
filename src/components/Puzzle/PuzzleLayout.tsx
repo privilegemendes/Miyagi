@@ -70,8 +70,13 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
   
   /* Tablet 768px */
   @media screen and (orientation: portrait) and (min-width: 426px) and (max-width: 768px) {
-    width: 60vw;
+    width: 70vw;
     height: 60vh;
+  }
+
+  @media screen and (orientation: landscape) and (min-width: 426px) and (max-width: 768px) {
+    width: 50vw;
+    height: 90vh;
   }
   
 
@@ -80,11 +85,11 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
     width: 50vw;
     height: 50vh;
   }
-  //
-  //@media screen and (min-width: 1025px) and (max-width: 1440px) {
-  //  width: 35vw;
-  //  height: 40vh;
-  //}
+
+  @media screen and (min-width: 1025px) and (max-width: 1440px) {
+    width: 35vw;
+    height: 40vh;
+  }
   //
   //@media screen and (min-width: 1441px) {
   //  width: 35vw;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {createContext, FC, useMemo} from "react";
+import {createContext, FC, useEffect, useMemo} from "react";
 
 import {
 	useAndRequireContext
@@ -22,9 +22,20 @@ export const PortraitModeProvider: FC<Props> =
 		}
 	) =>
 	{
+		const [orientation, setOrientation] = React.useState<boolean>(false);
 
-		// const portraitOrientation = window.matchMedia("(orientation: portrait)");
-		// consoleLog("portrait:", portraitOrientation)
+		useEffect(() => {
+			const checkForLandscapeMode = window.matchMedia("(orientation: landscape)");
+
+			if (checkForLandscapeMode.matches) {
+				setOrientation(true);
+			}
+
+
+		}, [orientation])
+
+
+
 
 		const contextValue = useMemo(() => ({
 
@@ -34,13 +45,16 @@ export const PortraitModeProvider: FC<Props> =
 			<PortraitMode>
 				{children}
 			</PortraitMode>
-			<LandscapeMode>
-				<Toast
-					variant={"notice"}
-				>
-					For a better experience, Please rotate your device to portrait mode.
-				</Toast>
-			</LandscapeMode>
+			{ orientation ?
+					<LandscapeMode>
+						<Toast
+							variant={"notice"}
+						>
+							For a better experience, Please rotate your device to portrait mode.
+						</Toast>
+					</LandscapeMode>
+				: null
+			}
 		</ContextRef.Provider>;
 	};
 
@@ -50,21 +64,27 @@ export function useSettings() {
 	return useAndRequireContext(ContextRef);
 }
 
+
 const PortraitMode = styled.div`
-	display: none;
+  display: none;
   
-  @media screen and (max-aspect-ratio: 13/9) {
+  @media screen and (orientation: portrait) and (max-height: 825px) {
     height: 100%;
     width: 100%;
     display: block;
   }
 
+  @media screen and (orientation: landscape) and (min-height: 425px) {
+    height: 100%;
+    width: 100%;
+    display: block;
+  }
 `;
 
 const LandscapeMode = styled.div`
   display: none;
-
-  @media (max-width: 768px) and (max-aspect-ratio: 13/9) {
+  
+  @media screen and (orientation: landscape) and (max-height: 425px)  {
     height: 100%;
     width: 100%;
     display: block;
