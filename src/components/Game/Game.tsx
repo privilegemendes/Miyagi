@@ -19,9 +19,13 @@ export const Game: FC<Props> = () => {
 }
 
 const GameContainer = styled.div`
-    grid-area: puzzle;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
+	grid-area: puzzle;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
 	position: relative;
+  
+	@media screen and (max-width: 768px) {
+		padding-top: 30px;
+	}
 `;

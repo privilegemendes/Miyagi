@@ -6,7 +6,6 @@ import styles from "../../../styles/styles.module.css";
 export const GitHubShareButton: React.FC = () => {
   return (
     <a
-      // href={`https://github.com/${config.github}`}
         href={`https://github.com/privilegemendes/miyagi`}
         target='_blank'
         rel='noopener noreferrer'
@@ -14,8 +13,8 @@ export const GitHubShareButton: React.FC = () => {
         aria-label='View source on GitHub'
     >
       <svg
-        width='60'
-        height='60'
+        width='50'
+        height='50'
         viewBox='0 0 250 250'
         style={{
           fill: '#006eff',

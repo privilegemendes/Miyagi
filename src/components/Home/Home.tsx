@@ -100,6 +100,8 @@ const HomeGridContainer = styled.div`
         "left puzzle right" 
         "left nav right";
         grid-gap: 0;
+        height: 100%;
+        
     }
 
     @media screen and (min-width: 769px) {
