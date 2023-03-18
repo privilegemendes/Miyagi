@@ -3,6 +3,9 @@ import * as React from 'react';
 import {FC, useState} from 'react';
 import {Button3D} from "../atoms/Button3D";
 import {Link} from "react-router-dom";
+import {
+	useRandomNameGenerator
+} from "../../hooks/useRandomNameGenerator/useRandomNameGenerator";
 
 
 interface FormProps {
@@ -11,6 +14,7 @@ interface FormProps {
 
 export const Form: FC<FormProps> = ({ onSubmit }) => {
 	const [name, setName] = useState('');
+	const randomName = useRandomNameGenerator();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -18,6 +22,9 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
 	};
 
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (event.target.value.length === 0 || null) {
+			setName(randomName);
+		}
 		setName(event.target.value);
 	};
 
@@ -29,7 +36,6 @@ export const Form: FC<FormProps> = ({ onSubmit }) => {
 			type="text"
 			value={name}
 			onChange={handleNameChange}
-			required
 		/>
 		<Link to={'/game'}>
 			<Button3D type={"submit"}/>
