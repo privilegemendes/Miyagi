@@ -1,31 +1,69 @@
 import * as React from 'react';
 import {FC} from 'react';
 import {PuzzleProvider} from "../../contexts/puzzle-provider/PuzzleProvider";
-import {PuzzleLayout} from "../Puzzle";
-import {PuzzleControls} from "../PuzzleControls";
 import styled from "styled-components";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import NavBar from "../NavBar";
 import {GitHubShareButton} from "../atoms/GitHubShareButton";
+import {Game} from "../Game";
+import {Settings} from "../Settings";
 
+import {
+    SettingsProvider
+} from "../../contexts/settings-provider/SettingsProvider";
+import {Rank} from "../Rank";
+import {ZoomDisabler} from "../ZoomDisabler";
+
+import {ErrorRouterFallback} from "../ErrorFallback";
+
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <NavBar/>,
+        children: [],
+        errorElement: <ErrorRouterFallback/>,
+    },
+    {
+        path: "/game",
+        element: <Game/>,
+        children: [],
+        errorElement: <ErrorRouterFallback/>,
+    },
+    {
+        path: "/settings",
+        element: <Settings/>,
+        children: [],
+        errorElement: <ErrorRouterFallback/>,
+    },
+    {
+        path: "/rank",
+        element: <Rank/>,
+        children: [] ,
+        errorElement: <ErrorRouterFallback/>,
+    },
+
+]);
 export const Home:FC = () => {
 
-  return <HomeGridContainer>
-      <PuzzleProvider>
-            <PuzzleContainer>
-                <PuzzleLayout/>
-                <PuzzleControls/>
-            </PuzzleContainer>
-          <NavContainer>
-                <NavBar/>
-          </NavContainer>
-          <RightContainer>
-              <GitHubShareButton/>
-          </RightContainer>
-          {/*<ProfileContainer>*/}
-          {/*      <ProfileSection/>*/}
-          {/*</ProfileContainer>*/}
-      </PuzzleProvider>
-  </HomeGridContainer>
+  return <>
+          <ZoomDisabler/>
+          <HomeGridContainer>
+              <SettingsProvider>
+                  <PuzzleProvider>
+                      <RouterProvider
+                          router={router}
+                          fallbackElement={<div>loading...</div>}
+                      />
+                      <LeftContainer/>
+                      <RightContainer>
+                          <GitHubShareButton/>
+                      </RightContainer>
+                  </PuzzleProvider>
+              </SettingsProvider>
+          </HomeGridContainer>
+        </>
+
 }
 
 export default Home;
@@ -39,11 +77,8 @@ const HomeGridContainer = styled.div`
     grid-template-areas:  
         "left nav right" 
         "left puzzle right";
-    //grid-gap: 1rem;
     height: 100vh;
     width: 100vw;
-    max-width: 1200px;
-    margin: auto;
     background: hsl(210deg, 30%, 8%);
     color: #fff;
 
@@ -52,35 +87,36 @@ const HomeGridContainer = styled.div`
         grid-column: 2;
     }
     
-    @media screen and (orientation: portrait) and (max-width: 768px) {
+    @media screen and (max-width: 768px) {
         grid-template-rows: 1fr 0.1fr;
         grid-template-areas:  
         "left puzzle right" 
         "left nav right";
         grid-gap: 0;
     }
+
+    @media screen and (min-width: 769px) {
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-rows: 0.1fr 1fr;
+    }
+    
+    @media screen and (orientation: landscape) and (max-height: 768px) {
+        transform: rotate(-90deg);
+        transform-origin: left top;
+        width: 100vh;
+        height: 100vw;
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
 `;
 
-const PuzzleContainer = styled.div`
-    grid-area: puzzle;
-    margin: auto;
-    max-width: 800px;
-    padding: 16px;
-`;
+
 
 const RightContainer = styled.div`
     grid-area: right;
 `;
 
-const StatsContainer = styled.div`
-    grid-area: stats;
-`;
-
-const ProfileContainer = styled.div`
-    grid-area: profile;
-    min-width: 0px;
-`;
-
-const NavContainer = styled.div`
-    grid-area: nav;
+const LeftContainer = styled.div`
+    grid-area: left;
 `;

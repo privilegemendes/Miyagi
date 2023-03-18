@@ -129,7 +129,7 @@ export const PuzzleProvider: FC<Props> =
 
 
 		const resetGame = useCallback(() => {
-			consoleLog("Elapsed time: ", formatTime(timer), "info");
+			consoleLog("Elapsed time: ", formatTime(timer));
 			setReset(true);
 			handleReset();
 			setPuzzleSolved(false);
@@ -146,6 +146,7 @@ export const PuzzleProvider: FC<Props> =
 
 			if (!isActive && !isPaused) {
 				const newPuzzle = generateAndShuffleSolution(puzzleSize);
+				consoleLog("puzzle: ", newPuzzle, "info");
 				setPuzzle(newPuzzle);
 				setMoves(0);
 				setCheckMovesForHint(defaultMovesPerHint);
@@ -215,7 +216,12 @@ export const PuzzleProvider: FC<Props> =
 		}), [puzzle, moves, reset, timer, hintValue, hintsUsed, showHint, hideHint, puzzleSize, puzzleSolved, gameState, startNewGame, resetGame, showHintToggle, onSliderChange, movePuzzlePiece]);
 
 		return <ContextRef.Provider value={contextValue}>
-			{puzzleSolved && <PuzzleComplete/>}
+			{puzzleSolved && <PuzzleComplete
+					time={timer}
+					moves={moves}
+					onClick={resetGame}
+				/>
+			}
 			{children}
 		</ContextRef.Provider>;
 };
@@ -253,7 +259,6 @@ const generateAndShuffleSolution = (puzzleSize: number) => {
 	const emptyCell = puzzleSize * puzzleSize;
 	// Add the empty cell to the end of the array
 	orderedPuzzle[emptyCell - 1] = 0;
-
 	return shufflePuzzle(orderedPuzzle);
 };
 

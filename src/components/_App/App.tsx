@@ -14,7 +14,7 @@ export const App: FC = () =>
 		FallbackComponent={ErrorFallback}
 		onReset={onReset}
 	>
-		<Home/>;
+		<Home/>
 	</ErrorBoundary>
 
 }

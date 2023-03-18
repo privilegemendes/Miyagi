@@ -4,7 +4,7 @@ import Toast from './Toast';
 
 describe('Toast', () => {
 	it('renders the toast message', () => {
-		render(<Toast variant="notice">This is a toast message </Toast>);
+		render(<Toast variant="notice" action={"OK"} >This is a toast message </Toast>);
 		expect(screen.getByText('This is a toast message')).toBeInTheDocument();
 	});
 

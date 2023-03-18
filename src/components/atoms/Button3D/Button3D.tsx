@@ -3,7 +3,7 @@ import {FC} from "react";
 import styles from './Button3D.module.css'
 
 type Props = {
-  text: string;
+  text?: string;
   onClick?: (e: React.MouseEvent) => void;
   onMouseDown?: (e: React.MouseEvent) => void;
   onMouseUp?: (e: React.MouseEvent) => void;
@@ -34,7 +34,7 @@ export const Button3D:FC<Props> =
     <span className={styles.shadow}/>
     <span className={styles.edge}/>
     <span className={styles.front}>
-      {text}
+      {text || 'OK'}
     </span>
   </button>;
 }

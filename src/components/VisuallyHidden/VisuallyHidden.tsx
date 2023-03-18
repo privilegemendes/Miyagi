@@ -16,7 +16,7 @@ const VisuallyHidden: FC<Props> = ({
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'Alt') {
+        if (event.key === 'Option') {
           setForceShow(true);
         }
       };

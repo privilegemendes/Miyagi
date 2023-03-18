@@ -78,11 +78,6 @@ const userAgent =
 
 export const IS_MOBILE_USER_AGENT = mobileRegex.test(userAgent);
 
-export const Z_INDICES = {
-  hero: 1,
-  mainContent: 10,
-  header: 100,
-};
 
 const AppBar = styled.header`
   --color-primary: hsl(53deg,100%,50%);
@@ -107,35 +102,6 @@ const BottomAppBar = styled.footer`
   }
 `;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 0;
-  position: relative;
-  min-height: 100vh;
-  height: 100%;
-  isolation: isolate;
-  background: hsl(210deg, 30%, 8%);
-  color: #fff;
-`
-const Main = styled.div`
-  flex: 1;
-  padding: 12px;
-  max-width: 800px;
-  margin: 0 auto;
-
-  @media screen and (orientation: portrait) and (max-width: 768px) {
-    padding: 8px;
-  }
-`
-
-const HomeGridContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1.5fr 1fr;
-    grid-template-rows: 1fr 0.2fr;
-    grid-template-areas: "stats puzzle profile" "nav nav nav";
-  
-`;
 const Title = styled.h1`
   position: fixed;
   z-index: 2;
@@ -152,18 +118,6 @@ const Title = styled.h1`
   //filter: drop-shadow(0px 0px 2px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 4px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 8px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 16px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 32px hsl(var(--background-values) / 0.5)) drop-shadow(0px 0px 64px hsl(var(--background-values) / 0.5));
 `
 
-const Description = styled.p`
-  position: relative;
-  padding-top: 8px;
-  z-index: 3;
-  font-size: 1.25rem;
-  text-align: center;
-  max-width: 400px;
-  margin: 0;
-  color: hsl(210deg, 14%, 66%);
-`
-
-
 const DesktopOnly = styled.div`
 @media ${BREAKPOINTS.md} {
     display: none;
@@ -176,5 +130,5 @@ const MobileOnly = styled.div`
     }
 `;
 
-export {AppBar, Container, Main, Title, Description, BottomAppBar, DesktopOnly, MobileOnly};
+export {AppBar, Title, BottomAppBar, DesktopOnly, MobileOnly};
 

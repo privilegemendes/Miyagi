@@ -6,3 +6,11 @@ test('solves the puzzle correctly', () => {
 	const solution = PuzzleSolver(puzzle);
 	expect(solution).toEqual(expectedSolution);
 });
+
+
+test('solves the puzzle of different sizes', () => {
+	const puzzle = [4, 11, 14, 1, 2, 9, 5, 6, 12, 15, 3, 0, 10, 7, 13, 8];
+	const solution = PuzzleSolver(puzzle);
+	console.log(solution!.pathValue);
+	expect(solution!.pathValue).toBeGreaterThan(0)
+});

@@ -9,6 +9,8 @@ import {
 } from 'react-feather';
 import VisuallyHidden from "../VisuallyHidden";
 import {FC, useEffect, useState} from "react";
+import {Button3D} from "../atoms/Button3D";
+import clsx from "clsx";
 
 const ICONS_BY_VARIANT = {
   notice: Info,
@@ -20,16 +22,18 @@ const ICONS_BY_VARIANT = {
 type Props = {
     variant: 'notice' | 'warning' | 'success' | 'error';
     children: React.ReactNode;
+    action?: string;
     onClose?: () => void;
     onClick?: () => void;
 }
-const Toast: FC<Props> =
+const  Toast: FC<Props> =
     (
         {
             variant = 'notice',
             children,
             onClose,
-            onClick
+            onClick,
+            action
         }
     ) => {
 
@@ -49,19 +53,24 @@ const Toast: FC<Props> =
             }, 500);
         }, []);
 
-        return <ToastWrapper className={visible ? "show" : "hide"}>
+        return <ToastWrapper className={clsx(visible ? "show" : "hide", variant)}>
             <ToastContainer className={variant}>
                 <IconContainer className={variant}>
                     <Icon size={24}/>
                 </IconContainer>
-                <TextContainer>
-                    {children}
-                </TextContainer>
-                <CloseButton onClick={onHandleClose || onClose}>
+                <ToastContent>
+                    <TextContainer>
+                        {children}
+                    </TextContainer>
+                </ToastContent>
+                <CloseButton className={"close-button"} onClick={onHandleClose || onClose}>
                     <X size={24}/>
                     <VisuallyHidden>Close</VisuallyHidden>
                 </CloseButton>
             </ToastContainer>
+            <Action>
+                <Button3D text={action} onClick={onClick || onClose}/>
+            </Action>
         </ToastWrapper>;
 }
 
@@ -69,25 +78,56 @@ export default Toast;
 
 const ToastWrapper = styled.div`
     position: absolute;
-    bottom: 0;
-    right: 0;
-    transform: translate(-16px, 100%); /* start offscreen */
-    transition: transform 0.4s ease-out; /* animate transform property */
+    top: 50%;
+    left: 50%;
+    bottom: auto;
+    z-index: 2000;
+    transform: translate(100%, -50%); /* start offscreen */
+    transition: transform 0.4s ease-in-out; /* animate transform property */
     display: flex;
+    flex-direction: column;
     align-items: center;
     border-radius: 16px;
-    max-width: 100vw;
-    width: 350px;
-    
-    @media (max-width: 768px) {
-        //top: 50%;
-        //left: 50%;
-        //transform: translate(-50%, -50%);
-        z-index: 2000;
+    max-width: 350px;
+
+    --color-notice: hsl(235deg 100% 50%);
+    --color-notice-bg: hsl(235deg 0% 100%);
+    --color-warning: hsl(35deg 100% 46%);
+    --color-warning-bg: hsl(40deg 100% 94%);
+    --color-success: hsl(120deg 80% 35%);
+    --color-success-bg: hsl(120deg 90% 96%);
+    --color-error: hsl(345deg 100% 50%);
+    --color-error-bg: hsl(350deg 90% 96%);
+
+    &.notice {
+        background: var(--color-notice-bg);
+    }
+    &.notice .iconContainer {
+        color: var(--color-notice);
+    }
+    &.warning {
+        background: var(--color-warning-bg);
+    }
+    &.warning .iconContainer {
+        color: var(--color-warning);
+    }
+    &.success {
+        background: var(--color-success-bg);
+    }
+    &.success .iconContainer {
+        color: var(--color-success);
+    }
+    &.error {
+        background: var(--color-error-bg);
+    }
+    &.error .iconContainer {
+        color: var(--color-error);
     }
 
     &.show {
-        transform: translate(-16px, -16px); /* slide up into view */
+        //transform: translate(-16px, -16px); /* slide up into view */
+        transform: translate(-50%, -50%); /* slide left into view */
+        
     }
 
     /* animate opacity when hiding */
@@ -99,10 +139,10 @@ const ToastWrapper = styled.div`
     /* keyframes to animate hiding */
     @keyframes slide-out {
         0% {
-            transform: translate(-16px, -16px);
+            transform: translate(-50%, -50%);
         }
         100% {
-            transform: translate(-16px, 100%);
+            transform: translate(100%, -50%);
         }
     }
 
@@ -110,53 +150,45 @@ const ToastWrapper = styled.div`
     &.hide .close-button {
         animation: slide-out 0.2s ease-out;
     }
+
+    @media screen and (orientation: portrait) and (max-width: 768px) {
+        width: 90%;
+        top: 50%;
+        left: 50%;
+        bottom: auto;
+        z-index: 2000;
+        transform: translate(100%, -50%); /* start offscreen */
+
+        &.show {
+            transform: translate(-50%, -50%); /* slide left into view */
+        }
+
+        @keyframes slide-out {
+            0% {
+                transform: translate(-50%, -50%);
+            }
+            100% {
+                transform: translate(100%, -50%);
+            }
+        }
+    }
 `;
 
+const ToastContent = styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    `;
 
 const ToastContainer = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  border-radius: 16px;
-  color: black;
-  max-width: 100%;
-  width: 350px;
-
-  --color-notice: hsl(235deg 100% 50%);
-  --color-notice-bg: hsl(235deg 0% 100%);
-  --color-warning: hsl(35deg 100% 46%);
-  --color-warning-bg: hsl(40deg 100% 94%);
-  --color-success: hsl(120deg 80% 35%);
-  --color-success-bg: hsl(120deg 90% 96%);
-  --color-error: hsl(345deg 100% 50%);
-  --color-error-bg: hsl(350deg 90% 96%);
-
-  &.notice {
-    background: var(--color-notice-bg);
-  }
-  &.notice .iconContainer {
-    color: var(--color-notice);
-  }
-  &.warning {
-    background: var(--color-warning-bg);
-  }
-  &.warning .iconContainer {
-    color: var(--color-warning);
-  }
-  &.success {
-    background: var(--color-success-bg);
-  }
-  &.success .iconContainer {
-    color: var(--color-success);
-  }
-  &.error {
-    background: var(--color-error-bg);
-  }
-  &.error .iconContainer {
-    color: var(--color-error);
-  }
-  
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    gap: 16px;
+    border-radius: 16px;
+    color: black;
+    max-width: 100%;
 `;
 
 const IconContainer = styled.div`
@@ -190,11 +222,15 @@ const IconContainer = styled.div`
   }
 `;
 
-const TextContainer = styled.p`
-  flex: 1;
-  padding: 12px 0;
-  font-weight: 600;
-
+const TextContainer = styled.div`
+    flex: 1;
+    padding: 12px 0;
+    font-weight: 600;
+    text-align: center;
+`;
+const Action = styled.div`
+    margin: 0;
+    flex-direction: row;
 `;
 
 const CloseButton = styled.button`
