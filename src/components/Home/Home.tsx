@@ -80,11 +80,7 @@ const HomeGridContainer = styled.div<StyleProps>`
     width: 100vw;
     background: hsl(210deg, 30%, 8%);
     color: #fff;
-
-    // move all content to the 2nd column and leave 1 and 4 empty
-    //& > :not(:first-child) {
-    //    grid-column: 2;
-    //}
+    
     @media screen and (max-width: 768px) {
         grid-template-rows: 1fr 0.1fr;
         grid-template-columns: 1fr min(65ch, 100%) 1fr;
@@ -93,21 +89,7 @@ const HomeGridContainer = styled.div<StyleProps>`
         "left nav right";
         height: ${props => props.height - 24}px;
     }
-
-    //@media screen and (min-width: 769px) {
-    //    grid-template-columns: 1fr 2fr 1fr;
-    //    grid-template-rows: 0.1fr 1fr;
-    //}
     
-    //@media screen and (orientation: landscape) and (max-height: 425px) {
-    //    transform: rotate(-90deg);
-    //    transform-origin: left top;
-    //    width: 100vh;
-    //    height: 100vw;
-    //    position: absolute;
-    //    top: 100%;
-    //    left: 0;
-    //}
 `;
 
 

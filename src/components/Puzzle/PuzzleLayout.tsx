@@ -84,7 +84,7 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
   /* Mobile M 375px */
   @media screen and (orientation: portrait) and (min-width: 321px) and (max-width: 375px) {
     width: 90vw;
-    height: 50vh;
+    height: 44vh;
     padding: 0;
   }
 

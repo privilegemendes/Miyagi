@@ -59,7 +59,7 @@ export const PortraitModeProvider: FC<Props> =
 	};
 
 
-export function useSettings() {
+export function usePortraitMode() {
 
 	return useAndRequireContext(ContextRef);
 }
