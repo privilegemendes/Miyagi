@@ -37,9 +37,10 @@ export const Rank: FC = () => {
                 <Title>🏆 {playerName}'s Wall of Shame 🏆</Title>
                 <RankTableHeader>
                     <RankTableCell>Rank</RankTableCell>
+                    <RankTableCell>Time</RankTableCell>
                     <RankTableCell>Moves</RankTableCell>
                     <RankTableCell>Hints</RankTableCell>
-                    <RankTableCell>Puzzle Size</RankTableCell>
+                    <RankTableCell>Size</RankTableCell>
                 </RankTableHeader>
                 { savedGames.length > 0 ?
                                 savedGames.map((game) => (
@@ -90,7 +91,7 @@ const RankTable = styled.div`
     
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     font-size: 16px;
     flex: 1 1 auto;
 
