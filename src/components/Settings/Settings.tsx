@@ -1,12 +1,13 @@
 import * as React from 'react';
+import {FC} from 'react';
 import styled from "styled-components";
 
 import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
-import {FC} from "react";
 import NavBar from "../NavBar";
 import {
     useGetNameFromWebStorage
 } from "../../hooks/useGetNameFromWebStorage/useGetNameFromWebStorage";
+import {PuzzleLayout} from "../Puzzle";
 
 export const Settings: FC = () => {
 
@@ -20,6 +21,7 @@ export const Settings: FC = () => {
                   <h1>{name}</h1>
                   <Difficulty/>
               </SettingsContainer>
+              <PuzzleLayout/>
           </ProfileContainer>
       </>
 
@@ -34,12 +36,7 @@ const Difficulty: FC = () => {
       <SettingTitle>Difficulty</SettingTitle>
       {puzzleSize}
       <SettingControl>
-
           <Slider onChange={onSliderChange} type="range" min={minPuzzleSize} max={maxPuzzleSize} value={puzzleSize}/>
-              {/*<SliderRange>*/}
-              {/*    <span>{minPuzzleSize}</span>*/}
-              {/*    <span>{maxPuzzleSize}</span>*/}
-              {/*</SliderRange>*/}
       </SettingControl>
     </Setting>
 }
@@ -57,6 +54,15 @@ const ProfileContainer = styled.div`
     box-shadow: 0 2px 20px 0 #000000;
     padding: 16px;
     margin: 16px;
+
+    @media screen  and (min-width: 769px) {
+        margin: 16px 16px 16px 16px;
+        border: 1px solid #ffffff;
+        flex-wrap: nowrap;
+        justify-content: stretch;
+        border-radius: 4px;
+        transition: border 0.1s ease-in-out;
+    }
 `;
 
 

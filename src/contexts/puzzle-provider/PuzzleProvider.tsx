@@ -11,11 +11,15 @@ import {
 	useAndRequireContext
 } from "../../hooks/useAndRequireContext/useAndRequireContext";
 
-import {PuzzleSolver} from "../../algorithm/PuzzleSovler/PuzzleSolver";
+import {
+	PuzzleSolver,
+	shufflePuzzle
+} from "../../algorithm/PuzzleSovler/PuzzleSolver";
 import {useTimer} from "../../hooks/useTimer/useTimer";
 import {formatTime} from "../../common/time";
 import {consoleLog} from "../../common/debug";
 import {PuzzleComplete} from "../../components/PuzzleComplete";
+import {SavedGame} from "../../hooks/useLoadGameData/useLoadGameData";
 
 type Context = {
 	rows?: number
@@ -50,7 +54,7 @@ export const PuzzleProvider: FC<Props> =
 	(
 		{
 			children,
-			defaultPuzzleSize = 3,
+			defaultPuzzleSize = 4,
 			defaultNumberOfHints = 50,
 			defaultMovesPerHint = -1
 		}
@@ -100,8 +104,9 @@ export const PuzzleProvider: FC<Props> =
 				handlePause();
 				consoleLog("info", "End time: ", formatTime(timer));
 				setGameState("Play");
+				saveGameData(formatTime(timer), moves, hintsUsed, `${puzzleSize}x${puzzleSize}`);
 			}
-		}, [handlePause, timer]);
+		}, [handlePause, timer, moves, hintsUsed, puzzleSize]);
 
 
 		const movePuzzlePiece = useCallback ((index: number) => {
@@ -262,59 +267,19 @@ const generateAndShuffleSolution = (puzzleSize: number) => {
 	return shufflePuzzle(orderedPuzzle);
 };
 
-function shufflePuzzle(puzzle: number[]) {
+function saveGameData(time: string, moves: number, hints: number, puzzleSize: string) {
+	const savedGames: SavedGame[] = JSON.parse(localStorage.getItem('savedGames') || '[]');
 
-	const shuffledPuzzle = [...puzzle];
+	const newGame: SavedGame = {
+		id: savedGames.length + 1,
+		time,
+		moves,
+		hints,
+		puzzleSize
+	};
 
-	// Shuffle the array using the Fisher-Yates algorithm
-	for (let i = shuffledPuzzle.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[shuffledPuzzle[i], shuffledPuzzle[j]] = [shuffledPuzzle[j], shuffledPuzzle[i]];
-	}
-
-	// Check if the puzzle is solvable, if not shuffle again
-	while (!checkIfPuzzleIsSolvable(shuffledPuzzle)) {
-		for (let i = shuffledPuzzle.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
-			[shuffledPuzzle[i], shuffledPuzzle[j]] = [shuffledPuzzle[j], shuffledPuzzle[i]];
-		}
-	}
-
-	return shuffledPuzzle;
-}
-
-/* Check if the puzzle is solvable
-1. Calculate the number of inversions in the puzzle.
-2. If the puzzle size is odd and the number of inversions is even, the puzzle is solvable.
-3. If the puzzle size is odd and the number of inversions is odd, the puzzle is not solvable.
-4. If the puzzle size is even, calculate the sum of the row number of the empty cell and the number of inversions.
-5. If the sum is odd, the puzzle is not solvable. If the sum is even, the puzzle is solvable.
-* @param {number[]} puzzle - The puzzle to be solved
-* returns {boolean} - True if the puzzle is solvable, false otherwise
-*/
-function checkIfPuzzleIsSolvable(puzzle: number[]): boolean {
-	const puzzleSize = Math.sqrt(puzzle.length);
-	let inversions = 0;
-	let emptyRowIndex = 0;
-
-	for (let i = 0; i < puzzle.length; i++) {
-		if (puzzle[i] === 0) {
-			emptyRowIndex = Math.floor(i / puzzleSize) + 1;
-			continue;
-		}
-		for (let j = i + 1; j < puzzle.length; j++) {
-			if (puzzle[i] > puzzle[j] && puzzle[j] !== 0) {
-				inversions++;
-			}
-		}
-	}
-
-	if (puzzleSize % 2 === 1) {
-		return inversions % 2 === 0;
-	} else {
-		return (inversions + emptyRowIndex) % 2 === 1;
-	}
-
+	savedGames.push(newGame);
+	localStorage.setItem('savedGames', JSON.stringify(savedGames));
 }
 
 

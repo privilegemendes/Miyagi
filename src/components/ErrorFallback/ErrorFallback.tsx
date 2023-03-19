@@ -1,6 +1,6 @@
 import {FallbackProps} from "react-error-boundary";
 import {FC} from "react";
-import Toast from "../Toast";
+import {Toast} from "../Toast";
 import {error as myErrorPrompts} from "../../assets/messages/error";
 
 

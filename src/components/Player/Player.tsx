@@ -1,37 +1,40 @@
 import React, {FC} from 'react';
-import {Form} from './Form';
-import useNameStorage from "../../hooks/useNameStorage/useNameStorage";
-import Toast from "../Toast";
+import {Toast} from "../Toast";
 import NavBar from "../NavBar";
-import {
-    useRandomNameGenerator
-} from "../../hooks/useRandomNameGenerator/useRandomNameGenerator";
+import styled from "styled-components";
+import {usePlayerName} from "../../hooks/usePlayerName/usePlayerName";
 
 export const Player: FC = () => {
 
-
-    const randomName = useRandomNameGenerator();
-    const [name, setName] = useNameStorage('player-name', randomName);
-
-    const handleNameSubmit = (value: string) => {
-        if (value.length === 0 || null) {
-            setName(randomName);
-        }
-
-        setName(value);
-    };
+   const playerName = usePlayerName();
 
     return <>
         <NavBar/>
-        <Toast
-            variant={"notice"}
-            onClick={handleNameSubmit}
-            enableAction={false}
-        >
-            <h1>Welcome to Miyagi!</h1>
-            <p>Please enter your name:</p><br/>
-            <Form onSubmit={handleNameSubmit}/>
-            {name && <p>Hello, {name}!</p>}
-        </Toast>
+        <TutorialWrapper>
+            <Toast
+                variant={"notice"}
+
+                enableAction={false}
+            >
+                <h1>Hi 👋, Welcome to Miyagi!</h1><br/>
+                {/*<Form onSubmit={handleNameSubmit}/>*/}
+                {playerName && <p>{playerName}!🤣</p>}
+            </Toast>
+        </TutorialWrapper>
     </>
 };
+
+const TutorialWrapper = styled.div`
+  grid-area: puzzle;
+  display: flex;
+  flex-direction: column;
+
+  @media screen  and (min-width: 769px) {
+    margin: 16px 16px 16px 16px;
+    border: 1px solid #ffffff;
+    flex-wrap: nowrap;
+    justify-content: stretch;
+    border-radius: 4px;
+    transition: border 0.1s ease-in-out;
+  }
+  `;

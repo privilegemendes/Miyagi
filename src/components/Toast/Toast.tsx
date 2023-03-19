@@ -28,7 +28,7 @@ type Props = {
     buttonType?: 'button' | 'form' | undefined;
     enableAction?: boolean;
 }
-const  Toast: FC<Props> =
+export const  Toast: FC<Props> =
     (
         {
             variant = 'notice',
@@ -81,7 +81,6 @@ const  Toast: FC<Props> =
         </ToastWrapper>;
 }
 
-export default Toast;
 
 const ToastWrapper = styled.div`
     grid-area: puzzle;

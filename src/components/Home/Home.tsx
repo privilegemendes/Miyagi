@@ -2,18 +2,14 @@ import * as React from 'react';
 import {FC} from 'react';
 import {PuzzleProvider} from "../../contexts/puzzle-provider/PuzzleProvider";
 import styled from "styled-components";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
 import {GitHubShareButton} from "../atoms/GitHubShareButton";
 import {Game} from "../Game";
 import {Settings} from "../Settings";
 import {Rank} from "../Rank";
 import {
-    SettingsProvider
-} from "../../contexts/settings-provider/SettingsProvider";
+    GameSettingsProvider,
+} from "../../contexts/game-settings-provider/GameSettingsProvider";
 
 import {ZoomDisabler} from "../ZoomDisabler";
 import {usePortraitMode} from "../../hooks/usePortraitMode/usePortraitMode";
@@ -56,14 +52,14 @@ export const Home:FC = () => {
           <ZoomDisabler/>
           <PortraitModeProvider>
               <HomeGridContainer width={width} height={height}>
-                  <SettingsProvider>
+                  <GameSettingsProvider>
                       <PuzzleProvider>
                              <Routes/>
                           <RightContainer>
                               <GitHubShareButton/>
                           </RightContainer>
                       </PuzzleProvider>
-                  </SettingsProvider>
+                  </GameSettingsProvider>
               </HomeGridContainer>
           </PortraitModeProvider>
         </>

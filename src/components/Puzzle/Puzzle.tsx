@@ -1,8 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import NavBar from "../NavBar";
+import styled from "styled-components";
+import {Button3D} from "../atoms/Button3D";
+import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 
 const PUZZLE_SIZE = 3; // 3x3 puzzle
 const PIECE_SIZE = 100; // Size of each puzzle piece in pixels
 
+type StyleProps = {
+	puzzleSolved: boolean;
+	reset: boolean;
+}
 interface PuzzlePiece {
 	x: number;
 	y: number;
@@ -11,9 +19,20 @@ interface PuzzlePiece {
 	image: HTMLImageElement;
 }
 
-const images = [  'puzzle_01.png',  'puzzle_02.png',  'puzzle_03.png',  'puzzle_04.png',  'puzzle_05.png',  'puzzle_06.png',  'puzzle_07.png',  'puzzle_08.png',  'puzzle_09.png'];
+const images = [
+	'//i.giphy.com/26FPCXdkvDbKBbgOI.gif',
+	'//i.giphy.com/13CoXDiaCcCoyk.gif',
+	'//i.giphy.com/xWlPqPbrlkEQU.gif',
+	'//i.giphy.com/QPDVAzBOnShLq.gif',
+	'//i.giphy.com/13FJKNTaIiZ2lG.gif',
+	'//i.giphy.com/5ZdCsQHEoCUBq.gif',
+	'//i.giphy.com/BeGJ3IXngxyeY.gif',
+	'//i.giphy.com/LhenEkp5EsPJe.gif',
+	'//i.giphy.com/3o6UB65bfF8P1anIZ2.gif',
+	'//i.giphy.com/l0NwLUVdksjwmtgLC.gif'
+];
 
-const PuzzleSlider: React.FC = () => {
+export const PuzzleSlider: React.FC = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const [puzzle, setPuzzle] = useState<PuzzlePiece[]>([]);
 	const [isDragging, setIsDragging] = useState(false);
@@ -21,6 +40,8 @@ const PuzzleSlider: React.FC = () => {
 	const [moves, setMoves] = useState(0);
 	const [startTime, setStartTime] = useState(0);
 	const [endTime, setEndTime] = useState(0);
+
+	const { puzzleSolved, reset} = usePuzzle();
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
@@ -154,7 +175,7 @@ const PuzzleSlider: React.FC = () => {
 		}
 	};
 
-	const startNewGame = () => {
+	const startNewGame = useCallback(() => {
 		const canvas = canvasRef.current;
 		const newPuzzle: PuzzlePiece[] = [];
 		if (canvas) {
@@ -187,15 +208,16 @@ const PuzzleSlider: React.FC = () => {
 		}
 		setEndTime(0);
 		drawPuzzle(newPuzzle);
-	};
+	}, [ ]);
 
-	useEffect(() => {
-		startNewGame();
-	});
+	// useEffect(() => {
+	// 	startNewGame();
+	// });
 
-	return (
-		<div>
-			<canvas
+	return <>
+		<NavBar />
+		<PuzzleContainer puzzleSolved={puzzleSolved} reset={reset}>
+			<Canvas
 				ref={canvasRef}
 				width={PUZZLE_SIZE}
 				height={PUZZLE_SIZE}
@@ -204,13 +226,40 @@ const PuzzleSlider: React.FC = () => {
 				onMouseUp={onMouseUp}
 			/>
 			<div>
-				<button onClick={startNewGame}>New Game</button>
+				<Button3D text={'NewGame'} onClick={startNewGame}/>
 				<span>Moves: {moves}</span>
 			</div>
-		</div>
-	);
+		</PuzzleContainer>
+	</>;
 };
 
+const Canvas = styled.canvas`
+	background: linear-gradient(to bottom, rgba(19, 19, 33, 0.51) 0%, rgba(31, 28, 44, 0.58) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	box-shadow: 0 2px 20px 0 #000000;
+	padding: 16px;
+	margin: 24px;
+`;
+
+const PuzzleContainer = styled.div<StyleProps>`
+    grid-area: puzzle;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+	@media screen  and (min-width: 769px) {
+	margin: 16px 16px 16px 16px;
+	border: ${props =>
+	        props.reset ? "1px solid #ffffff"
+	                : props.puzzleSolved
+	                        ? "1px solid #08ffbd"
+	                        : "1px solid #08a0ff"
+	};
+	flex-wrap: nowrap;
+	justify-content: stretch;
+	border-radius: 4px;
+	transition: border 0.1s ease-in-out;
+	}
+`;
 const getPuzzlePieceAtOffset = (
 	puzzle: PuzzlePiece[],
 	x: number,

@@ -5,7 +5,7 @@ import {
 	useAndRequireContext
 } from "../../hooks/useAndRequireContext/useAndRequireContext";
 import styled from "styled-components";
-import Toast from "../../components/Toast";
+import {Toast} from "../../components/Toast";
 
 type Context = { }
 

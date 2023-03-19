@@ -4,10 +4,8 @@ import {PuzzleLayout} from "../Puzzle";
 import {PuzzleControls} from "../PuzzleControls";
 import styled from "styled-components";
 import NavBar from "../NavBar";
-import {
-	useGetNameFromWebStorage
-} from "../../hooks/useGetNameFromWebStorage/useGetNameFromWebStorage";
 import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
+import {usePlayerName} from "../../hooks/usePlayerName/usePlayerName";
 
 type Props = {};
 
@@ -18,14 +16,17 @@ type StyleProps = {
 }
 export const Game: FC<Props> = () => {
 
-	const playerName = useGetNameFromWebStorage();
+	const playerName = usePlayerName();
 	const { puzzleSolved, reset} = usePuzzle();
 
 	return<>
 		<NavBar/>
 		<GameWrapper reset={reset} puzzleSolved={puzzleSolved}>
 			<GameContainer>
-				<Name>Player: {playerName}</Name>
+				<PlayerNameContainer>
+					<Name>Player:</Name>
+					<Name>{playerName}</Name>
+				</PlayerNameContainer>
 				<PuzzleLayout/>
 				<PuzzleControls/>
 			</GameContainer>
@@ -35,9 +36,17 @@ export const Game: FC<Props> = () => {
 const Name = styled.h1`
   font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 12px;
-  text-align: center;
+  text-align: left;
 `;
+
+const PlayerNameContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+`;
+
 
 const GameWrapper = styled.div<StyleProps>`
   grid-area: puzzle;

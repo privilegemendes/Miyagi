@@ -1,14 +1,19 @@
 import * as React from 'react';
-import {FC} from 'react';
+import {FC, useEffect, useState} from 'react';
 import styled from "styled-components";
-import {players} from "../../assets/mock/players";
 import NavBar from "../NavBar";
+import {
+    loadGameData,
+    SavedGame,
+} from "../../hooks/useLoadGameData/useLoadGameData";
+import {usePlayerName} from "../../hooks/usePlayerName/usePlayerName";
 
 type Player = {
     rank: number;
-    name: string;
-    moves: number;
     time: string;
+    moves: number;
+    hints: number;
+    puzzleSize: string;
 };
 
 type Props = {
@@ -17,35 +22,68 @@ type Props = {
 
 export const Rank: FC = () => {
 
+    const [savedGames, setSavedGames] = useState<SavedGame[]>([]);
+    const playerName = usePlayerName();
+
+    useEffect(() => {
+        const savedGamesFromStorage = loadGameData();
+        setSavedGames(savedGamesFromStorage);
+    }, []);
+
     return <>
         <NavBar/>
         <RankContainer>
             <RankTable>
+                <Title>🏆 {playerName}'s Wall of Shame 🏆</Title>
                 <RankTableHeader>
                     <RankTableCell>Rank</RankTableCell>
-                    <RankTableCell>Name</RankTableCell>
                     <RankTableCell>Moves</RankTableCell>
-                    <RankTableCell>Time</RankTableCell>
+                    <RankTableCell>Hints</RankTableCell>
+                    <RankTableCell>Puzzle Size</RankTableCell>
                 </RankTableHeader>
-                {players.map((player) => (
-                    <RankTableRow key={player.rank}>
-                        <RankTableCell>{player.rank}</RankTableCell>
-                        <RankTableCell>{player.name}</RankTableCell>
-                        <RankTableCell>{player.moves}</RankTableCell>
-                        <RankTableCell>{player.time}</RankTableCell>
-                    </RankTableRow>
-                ))}
+                { savedGames.length > 0 ?
+                                savedGames.map((game) => (
+                            <RankTableRow key={game.id}>
+                                <RankTableCell>{game.id}</RankTableCell>
+                                <RankTableCell>{game.time}</RankTableCell>
+                                <RankTableCell>{game.moves}</RankTableCell>
+                                <RankTableCell>{game.hints}</RankTableCell>
+                                <RankTableCell>{game.puzzleSize}</RankTableCell>
+                            </RankTableRow>
+                        ))
+                    :
+                    <div style={{textAlign:"center", margin:"auto"}}>
+                        Oops! no saved games found.
+                    </div>
+                }
             </RankTable>
         </RankContainer>
 
     </>;
 };
 
+const Title = styled.h1`
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 16px;
+`;
+
 const RankContainer = styled.div`
     grid-area: puzzle;
     display: flex;
     flex-direction: column;
     align-items: stretch;
+
+    @media screen  and (min-width: 769px) {
+        margin: 16px 16px 16px 16px;
+        border: 1px solid #ffffff;
+        flex-wrap: nowrap;
+        justify-content: stretch;
+        border-radius: 4px;
+        transition: border 0.1s ease-in-out;
+        padding: 16px;
+    }
 `;
 
 const RankTable = styled.div`
@@ -64,11 +102,10 @@ const RankTable = styled.div`
 
 const RankTableHeader = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
     margin-bottom: 10px;
-    padding: 10px;
-    //background-color: #eee;
+    padding: 8px;
     font-weight: bold;
 `;
 

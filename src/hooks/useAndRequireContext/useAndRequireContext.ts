@@ -11,7 +11,7 @@ export function useAndRequireContext<T>(
         () => {
             if (possiblyUndefinedContext === undefined)
                 throw new Error(
-                    `Attempt to use ${objectName} outside of ${providerName}`
+                    `Attempted to use ${objectName} outside of ${providerName}`
                 );
             return possiblyUndefinedContext;
         },

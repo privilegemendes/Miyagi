@@ -1,4 +1,5 @@
 import {PriorityQueue} from "@datastructures-js/priority-queue";
+
 export interface PuzzleState {
 	tiles: number[];
 	emptyIndex: number;
@@ -17,9 +18,8 @@ interface PuzzleNode {
 export type PuzzleDirection = 'up' | 'down' | 'left' | 'right' | null;
 
 export function PuzzleSolver(puzzle: number[]): { path: PuzzleDirection[] | null; pathValue: number[] } | null {
-	const pq = new PriorityQueue<PuzzleNode>((a, b) => a.totalEstimatedCost - b.totalEstimatedCost);
+	const puzzleSize = Math.sqrt(puzzle.length);
 	const visited = new Set<string>();
-
 
 	const initialState: PuzzleState = {
 		tiles: puzzle,
@@ -27,15 +27,34 @@ export function PuzzleSolver(puzzle: number[]): { path: PuzzleDirection[] | null
 		puzzleSize: Math.sqrt(puzzle.length),
 	}
 
-	const goalState = createGoalState(initialState.puzzleSize);
+	const goalState = createGoalState(initialState.tiles);
+	const heuristicValue = manhattanDistance(initialState, goalState);
+
 
 	const startNode: PuzzleNode = {
 		state: initialState,
 		parent: null,
 		costFromStart: 0,
-		estimatedCostToGoal: manhattanDistance(initialState, goalState),
-		totalEstimatedCost: manhattanDistance(initialState, goalState),
+		estimatedCostToGoal: heuristicValue,
+		totalEstimatedCost: heuristicValue,
 	};
+
+	if (puzzleSize > 3) {
+
+		return IDAstarAlgorithm(startNode, initialState, goalState);
+	}
+
+	return AStarAlgorithm(startNode, initialState, goalState);
+}
+
+function AStarAlgorithm (startNode: PuzzleNode, initialState: PuzzleState, goalState: PuzzleState): { path: PuzzleDirection[]; pathValue: number[] } | null {
+	const visited = new Set<string>();
+	const heuristicValue = manhattanDistance(initialState, goalState);
+
+	const pq = PriorityQueue.fromArray<PuzzleNode>(
+		[startNode],
+		(a, b) => a.totalEstimatedCost - b.totalEstimatedCost
+	);
 
 	pq.enqueue(startNode);
 
@@ -54,11 +73,10 @@ export function PuzzleSolver(puzzle: number[]): { path: PuzzleDirection[] | null
 				state: neighbor,
 				parent: currentNode,
 				costFromStart: currentNode.costFromStart + 1,
-				estimatedCostToGoal: manhattanDistance(neighbor, goalState),
+				estimatedCostToGoal: heuristicValue,
 				totalEstimatedCost:
 					currentNode.costFromStart +
-					1 +
-					manhattanDistance(neighbor, goalState),
+					1 + heuristicValue,
 			};
 
 			if (!visited.has(JSON.stringify(neighborNode.state.tiles))) {
@@ -69,6 +87,52 @@ export function PuzzleSolver(puzzle: number[]): { path: PuzzleDirection[] | null
 
 	return null;
 }
+
+function IDAstarAlgorithm (startNode: PuzzleNode, initialState: PuzzleState, goalState: PuzzleState): { path: PuzzleDirection[]; pathValue: number[] } | null {
+
+	const heuristicValue = manhattanDistance(initialState, goalState);
+
+	let bound = heuristicValue;
+	let result: { path: PuzzleDirection[] | null; pathValue: number[] } | null = null;
+
+	while (true) {
+		let t = search(initialState, 0, bound, goalState);
+		if (t === -1) {
+			break;
+		}
+		bound = t;
+	}
+
+	return result;
+}
+function search(node: PuzzleState, g: number, bound: number, goal: PuzzleState): number {
+	let f = g;
+
+	f += manhattanDistance(node, goal);
+
+	if (f > bound) {
+		return f;
+	}
+	if (isGoalState(node, goal)) {
+		return -1;
+	}
+	let min = Infinity;
+	const neighbors = getNeighborStates(node);
+	for (const neighbor of neighbors) {
+		if (JSON.stringify(neighbor.tiles) !== JSON.stringify(node.tiles.reverse())) {
+			let t = search(neighbor, g + 1, bound, goal);
+			if (t === -1) {
+				return -1;
+			}
+			if (t < min) {
+				min = t;
+			}
+		}
+	}
+	return min;
+}
+
+
 
 // We ignore the empty tile in the Manhattan distance function because the empty tile can be placed in any position,
 // so it does not contribute to the distance between the current state and the goal state.
@@ -207,12 +271,71 @@ function determineValueDirection(parentState: PuzzleState, currentState: PuzzleS
 function isGoalState(state: PuzzleState, goal: PuzzleState): boolean {
 	return state.tiles.every((tile, index) => tile === goal.tiles[index]);
 }
-function createGoalState(puzzleSize: number): PuzzleState {
-	const tiles: number[] = Array.from({ length: puzzleSize * puzzleSize }, (_, i) => i + 1);
-	tiles[tiles.length - 1] = 0;
+function createGoalState(puzzle: number[]): PuzzleState {
+
+	const sortedPuzzle = [...puzzle].sort(function(a, b){return a-b});
+	const emptyTileIndex = sortedPuzzle.indexOf(0);
+	sortedPuzzle.splice(emptyTileIndex, 1);
+	sortedPuzzle.push(0);
+
 	return {
-		tiles,
-		emptyIndex: tiles.length - 1,
-		puzzleSize
+		tiles: sortedPuzzle,
+		emptyIndex: sortedPuzzle.length - 1,
+		puzzleSize: Math.sqrt(sortedPuzzle.length),
 	};
+}
+
+export function shufflePuzzle(puzzle: number[]) {
+
+	const shuffledPuzzle = [...puzzle];
+
+	// Shuffle the array using the Fisher-Yates algorithm
+	for (let i = shuffledPuzzle.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[shuffledPuzzle[i], shuffledPuzzle[j]] = [shuffledPuzzle[j], shuffledPuzzle[i]];
+	}
+
+	// Check if the puzzle is solvable, if not shuffle again
+	while (!checkIfPuzzleIsSolvable(shuffledPuzzle)) {
+		for (let i = shuffledPuzzle.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[shuffledPuzzle[i], shuffledPuzzle[j]] = [shuffledPuzzle[j], shuffledPuzzle[i]];
+		}
+	}
+
+	return shuffledPuzzle;
+}
+
+/* Check if the puzzle is solvable
+1. Calculate the number of inversions in the puzzle.
+2. If the puzzle size is odd and the number of inversions is even, the puzzle is solvable.
+3. If the puzzle size is odd and the number of inversions is odd, the puzzle is not solvable.
+4. If the puzzle size is even, calculate the sum of the row number of the empty cell and the number of inversions.
+5. If the sum is odd, the puzzle is not solvable. If the sum is even, the puzzle is solvable.
+* @param {number[]} puzzle - The puzzle to be solved
+* returns {boolean} - True if the puzzle is solvable, false otherwise
+*/
+function checkIfPuzzleIsSolvable(puzzle: number[]): boolean {
+	const puzzleSize = Math.sqrt(puzzle.length);
+	let inversions = 0;
+	let emptyRowIndex = 0;
+
+	for (let i = 0; i < puzzle.length; i++) {
+		if (puzzle[i] === 0) {
+			emptyRowIndex = Math.floor(i / puzzleSize) + 1;
+			continue;
+		}
+		for (let j = i + 1; j < puzzle.length; j++) {
+			if (puzzle[i] > puzzle[j] && puzzle[j] !== 0) {
+				inversions++;
+			}
+		}
+	}
+
+	if (puzzleSize % 2 === 1) {
+		return inversions % 2 === 0;
+	} else {
+		return (inversions + emptyRowIndex) % 2 === 1;
+	}
+
 }
