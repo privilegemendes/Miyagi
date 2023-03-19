@@ -46,13 +46,13 @@ export const PuzzleLayout:FC = () => {
 	};
 
 	return <PuzzleContainer puzzleSize={puzzleSize} height={height} width={width}>
-			{puzzleSolved &&
-				<Canvas
-					ref={canvasRef}
-					width={puzzleSize}
-					height={puzzleSize}
-				/>
-			}
+			{/*{puzzleSolved &&*/}
+			{/*	<Canvas*/}
+			{/*		ref={canvasRef}*/}
+			{/*		width={puzzleSize}*/}
+			{/*		height={puzzleSize}*/}
+			{/*	/>*/}
+			{/*}*/}
 			<PuzzleCell/>
 		</PuzzleContainer>;
 }
@@ -109,9 +109,9 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
     height: 50vh;
   }
 
-  @media screen and (orientation: landscape) and (min-width: 426px) and (max-width: 768px) {
-    width: 50vw;
-    height: 45vh;
+  @media screen and (orientation: landscape) and (max-height: 768px) {
+    width: 30vw;
+    height: 40vh;
   }
   
 	/* Laptop 1024px */
@@ -119,16 +119,23 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
     width: 45vw;
     height: 40vh;
   }
-
-  @media screen and (min-width: 1025px) and (max-width: 1440px) {
-    width: 35vw;
-    height: 40vh;
-  }
   //
-  //@media screen and (min-width: 1441px) {
+  //@media screen and (orientation: landscape) and (min-width: 769px) and (max-height: 768px) {
+  //  width: 30vw;
+  //  height: 40vh;
+  //}
+  //
+  //@media screen and (orientation: landscape) and (min-width: 1025px) and (max-width: 1440px) and (max-height: 768px) {
   //  width: 35vw;
   //  height: 40vh;
   //}
+  //
+	//@media screen and (orientation: landscape) and (min-width: 1025px) and (max-width: 1440px) and (max-height: 768px) {
+	//width: 35vw;
+	//height: 40vh;
+	//}
+  //
+
 `
 const Canvas = styled.canvas`
 	background: linear-gradient(to bottom, rgba(19, 19, 33, 0.51) 0%, rgba(31, 28, 44, 0.58) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
