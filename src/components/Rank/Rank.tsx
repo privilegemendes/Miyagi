@@ -34,7 +34,7 @@ export const Rank: FC = () => {
         <NavBar/>
         <RankContainer>
             <RankTable>
-                <Title>🏆 {playerName}'s Wall of Shame 🏆</Title>
+                <Title> {playerName}'s <br/><br/> 🏆Wall of Shame 🏆</Title>
                 <RankTableHeader>
                     <RankTableCell>Rank</RankTableCell>
                     <RankTableCell>Time</RankTableCell>
@@ -68,22 +68,30 @@ const Title = styled.h1`
     font-weight: 600;
     text-align: center;
     margin-bottom: 16px;
+    
+    @media screen  and (max-width: 768px) {
+        font-size: 1rem;
+    }
 `;
 
 const RankContainer = styled.div`
     grid-area: puzzle;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: stretch;
+    background: linear-gradient(to bottom, rgba(19, 19, 33, 0.51) 0%, rgba(31, 28, 44, 0.58) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    box-shadow: 0 2px 20px 0 #000000;
+    padding: 12px;
+    margin: 12px;
 
     @media screen  and (min-width: 769px) {
         margin: 16px 16px 16px 16px;
         border: 1px solid #ffffff;
-        flex-wrap: nowrap;
         justify-content: stretch;
         border-radius: 4px;
         transition: border 0.1s ease-in-out;
-        padding: 16px;
     }
 `;
 
@@ -91,19 +99,15 @@ const RankTable = styled.div`
     
     display: flex;
     flex-direction: column;
-    align-items: center;
-    font-size: 16px;
+    align-items: stretch;
+    font-size: 1rem;
     flex: 1 1 auto;
-
-    background: linear-gradient(to bottom, rgba(19, 19, 33, 0.51) 0%, rgba(31, 28, 44, 0.58) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    box-shadow: 0 2px 20px 0 #000000;
-    padding: 16px;
-    margin: 16px;
+    flex-wrap: nowrap;
 `;
 
 const RankTableHeader = styled.div`
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
     margin-bottom: 10px;
     padding: 8px;

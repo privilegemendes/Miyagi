@@ -51,6 +51,7 @@ const SettingsButtonContainer = styled.div<NavButtonStyleProps>`
         color: ${props => props.activeRouteColor};
         transition: color 0.1s ease-in-out;
         & > h1 {
+            margin-top: 5px;
             color: ${props => props.activeRouteColor};
         }
 `;
