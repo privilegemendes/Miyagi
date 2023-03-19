@@ -14,8 +14,11 @@ import {
 
 type Context = {
 	playerName: string
-	setPlayerName:  Dispatch<SetStateAction<string>>;
-
+	puzzleSize: string
+	minimumPuzzleSize: number
+	maximumPuzzleSize: number
+	setPlayerName:  Dispatch<SetStateAction<string>>
+	setPuzzleSize:  Dispatch<SetStateAction<string>>
 }
 
 
@@ -31,17 +34,20 @@ export const GameSettingsProvider: FC<Props> =
 		}
 	) =>
 	{
+		const minimumPuzzleSize = 3;
+		const maximumPuzzleSize = 6;
 		const [playerName, setPlayerName] = useState<string>("");
-		const [minimumPuzzleSize, setMinimumPuzzleSize] = useState<number>(3);
-		const [maximumPuzzleSize, setMaximumPuzzleSize] = useState<number>(6);
+		const [puzzleSize, setPuzzleSize] = useState<string>(`${minimumPuzzleSize}`);
 
 		const contextValue = useMemo(() => ({
 			playerName,
+			puzzleSize,
 			minimumPuzzleSize,
 			maximumPuzzleSize,
+			setPuzzleSize,
 			setPlayerName,
 
-		}), [playerName, minimumPuzzleSize, maximumPuzzleSize]);
+		}), [playerName, puzzleSize, minimumPuzzleSize, maximumPuzzleSize]);
 
 		return <ContextRef.Provider value={contextValue}>
 			{children}

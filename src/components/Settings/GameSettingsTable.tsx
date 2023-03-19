@@ -15,9 +15,8 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 
 	const name = usePlayerName();
 
-	const {puzzleSize, onSliderChange} = usePuzzle();
-	const minPuzzleSize = 3;
-	const maxPuzzleSize = 6;
+	const {onSliderChange} = usePuzzle();
+
 
 	return<>
 		<NavBar/>
@@ -34,20 +33,23 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 								{setting.type === 'checkbox' && (
 									<CheckboxControl
 										type="checkbox"
-										defaultChecked={setting.default as boolean}
+										defaultChecked={setting.default}
 									/>
 								)}
-								{setting.type === 'dropdown' && (
-									<DropdownControl defaultValue={setting.default as string}>
-										{setting.options?.map(option => (
-											<option key={option} value={option}>
-												{option}
-											</option>
-										))}
-									</DropdownControl>
+								{setting.type === 'range' && (
+									<RangeControl
+										defaultValue={setting.default}
+										min={setting.min}
+										max={setting.max}
+										step={setting.step}
+										type={setting.type}
+										onChange={onSliderChange}
+									/>
 								)}
 								{setting.type === 'button' && (
-									<ButtonControl>{setting.name}</ButtonControl>
+									<ButtonControl>
+										{setting.name}
+									</ButtonControl>
 								)}
 							</SettingControl>
 						</SettingCell>
@@ -127,7 +129,7 @@ const CheckboxControl = styled.input`
   margin-right: 10px;
 `;
 
-const DropdownControl = styled.select``;
+const RangeControl = styled.input``;
 
 const ButtonControl = styled.button``;
 

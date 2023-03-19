@@ -192,7 +192,7 @@ const ToastContainer = styled.div`
     display: flex;
     align-items: flex-start;
     flex-direction: row;
-    gap: 16px;
+    gap: 12px;
     border-radius: 16px;
     color: black;
     max-width: 100%;
@@ -242,8 +242,8 @@ const Action = styled.div`
 
 const CloseButton = styled.button`
   flex-shrink: 0;
+  padding: 16px 16px 16px 0;
   border: none;
   background: transparent;
-  padding: 16px;
   cursor: pointer;
 `;

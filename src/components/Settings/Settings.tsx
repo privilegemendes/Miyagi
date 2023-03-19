@@ -2,18 +2,26 @@ import {GameSettingsTable} from "./GameSettingsTable";
 
 export type Setting = {
 	name: string;
-	type: 'checkbox' | 'dropdown' | 'button';
+	type: 'checkbox' | 'range' | 'button';
 	options?: string[];
-	default?: boolean | number | string;
+	default?: any;
+	min?: number;
+	max?: number;
+	step?: number;
 }
 
 export const Settings = () => {
+
+	// const {minPuzzleSize, maxPuzzleSize} = useSettings();
+
 	const settings: Setting[] = [
 		{
-			name: 'Difficulty',
-			type: 'dropdown',
-			options: ['Easy', 'Medium', 'Hard'],
-			default: 'Medium',
+			name: 'Grid Size',
+			type: 'range',
+			min: 3,
+			max: 6,
+			step: 1,
+			default: 3,
 		},
 		{
 			name: 'Sound Effects',
@@ -21,12 +29,21 @@ export const Settings = () => {
 			default: true,
 		},
 		{
-			name: 'Music',
+			name: 'Show Timer',
 			type: 'checkbox',
 			default: true,
 		},
 		{
-			name: 'Reset High Scores',
+			name: 'Show Hints',
+			type: 'checkbox',
+			default: true,
+		},
+		{
+			name: 'Reset Scores',
+			type: 'button',
+		},
+		{
+			name: 'Credits',
 			type: 'button',
 		},
 	];
