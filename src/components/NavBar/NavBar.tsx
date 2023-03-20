@@ -32,11 +32,6 @@ export default NavBar;
 const NavWrapper = styled.div`
   grid-area: nav;
   display: flex;
-  //flex-direction: column;
-  //flex-wrap: nowrap;
-  //justify-content: flex-end;
-  //align-items: stretch;
-  //align-content: space-around;
   
   @media screen and (min-width: 769px) {
     flex-direction: column;

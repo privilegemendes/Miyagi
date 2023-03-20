@@ -49,7 +49,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 	}
 
 	const handleHowToPlay = () => {
-		history.push('/');
+		setShowHowToPlayToast(false);
 	}
 
 	return<>
@@ -155,7 +155,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 										onClick={() => setShowHowToPlayToast(false)}
 										onClose={() => setShowHowToPlayToast(false)}
 									>
-										<Tutorial/>
+										Coming soon! 🚧
 									</Toast>)
 								}
 							</SettingControl>

@@ -58,7 +58,7 @@ export const PuzzleProvider: FC<Props> =
 	(
 		{
 			children,
-			defaultNumberOfHints = 50,
+			defaultNumberOfHints = 30,
 			defaultMovesPerHint = -1
 		}
 	) =>
@@ -81,7 +81,7 @@ export const PuzzleProvider: FC<Props> =
 		const currentPath = location!.pathname;
 
 		useEffect(() => {
-			if (gameState === "Pause" && currentPath !== '/game') {
+			if (gameState === "Pause" && currentPath !== '/') {
 				setGameState("Resume");
 				handlePause();
 			}

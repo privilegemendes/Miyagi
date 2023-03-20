@@ -29,8 +29,7 @@ const Routes: FC = () => {
         <Switch>
             <Route path="/settings"><Settings/></Route>
             <Route path="/rank"><Rank/></Route>
-			<Route path="/game"><Game/></Route>
-			<Route path="/"><Tutorial/></Route>
+			<Route path="/"><Game/></Route>
         </Switch>
     </>
 }

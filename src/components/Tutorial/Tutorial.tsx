@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from "react";
+import React, {FC, useEffect, useState} from "react";
 import ReactMarkdown from 'react-markdown'
 import NavBar from "../NavBar";
 import {Toast} from "../Toast";
@@ -11,19 +11,17 @@ import {useHistory} from "react-router-dom";
 import remarkGfm from "remark-gfm";
 
 export const Tutorial:FC = () => {
-	const playerName = usePlayerName();
 
+	const playerName = usePlayerName();
 	const [rememberMe, setRememberMe] = React.useState(false);
 	const firstTimeVisitor = useFirstTimeVisitor('firstTimeVisitor');
 	const history = useHistory();
-
-	console.log(history.location.pathname);
 
 	useEffect (() => {
 		const currentPath = history.location.pathname;
 		if (!firstTimeVisitor) {
 			setRememberMe(true);
-		}else{
+		} else {
 			history.push('/game');
 		}
 
@@ -33,10 +31,21 @@ export const Tutorial:FC = () => {
 	}, [history, firstTimeVisitor]);
 
 
+	const [content, setContent] = useState("");
+
+	useEffect(() => {
+		fetch("tutorial.md")
+			.then((res) => res.text())
+			.then((text) => setContent(text));
+	}, []);
+
+
 	return <>
 		<TutorialWrapper>
 			<TutorialContainer>
-			<ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]}/>
+				<ReactMarkdown remarkPlugins={[remarkGfm]}>
+					{content}
+				</ReactMarkdown>
 			</TutorialContainer>
 			{rememberMe && (
 			<Toast
@@ -87,21 +96,3 @@ const TutorialContainer = styled.div`
   overflow-y: auto;
   flex: 1 1 auto;
 `;
-
-const markdown = `	
-# Welcome to the Miyagi, Puzzle Solver Game!
-
-This is a fun and challenging game that involves sliding tiles around on a 3x3 grid to solve a puzzle. 
-The goal is to rearrange the tiles so that they are in the correct order, which is typically a numbered sequence from 1 to 8, 
-with an empty space in the bottom right corner.
-
-## How to Play
-To play the game, simply click and drag a tile to slide it into the empty space. You can only slide tiles that are adjacent to the empty space, 
-and you cannot move the empty space itself. Your goal is to use these movements to rearrange the tiles until they are in the correct order.
-
-The game can be quite challenging, but don't worry! You can always hit the "reset" or "hint" button to start over if you get stuck. 
-You can also time yourself to see how quickly you can solve the puzzle, and try to beat your own record.
-
-So go ahead and give the 3x3 puzzle slider game a try! 
-It's a great way to test your problem-solving skills and have some fun at the same time.
-`

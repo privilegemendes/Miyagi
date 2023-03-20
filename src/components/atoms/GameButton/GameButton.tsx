@@ -23,7 +23,7 @@ export const GameButton: React.FC<SVGProps> =
 
         const history = useHistory();
         useEffect(() => {
-            if (history.location.pathname === '/game') {
+            if (history.location.pathname === '/') {
 				setActiveRouteColor('#08a0ff');
 
 				if (gameState === 'Pause') {
@@ -41,7 +41,7 @@ export const GameButton: React.FC<SVGProps> =
 
 
         return <GameButtonContainer activeRouteColor={activeRouteColor}>
-      <Link to={'/game'}>
+      <Link to={'/'}>
           <PrimaryButton
               aria-label={text}
               onClick={onClick}

@@ -1,11 +1,14 @@
 import * as React from "react";
-import {FC} from "react";
+import {FC, useEffect} from "react";
 import {PuzzleLayout} from "../Puzzle";
 import {PuzzleControls} from "../PuzzleControls";
 import styled from "styled-components";
 import NavBar from "../NavBar";
 import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 import {usePlayerName} from "../../hooks/usePlayerName/usePlayerName";
+import useFirstTimeVisitor
+	from "../../hooks/useFirstTimeVisitor/useFirstTimeVisitor";
+import {Toast} from "../Toast";
 
 type Props = {};
 
@@ -18,7 +21,17 @@ type StyleProps = {
 export const Game: FC<Props> = () => {
 
 	const playerName = usePlayerName();
-	const { puzzleSolved, reset, gameState} = usePuzzle();
+	const { puzzleSolved, reset, gameState, startNewGame} = usePuzzle();
+
+	const [rememberMe, setRememberMe] = React.useState(false);
+	const firstTimeVisitor = useFirstTimeVisitor('firstTimeVisitor');
+
+	useEffect (() => {
+		if (!firstTimeVisitor) {
+			setRememberMe(true);
+		}
+	}, [firstTimeVisitor]);
+
 
 	return<>
 		<GameWrapper
@@ -36,6 +49,20 @@ export const Game: FC<Props> = () => {
 			</GameContainer>
 		</GameWrapper>
 		<NavBar/>
+		{
+			!rememberMe && (
+				<Toast
+					variant={"notice"}
+					enableAction={true}
+					action={"New game"}
+					onClick={() => startNewGame}
+					onClose={() => setRememberMe(false)}
+				>
+					<h1>Hi 👋, Welcome to Miyagi</h1><br/>
+					<p>To start a new game Click here 👇👇.</p>
+				</Toast>
+			)
+		}
 		</>;
 }
 const Name = styled.h1`
@@ -49,6 +76,7 @@ const Name = styled.h1`
 	font-size: 1.2rem;
   }
 `;
+
 
 const PlayerNameContainer = styled.div`
   display: flex;

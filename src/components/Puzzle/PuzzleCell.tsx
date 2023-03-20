@@ -60,11 +60,6 @@ const HighlightCell = styled.div<StyleProps>`
   height: 100%;
   width: 100%;
   cursor: cell;
-  transition: background 0.1s ease-in-out;
-  background: #13d531;
-  ${(props) => props.puzzleSolved && "background: #13d531;"}
-
-  background-color: ${(props) => (!props.reset || !props.puzzleSolved) ? (props.hint === props.value ? "#13d531" : "none"): "none"};
   animation: ${(props) => !props.reset && props.hint !== props.value ? 'flashBackground 1s ease-in-out forwards' : ""};
 
   @keyframes flashBackground {
