@@ -194,9 +194,7 @@ export const PuzzleProvider: FC<Props> =
 
 		const hideHint = useCallback(() => {
 
-			setTimeout(() => {
-				setShowHintToggle(false);
-			}, 1000);
+			setShowHintToggle(false);
 
 		}, [setShowHintToggle]);
 

@@ -53,7 +53,6 @@ const PuzzleCellContainer = styled.div`
 const HighlightCell = styled.div<StyleProps>`
   display: flex;
   border-radius: 6px;
-  background: ${props => (!props.reset || !props.puzzleSolved) ? (props.hint === props.value ? "#13d531" : "none"): "none"};
   justify-content: center;
   align-items: center;
   font-size: 2rem;
@@ -62,7 +61,20 @@ const HighlightCell = styled.div<StyleProps>`
   width: 100%;
   cursor: cell;
   transition: background 0.1s ease-in-out;
+  background: #13d531;
+  ${(props) => props.puzzleSolved && "background: #13d531;"}
 
+  background-color: ${(props) => (!props.reset || !props.puzzleSolved) ? (props.hint === props.value ? "#13d531" : "none"): "none"};
+  animation: ${(props) => !props.reset && props.hint !== props.value ? 'flashBackground 1s ease-in-out forwards' : ""};
+
+  @keyframes flashBackground {
+    0% {
+      background-color: #13d531;
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
 `;
 
 const Cell = styled.div<StyleProps>`

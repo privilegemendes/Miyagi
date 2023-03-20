@@ -84,7 +84,7 @@ const TutorialContainer = styled.div`
   flex-direction: column;
   align-content: stretch;
   padding: 12px;
-  overflow-y: scroll;
+  overflow-y: auto;
   flex: 1 1 auto;
 `;
 
