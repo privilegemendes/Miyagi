@@ -14,6 +14,7 @@ import {
 } from "../../hooks/useAndRequireContext/useAndRequireContext";
 import {SavedGame} from "../../hooks/useLoadGameData/useLoadGameData";
 import {useTimer} from "../../hooks/useTimer/useTimer";
+import {useHistory} from "react-router-dom";
 
 type Context = {
 	playerName: string
@@ -54,12 +55,14 @@ export const GameSettingsProvider: FC<Props> =
 
 
 		const {handleReset} = useTimer(0);
+		const history = useHistory();
 
 		const onPuzzleSizeChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
 			const [value] = event.target.value.split("x");
 			setPuzzleSize(parseInt(value));
 			localStorage.setItem('puzzleSize', value);
 			handleReset();
+			history.push('/');
 
 		},[setPuzzleSize, handleReset]);
 

@@ -46,7 +46,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 	}
 
 	const handleHowToPlay = () => {
-		setShowHowToPlayToast(false);
+		setShowHowToPlayToast(true);
 	}
 
 	return<>
