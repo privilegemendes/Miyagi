@@ -36,8 +36,15 @@ const NavContainer = styled.div<StyleProps>`
   align-items: flex-end;
   padding: 16px;
 
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  margin: 0 16px 0 16px;
+  ${(props) => props.gameState === "Play" && "border: 1px solid #ffffff;"};
+  ${(props) => props.gameState === "Pause" && "border: 1px solid #48a4ff;"}
+  ${(props) => props.gameState === "Resume" && "border: 1px solid #DEA883FF;"};
+  ${(props) => props.puzzleSolved && "border: 1px solid #08ffbd;"};
 
-  @media screen  and (min-width: 769px) {
+  @media screen and (min-width: 769px) {
     flex-direction: column;
     justify-content: space-around;
     background: linear-gradient(to bottom, rgba(19, 19, 33, 0.51) 0%, rgba(31, 28, 44, 0.58) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
@@ -49,7 +56,6 @@ const NavContainer = styled.div<StyleProps>`
     ${(props) => props.gameState === "Pause" && "border: 1px solid #48a4ff;"}
     ${(props) => props.gameState === "Resume" && "border: 1px solid #DEA883FF;"}
     ${(props) => props.puzzleSolved && "border: 1px solid #08ffbd;"}
-
   }
 
 `;

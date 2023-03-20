@@ -17,8 +17,6 @@ type PuzzleContainerProps = {
 export const PuzzleLayout:FC = () => {
 
 	const puzzleSize = usePuzzleSize();
-	console.log("puzzleSize in game", puzzleSize);
-
 	const {height, width} = useWindowDimensions();
 
 	return <PuzzleContainer puzzleSize={puzzleSize} height={height} width={width}>
@@ -80,7 +78,7 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
 
   @media screen and (orientation: landscape) and (max-height: 768px) {
     width: 30vw;
-    height: 40vh;
+    height: 30vh;
   }
   
 	/* Laptop 1024px */

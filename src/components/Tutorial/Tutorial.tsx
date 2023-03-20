@@ -32,7 +32,9 @@ export const Tutorial:FC = () => {
 	return <>
 		<NavBar/>
 		<TutorialWrapper>
+			<TutorialContainer>
 			<ReactMarkdown children={markdown}/>
+			</TutorialContainer>
 			{rememberMe && (
 			<Toast
 				variant={"notice"}
@@ -69,6 +71,14 @@ const TutorialWrapper = styled.div`
     transition: border 0.1s ease-in-out;
   }
   `;
+
+const TutorialContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  padding: 12px;
+  overflow-y: scroll;
+`;
 
 const markdown = `	
 # A demo of \`react-markdown\`
