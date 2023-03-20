@@ -42,6 +42,12 @@ const Name = styled.h1`
   font-size: 1.5rem;
   font-weight: 600;
   text-align: left;
+  margin-right: 8px;
+  margin-left: 8px;
+  
+  @media screen and (max-width: 768px) {
+	font-size: 1.2rem;
+  }
 `;
 
 const PlayerNameContainer = styled.div`

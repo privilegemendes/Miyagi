@@ -13,6 +13,7 @@ import {Toast} from "../Toast";
 import {GamePlayStyleProps} from "../../types/types";
 import {usePuzzleSize} from "../../hooks/usePuzzleSize/usePuzzleSize";
 import {Tutorial} from "../Tutorial";
+import {useHistory} from "react-router-dom";
 
 
 type Props = {
@@ -27,6 +28,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 	const [showCreditsToast, setShowCreditsToast] = React.useState(false);
 	const [showPuzzleSizeWarningToast, setShowPuzzleSizeWarningToast] = React.useState(false);
 	const [showHowToPlayToast, setShowHowToPlayToast] = React.useState(false);
+	const history = useHistory();
 
 	const { puzzleSolved, gameState} = usePuzzle();
 
@@ -46,7 +48,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 	}
 
 	const handleHowToPlay = () => {
-		setShowHowToPlayToast(true);
+		history.push('/');
 	}
 
 	return<>
@@ -141,7 +143,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 										enableAction={true}
 										disableIcons={true}
 										action={"Okay, now let me play!"}
-										onClick={() => setShowResetToast(false)}
+										onClick={() => setShowHowToPlayToast(false)}
 									>
 										<Tutorial/>
 									</Toast>)

@@ -23,6 +23,7 @@
     "react-error-boundary": "^3.1.4",
     "react-feather": "^2.0.10",
     "react-helmet": "^6.1.0",
+    "react-markdown": "^8.0.5",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
     "react-slider": "^2.0.4",

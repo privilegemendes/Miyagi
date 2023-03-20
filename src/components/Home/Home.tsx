@@ -16,10 +16,10 @@ import {usePortraitMode} from "../../hooks/usePortraitMode/usePortraitMode";
 import {
     PortraitModeProvider
 } from "../../contexts/portrait-mode-provider/PortraitModeProvider";
-import {Player} from "../Player";
 import {
     useWindowDimensions
 } from "../../hooks/useWindowDimensions/useWindowDimensions";
+import {Tutorial} from "../Tutorial";
 
 
 type StyleProps = {
@@ -29,10 +29,10 @@ type StyleProps = {
 const Routes: FC = () => {
     return<>
         <Switch>
-            <Route path="/game"><Game/></Route>
             <Route path="/settings"><Settings/></Route>
             <Route path="/rank"><Rank/></Route>
-            <Route path="/"><Player/></Route>
+			<Route path="/game"><Game/></Route>
+			<Route path="/"><Tutorial/></Route>
         </Switch>
     </>
 }

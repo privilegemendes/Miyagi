@@ -1,15 +1,14 @@
 import * as React from 'react';
-import {FC, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import styled from "styled-components";
 import {
-    AlertOctagon,
-    AlertTriangle,
-    CheckCircle,
-    Info,
-    X,
+	AlertOctagon,
+	AlertTriangle,
+	CheckCircle,
+	Info,
+	X,
 } from 'react-feather';
 import {Button3D} from "../atoms/Button3D";
-import clsx from "clsx";
 
 const ICONS_BY_VARIANT = {
 	notice: Info,
@@ -44,26 +43,35 @@ export const  Toast: FC<Props> =
 
   const Icon = ICONS_BY_VARIANT[variant];
 
-        const [visible, setVisible] = useState(true);
+		const [isCentered, setIsCentered] = useState(false);
 
-        const onHandleClose = () => {
-            setVisible(false);
-        };
+		useEffect(() => {
+			const body = document.body;
+			if (isCentered) {
+				body.style.overflow = 'hidden';
+			} else {
+				body.style.overflow = 'auto';
+			}
+		}, [isCentered]);
+
+		const handleTransitionEnd = () => {
+			setIsCentered(true);
+		}
 
         return <>
-            <ToastNewWrapper className={clsx(!visible ?? "hide", variant)}>
-                <ToastContainer className={variant}>
+            <ToastNewWrapper className={variant}>
+                <ToastContainer className={variant} onTransitionEnd={handleTransitionEnd}>
                     <IconContainer className={variant}>
                         {!disableIcons &&
                             <Icon size={24}/>
                         }
                     </IconContainer>
                     <ToastContent>
-                        <TextContainer className={variant}>
+                        <TextContainer>
                             {children}
                         </TextContainer>
                     </ToastContent>
-                    <CloseButton className={"close-button"} onClick={onHandleClose || onClose}>
+                    <CloseButton className={"close-button"} onClick={onClose}>
                         {!disableIcons &&
                             <X size={24}/>
                         }
@@ -96,7 +104,12 @@ const ToastNewWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     border-radius: 16px;
-    max-width: 350px;
+   	max-width: 350px;
+  
+  @media screen and (max-width: 768px) {
+	
+	width: 90%;
+  }
     
     &.hide .close-button {
         animation: slide-out 800ms cubic-bezier(0, 0.46, 0, 1.04) both;
@@ -110,19 +123,26 @@ const ToastNewWrapper = styled.div`
     }
 
     /* keyframes to animate hiding */
-    @keyframes slide-out {
-        from {
-            transform: translate(-50%, -50%);
-        }
-        to {
-            transform: translate(100%, -50%);
-        }
-    }
+    //@keyframes slide-out {
+    //    from {
+    //        transform: translate(-50%, -50%);
+    //    }
+    //    to {
+    //        transform: translate(100%, -50%);
+    //    }
+    //}
 
+	&.tutorial {
+	background: var(--color-notice-bg);
+	}
+	&.tutorial .iconContainer {
+	color: var(--color-notice);
+	}
+  
     &.notice {
         background: var(--color-notice-bg);
     }
-    &.notice .tutorial .iconContainer {
+    &.notice .iconContainer {
         color: var(--color-notice);
     }
     &.warning {
@@ -176,14 +196,9 @@ const IconContainer = styled.div`
     display: block;
   }
 
-  --color-notice: hsl(235deg 100% 50%);
-  --color-notice-bg: hsl(235deg 0% 100%);
-  --color-warning: hsl(35deg 100% 46%);
-  --color-warning-bg: hsl(40deg 100% 94%);
-  --color-success: hsl(120deg 80% 35%);
-  --color-success-bg: hsl(120deg 90% 96%);
-  --color-error: hsl(345deg 100% 50%);
-  --color-error-bg: hsl(350deg 90% 96%);
+  &.tutorial {
+    color: var(--color-notice);
+  }
   
   &.notice {
     color: var(--color-notice);
@@ -204,11 +219,12 @@ const TextContainer = styled.div`
     padding: 12px 0;
     font-weight: 600;
     text-align: center;
-  
+
   &.tutorial {
-	overflow-y: auto;
-	text-align: left;
-	font-weight: 400;
+    overflow-y: auto !important;
+	overflow-x: hidden !important;
+    text-align: left;
+    font-weight: 400;
   }
 `;
 const Action = styled.div`
