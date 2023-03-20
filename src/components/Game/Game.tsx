@@ -67,7 +67,7 @@ const GameWrapper = styled.div<StyleProps>`
   align-items: stretch;
   padding: 12px;
   flex: 1 1 auto;
-
+  
   @media screen  and (min-width: 769px) {
     margin: 16px 16px 16px 16px;
     border: 1px solid #ffffff;
@@ -87,8 +87,6 @@ const GameContainer = styled.div`
 	flex-direction: column;
 	position: relative;
   	justify-content: stretch;
-  
-	@media screen and (max-width: 768px) {
-		//padding-top: 30px;
-	}
+	margin-bottom: auto;
+	margin-top: auto;
 `;
