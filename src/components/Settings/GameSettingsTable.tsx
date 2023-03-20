@@ -14,6 +14,7 @@ import {GamePlayStyleProps} from "../../types/types";
 import {usePuzzleSize} from "../../hooks/usePuzzleSize/usePuzzleSize";
 import {Tutorial} from "../Tutorial";
 import {useHistory} from "react-router-dom";
+import {Button3D} from "../atoms/Button3D";
 
 
 type Props = {
@@ -83,19 +84,25 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 									</DropDownControl>
 								)}
 								{setting.type === 'reset-button' && (
-									<ButtonControl onClick={handleReset}>
-										{setting.name}
-									</ButtonControl>
+									<Button3D
+									size={'small'}
+									onClick={handleReset}
+									text={setting.name}
+									/>
 								)}
 								{setting.type === 'credits-button' && (
-									<ButtonControl onClick={handleCredits}>
-										{setting.name}
-									</ButtonControl>
+									<Button3D
+									size={'small'}
+									onClick={handleCredits}
+									text={setting.name}
+									/>
 								)}
 								{setting.type === 'how-top-play-button' && (
-									<ButtonControl onClick={handleHowToPlay}>
-										{setting.name}
-									</ButtonControl>
+									<Button3D
+										size={'small'}
+										onClick={handleHowToPlay}
+										text={setting.name}
+									/>
 								)}
 								{ showResetToast &&
 									(<Toast
@@ -193,8 +200,9 @@ const SettingsTable = styled.div`
 	padding: 12px;
 	
 	@media screen  and (min-width: 769px) {
-	padding: 16px;
+		padding: 16px;
 	}
+  
 `;
 
 
@@ -217,6 +225,11 @@ const SettingRow = styled.div`
     width: 100%;
   	margin-top: 12px;
     margin-bottom: 12px;
+  
+  @media screen  and (min-width: 320px) {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
 `;
 
 const SettingLabelCell = styled.div`
@@ -235,6 +248,9 @@ const SettingControlCell = styled.div`
 const SettingLabel = styled.label`
     font-weight: bold;
     font-size: 0.9rem;
+   @media screen  and (max-width: 320px) {
+	 	font-size: 0.7rem;
+   }
 `;
 
 const SettingControl = styled.div`
@@ -246,6 +262,8 @@ const CheckboxControl = styled.input`
   margin-right: 10px;
   width: 20px;
   height: 20px;
+  border-radius: 0;
+  
 `;
 
 const DropDownControl = styled.select`
@@ -257,10 +275,4 @@ const DropDownControl = styled.select`
   	font-size: 1rem;
   	border: none;
 	font-weight: bold;
-`;
-
-
-const ButtonControl = styled.button`
- width: 100px;
-  height: 40px;
 `;

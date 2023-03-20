@@ -12,6 +12,7 @@ type Props = {
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset' | undefined;
   className?: string;
+  size?: 'default' | 'small';
 }
 export const Button3D:FC<Props> =
   (
@@ -25,6 +26,7 @@ export const Button3D:FC<Props> =
         onMouseDown,
         onMouseUp,
         type,
+	  	size = 'default',
       }
   ) => {
 
@@ -40,9 +42,14 @@ export const Button3D:FC<Props> =
   >
     <span className={styles.shadow}/>
     <span className={styles.edge}/>
-    <span className={styles.front}>
-      {text || 'OK'}
-    </span>
+	  {size === 'small' ?
+		  <span className={styles.frontSmall}>
+			  {text || 'OK'}
+		  </span>
+		  : <span className={styles.front}>
+			{text || 'OK'}
+		   </span>
+	  }
   </button>;
 }
 
