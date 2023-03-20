@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FC, useEffect, useState} from 'react';
+import {FC} from 'react';
 import styled from "styled-components";
 import {
 	AlertOctagon,
@@ -43,24 +43,9 @@ export const  Toast: FC<Props> =
 
   const Icon = ICONS_BY_VARIANT[variant];
 
-		const [isCentered, setIsCentered] = useState(false);
-
-		useEffect(() => {
-			const body = document.body;
-			if (isCentered) {
-				body.style.overflow = 'hidden';
-			} else {
-				body.style.overflow = 'auto';
-			}
-		}, [isCentered]);
-
-		const handleTransitionEnd = () => {
-			setIsCentered(true);
-		}
-
         return <>
             <ToastNewWrapper className={variant}>
-                <ToastContainer className={variant} onTransitionEnd={handleTransitionEnd}>
+                <ToastContainer className={variant}>
                     <IconContainer className={variant}>
                         {!disableIcons &&
                             <Icon size={24}/>

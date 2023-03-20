@@ -68,7 +68,7 @@ const HighlightCell = styled.div<StyleProps>`
 const Cell = styled.div<StyleProps>`
   display: flex;
   border-radius: 6px;
-  //aspect-ratio: 1/1;
+  aspect-ratio: 1/1;
   height: 100%;
   width: 100%;
   transition: background 0.2s ease-in-out;

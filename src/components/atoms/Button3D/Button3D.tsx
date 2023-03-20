@@ -1,7 +1,6 @@
 import * as React from 'react';
-import {FC} from "react";
+import {FC} from 'react';
 import styles from './Button3D.module.css'
-import clsx from "clsx";
 
 type Props = {
   text?: string;
@@ -17,8 +16,6 @@ type Props = {
 export const Button3D:FC<Props> =
   (
       {
-
-        className,
         text,
         onClick,
         disabled,
@@ -26,12 +23,11 @@ export const Button3D:FC<Props> =
         onMouseDown,
         onMouseUp,
         type,
-	  	size = 'default',
       }
   ) => {
 
   return <button
-      className={clsx(className, styles.pushable)}
+      className={styles.pushable}
       onClick={onClick}
       onMouseUp={onMouseUp}
       onMouseDown={onMouseDown}
@@ -42,13 +38,8 @@ export const Button3D:FC<Props> =
   >
     <span className={styles.shadow}/>
     <span className={styles.edge}/>
-	  {size === 'small' ?
-		  <span className={styles.frontSmall}>
-			  {text || 'OK'}
-		  </span>
-		  : <span className={styles.front}>
+	 <span className={styles.front}>
 			{text || 'OK'}
-		   </span>
-	  }
+   		</span>
   </button>;
 }

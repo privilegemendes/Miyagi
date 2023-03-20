@@ -70,18 +70,18 @@ const HomeGridContainer = styled.div<StyleProps>`
     grid-template-rows: 1fr;
     grid-template-areas:
         "nav puzzle right";
-    height: 100%;
-    width: 100%;
+	  width: 100vw;
+	  height: 100vh;
     background: hsl(210deg, 30%, 8%);
     color: #fff;
     
     @media screen and (max-width: 768px) {
-        grid-template-rows: 1fr 0.1fr;
+        grid-template-rows: 1fr 0.2fr;
         grid-template-columns: 1fr min(65ch, 100%) 1fr;
         grid-template-areas:  
         "left puzzle right" 
         "left nav right";
-        height: ${props => props.height - 24}px;
+        //height: ${props => props.height - 24}px;
     }
     
 `;

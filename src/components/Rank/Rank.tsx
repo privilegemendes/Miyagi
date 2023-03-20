@@ -69,6 +69,7 @@ const Title = styled.h1`
 const RankContainer = styled.div<GamePlayStyleProps>`
     grid-area: puzzle;
     display: flex;
+  	flex: 1 1 auto;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-between;
@@ -88,6 +89,7 @@ const RankContainer = styled.div<GamePlayStyleProps>`
         justify-content: stretch;
         border-radius: 4px;
         transition: border 0.1s ease-in-out;
+      	flex: 1 1 auto;
     }
 `;
 
@@ -122,4 +124,5 @@ const RankTableRow = styled.div`
     width: 100%;
     margin-bottom: 5px;
     padding: 5px;
+  
 `;

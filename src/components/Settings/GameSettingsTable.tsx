@@ -174,6 +174,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 const SettingsContainer = styled.div<GamePlayStyleProps>`
     grid-area: puzzle;
     display: flex;
+  	flex: 1 1 auto;
     flex-direction: column;
     flex-wrap: nowrap;
     align-content: stretch;
@@ -192,6 +193,7 @@ const SettingsContainer = styled.div<GamePlayStyleProps>`
         flex-wrap: nowrap;
         border-radius: 4px;
         transition: border 0.1s ease-in-out;
+      	flex: 1 1 auto;
     }
 `;
 

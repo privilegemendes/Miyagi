@@ -63,6 +63,9 @@ const GameWrapper = styled.div<StyleProps>`
   grid-area: puzzle;
   display: flex;
   flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  padding: 12px;
 
   @media screen  and (min-width: 769px) {
     margin: 16px 16px 16px 16px;
@@ -79,14 +82,12 @@ const GameWrapper = styled.div<StyleProps>`
   `;
 
 const GameContainer = styled.div`
-	
-	margin: auto;
 	display: flex;
 	flex-direction: column;
 	position: relative;
   	justify-content: stretch;
   
 	@media screen and (max-width: 768px) {
-		padding-top: 30px;
+		//padding-top: 30px;
 	}
 `;

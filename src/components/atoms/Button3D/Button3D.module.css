@@ -7,7 +7,6 @@
     cursor: pointer;
     outline-offset: 4px;
     transition: filter 250ms;
-    margin: 8px;
 }
 .shadow {
     position: absolute;
@@ -39,33 +38,16 @@
             hsl(340deg 100% 16%) 100%
     );
 }
-
-.pushable[disabled] .edge {
-    background: linear-gradient(
-            to left,
-            hsl(340deg 10% 16%) 0%,
-            hsl(340deg 10% 32%) 8%,
-            hsl(340deg 10% 32%) 92%,
-            hsl(340deg 10% 16%) 100%
-    );
-}
-
-.pushable[disabled] .front  {
-    background: hsl(345deg 10% 47%);
-}
-
-.pushable[disabled] .frontSmall  {
-    background: hsl(345deg 10% 47%);
-}
-
 .front {
     display: block;
     position: relative;
-    padding: 12px 42px;
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     border-radius: 12px;
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: white;
-    font-weight: bold;
     background: hsl(345deg 100% 47%);
     will-change: transform;
     transform: translateY(-4px);
@@ -74,34 +56,17 @@
             600ms
             cubic-bezier(.3, .7, .4, 1);
 }
-
-.frontSmall {
-    display: block;
-    position: relative;
-    padding: 10px 24px;
-    border-radius: 12px;
-    font-size: 0.9rem;
-    width: 100px;
-    color: white;
-    font-weight: bold;
-    background: hsl(345deg 100% 47%);
-    will-change: transform;
-    transform: translateY(-4px);
-    transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
-
-}
-
 .pushable:hover {
     filter: brightness(110%);
 }
-.pushable:hover .front .frontSmall {
+.pushable:hover .front {
     transform: translateY(-6px);
     transition:
             transform
             250ms
             cubic-bezier(.3, .7, .4, 1.5);
 }
-.pushable:active .front .frontSmall {
+.pushable:active .front {
     transform: translateY(-2px);
     transition: transform 34ms;
 }
@@ -120,19 +85,16 @@
     outline: none;
 }
 
-
-@media (max-width: 768px) {
-    .front {
-        /*font-size: 1rem;*/
-    }
+.pushable[disabled] .edge {
+    background: linear-gradient(
+            to left,
+            hsl(340deg 10% 16%) 0%,
+            hsl(340deg 10% 32%) 8%,
+            hsl(340deg 10% 32%) 92%,
+            hsl(340deg 10% 16%) 100%
+    );
 }
 
-
-@media (max-width: 320px) {
-    .frontSmall {
-        /*font-size: 1rem;*/
-        font-size: 0.6rem;
-        width: 70px;
-        padding: 4px 16px;
-    }
+.pushable[disabled] .front  {
+    background: hsl(345deg 10% 47%);
 }

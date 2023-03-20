@@ -25,30 +25,34 @@ export const PuzzleControls:FC = () => {
 		}
 	},[puzzleSize]);
 
-	return <SettingsContainer>
+	return <PuzzleControlsContainer>
 		<StatsContainer>
 			<Stats>{formatTime(timer)}</Stats>
 			<Stats>Moves: {numberOfMoves}</Stats>
 			{showHints ? <Stats>Hints: {hintsUsed}</Stats> : <Stats>Hints: 🚫</Stats>}
 		</StatsContainer>
 		<GameController>
-			<Button3D
-				text={gameState}
-				onClick={startNewGame}
-				disabled={puzzleSolved}
-			/>
+			<HintButton>
+				<Button3D
+					text={"Hint"}
+					onMouseDown={showHint}
+					onMouseUp={hideHint}
+					onMouseLeave={hideHint}
+					disabled={reset || puzzleSolved || puzzleSize > 3 || hintsUsed === 0}
+				/>
+			</HintButton>
+			<PlayButton>
+				<Button3D
+					text={gameState}
+					onClick={startNewGame}
+					disabled={puzzleSolved}
+				/>
+			</PlayButton>
+			<ResetButton>
+				<Button3D text={"Reset"} onClick={resetGame}/>
+			</ResetButton>
 		</GameController>
-		<GameController>
-			<Button3D
-				text={"Hint"}
-				onMouseDown={showHint}
-				onMouseUp={hideHint}
-				onMouseLeave={hideHint}
-				disabled={reset || puzzleSolved || puzzleSize > 3 || hintsUsed === 0}
-			/>
-			<Button3D text={"Reset"} onClick={resetGame}/>
-		</GameController>
-	</SettingsContainer>;
+	</PuzzleControlsContainer>;
 }
 
 const StatsContainer = styled.div`
@@ -60,20 +64,23 @@ const StatsContainer = styled.div`
   margin-bottom: 16px;
 `;
 
-const SettingsContainer = styled.div`
+const PuzzleControlsContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 16px;
-  margin-left: auto;
-  margin-right: auto;
   border-radius: 8px;
+  align-items: stretch;
 `
 
 const GameController = styled.div `
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin: auto;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex: 1 1 auto;
+  gap: 16px;
 `;
 
 const Stats = styled.h2`
@@ -83,3 +90,17 @@ const Stats = styled.h2`
   flex-direction: row;
 `;
 
+const PlayButton = styled.div`
+	flex: 0 1 auto;
+	align-items: center ;
+`;
+
+const ResetButton = styled.div`
+	flex: 0 1 auto;
+  	align-items: center ;
+`;
+
+const HintButton = styled.div`
+  flex: 0 1 auto;
+  align-items: center ;
+`;

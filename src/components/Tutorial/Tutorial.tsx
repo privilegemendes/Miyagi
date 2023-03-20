@@ -66,6 +66,7 @@ const TutorialWrapper = styled.div`
   box-shadow: 0 2px 20px 0 #000000;
   padding: 12px;
   margin: 12px;
+  flex: 1 1 auto;
 
   @media screen  and (min-width: 769px) {
     margin: 16px 16px 16px 16px;
@@ -74,6 +75,7 @@ const TutorialWrapper = styled.div`
     justify-content: stretch;
     border-radius: 4px;
     transition: border 0.1s ease-in-out;
+    flex: 1 1 auto;
   }
   `;
 
@@ -83,6 +85,7 @@ const TutorialContainer = styled.div`
   align-content: stretch;
   padding: 12px;
   overflow-y: scroll;
+  flex: 1 1 auto;
 `;
 
 const markdown = `	
