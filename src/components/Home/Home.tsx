@@ -70,8 +70,8 @@ const HomeGridContainer = styled.div<StyleProps>`
     grid-template-rows: 1fr;
     grid-template-areas:
         "nav puzzle right";
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     background: hsl(210deg, 30%, 8%);
     color: #fff;
     

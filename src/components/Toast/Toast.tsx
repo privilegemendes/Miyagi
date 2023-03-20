@@ -105,6 +105,7 @@ const ToastNewWrapper = styled.div`
     align-items: center;
     border-radius: 16px;
    	max-width: 350px;
+    overflow: hidden !important;
   
   @media screen and (max-width: 768px) {
 	
@@ -121,16 +122,6 @@ const ToastNewWrapper = styled.div`
             transform: translate(100%, -50%);
         }
     }
-
-    /* keyframes to animate hiding */
-    //@keyframes slide-out {
-    //    from {
-    //        transform: translate(-50%, -50%);
-    //    }
-    //    to {
-    //        transform: translate(100%, -50%);
-    //    }
-    //}
 
 	&.tutorial {
 	background: var(--color-notice-bg);

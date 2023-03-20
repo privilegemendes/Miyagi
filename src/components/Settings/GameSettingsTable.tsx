@@ -110,6 +110,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 										enableAction={true}
 										disableIcons={false}
 										onClick={() => setShowResetToast(false)}
+										onClose={() => setShowResetToast(false)}
 									>
 										Gaming data has been successfully deleted.
 									</Toast>)
@@ -121,6 +122,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 										disableIcons={true}
 										action={"Okay, now let me play!"}
 										onClick={() => setShowCreditsToast(false)}
+										onClose={() => setShowCreditsToast(false)}
 									>
 										<div>👋 Designed, destroyed and tweaked by <br/><br/>
 											<a href={`https://lege.dev`}
@@ -140,6 +142,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 										disableIcons={false}
 										action={"Okay, I don't need hints because I'm a badass."}
 										onClick={() => setShowPuzzleSizeWarningToast(false)}
+										onClose={() => setShowPuzzleSizeWarningToast(false)}
 									>
 										Oopsie! 😭 Hints are currently only available for puzzles of size 3x3.
 									</Toast>)
@@ -151,6 +154,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 										disableIcons={true}
 										action={"Okay, now let me play!"}
 										onClick={() => setShowHowToPlayToast(false)}
+										onClose={() => setShowHowToPlayToast(false)}
 									>
 										<Tutorial/>
 									</Toast>)

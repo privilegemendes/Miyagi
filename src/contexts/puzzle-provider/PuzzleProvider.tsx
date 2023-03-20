@@ -85,13 +85,14 @@ export const PuzzleProvider: FC<Props> =
 				setGameState("Resume");
 				handlePause();
 			}
+
 		}, [gameState,currentPath, handlePause]);
+
 
 		useEffect(() => {
 			const newPuzzle = generateOrderedPuzzle(puzzleSize);
 			setPuzzle(newPuzzle);
 		}, [puzzleSize]);
-
 
 		const checkWinCondition = useCallback((puzzle: number[]) => {
 			const isPuzzleSolved = puzzle.every((puzzlePiece, index) => {

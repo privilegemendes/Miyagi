@@ -8,6 +8,8 @@ import useFirstTimeVisitor
 	from "../../hooks/useFirstTimeVisitor/useFirstTimeVisitor";
 import {useHistory} from "react-router-dom";
 
+import remarkGfm from "remark-gfm";
+
 export const Tutorial:FC = () => {
 	const playerName = usePlayerName();
 
@@ -21,6 +23,8 @@ export const Tutorial:FC = () => {
 		const currentPath = history.location.pathname;
 		if (!firstTimeVisitor) {
 			setRememberMe(true);
+		}else{
+			history.push('/game');
 		}
 
 		if (currentPath !== undefined || null) {
@@ -33,7 +37,7 @@ export const Tutorial:FC = () => {
 		<NavBar/>
 		<TutorialWrapper>
 			<TutorialContainer>
-			<ReactMarkdown children={markdown}/>
+			<ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]}/>
 			</TutorialContainer>
 			{rememberMe && (
 			<Toast
@@ -54,6 +58,7 @@ export const Tutorial:FC = () => {
 
 const TutorialWrapper = styled.div`
   grid-area: puzzle;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-content: stretch;
@@ -81,20 +86,19 @@ const TutorialContainer = styled.div`
 `;
 
 const markdown = `	
-# A demo of \`react-markdown\`
+# Welcome to the Miyagi, Puzzle Solver Game!
 
-👉 Changes are re-rendered as you type.
+This is a fun and challenging game that involves sliding tiles around on a 3x3 grid to solve a puzzle. 
+The goal is to rearrange the tiles so that they are in the correct order, which is typically a numbered sequence from 1 to 8, 
+with an empty space in the bottom right corner.
 
-👈 Try writing some markdown on the left.
+## How to Play
+To play the game, simply click and drag a tile to slide it into the empty space. You can only slide tiles that are adjacent to the empty space, 
+and you cannot move the empty space itself. Your goal is to use these movements to rearrange the tiles until they are in the correct order.
 
-## Overview
+The game can be quite challenging, but don't worry! You can always hit the "reset" or "hint" button to start over if you get stuck. 
+You can also time yourself to see how quickly you can solve the puzzle, and try to beat your own record.
 
-* Follows [CommonMark](https://commonmark.org)
-* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
-* Renders actual React elements instead of using \`dangerouslySetInnerHTML\`
-* Lets you define your own components (to render \`MyHeading\` instead of \`h1\`)
-* Has a lot of plugins
-
-## Table of contents
-
+So go ahead and give the 3x3 puzzle slider game a try! 
+It's a great way to test your problem-solving skills and have some fun at the same time.
 `

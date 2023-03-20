@@ -31,14 +31,14 @@ export const PuzzleControls:FC = () => {
 			<Stats>Moves: {numberOfMoves}</Stats>
 			{showHints ? <Stats>Hints: {hintsUsed}</Stats> : <Stats>Hints: 🚫</Stats>}
 		</StatsContainer>
-		<NewGame>
+		<GameController>
 			<Button3D
 				text={gameState}
 				onClick={startNewGame}
 				disabled={puzzleSolved}
 			/>
-		</NewGame>
-		<NewGame>
+		</GameController>
+		<GameController>
 			<Button3D
 				text={"Hint"}
 				onMouseDown={showHint}
@@ -47,7 +47,7 @@ export const PuzzleControls:FC = () => {
 				disabled={reset || puzzleSolved || puzzleSize > 3 || hintsUsed === 0}
 			/>
 			<Button3D text={"Reset"} onClick={resetGame}/>
-		</NewGame>
+		</GameController>
 	</SettingsContainer>;
 }
 
@@ -69,7 +69,7 @@ const SettingsContainer = styled.div`
   border-radius: 8px;
 `
 
-const NewGame = styled.div `
+const GameController = styled.div `
   display: flex;
   flex-direction: row;
   justify-content: space-between;
