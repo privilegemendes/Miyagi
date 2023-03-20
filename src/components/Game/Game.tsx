@@ -21,7 +21,6 @@ export const Game: FC<Props> = () => {
 	const { puzzleSolved, reset, gameState} = usePuzzle();
 
 	return<>
-		<NavBar/>
 		<GameWrapper
 			reset={reset}
 			puzzleSolved={puzzleSolved}
@@ -36,6 +35,7 @@ export const Game: FC<Props> = () => {
 				<PuzzleControls/>
 			</GameContainer>
 		</GameWrapper>
+		<NavBar/>
 		</>;
 }
 const Name = styled.h1`
@@ -66,6 +66,7 @@ const GameWrapper = styled.div<StyleProps>`
   justify-content: stretch;
   align-items: stretch;
   padding: 12px;
+  flex: 1 1 auto;
 
   @media screen  and (min-width: 769px) {
     margin: 16px 16px 16px 16px;

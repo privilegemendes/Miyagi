@@ -8,16 +8,14 @@ import {Game} from "../Game";
 import {Settings} from "../Settings";
 import {Rank} from "../Rank";
 import {
-    GameSettingsProvider,
+	GameSettingsProvider,
 } from "../../contexts/game-settings-provider/GameSettingsProvider";
-
-import {ZoomDisabler} from "../ZoomDisabler";
 import {usePortraitMode} from "../../hooks/usePortraitMode/usePortraitMode";
 import {
-    PortraitModeProvider
+	PortraitModeProvider
 } from "../../contexts/portrait-mode-provider/PortraitModeProvider";
 import {
-    useWindowDimensions
+	useWindowDimensions
 } from "../../hooks/useWindowDimensions/useWindowDimensions";
 import {Tutorial} from "../Tutorial";
 
@@ -41,19 +39,20 @@ export const Home:FC = () => {
     usePortraitMode();
     const {height, width} = useWindowDimensions();
   return <>
-          <ZoomDisabler/>
 		  <Router>
 			  <PortraitModeProvider>
-				  <HomeGridContainer width={width} height={height}>
-					  <GameSettingsProvider>
-						  <PuzzleProvider>
-							  <Routes/>
-							  <RightContainer>
-								  <GitHubShareButton/>
-							  </RightContainer>
-						  </PuzzleProvider>
-					  </GameSettingsProvider>
-				  </HomeGridContainer>
+				  <HomeGridWrapper width={width} height={height}>
+					  <HomeGridContainer>
+						  <GameSettingsProvider>
+							  <PuzzleProvider>
+								  <Routes/>
+								  <RightContainer>
+									  <GitHubShareButton/>
+								  </RightContainer>
+							  </PuzzleProvider>
+						  </GameSettingsProvider>
+					  </HomeGridContainer>
+				  </HomeGridWrapper>
 			  </PortraitModeProvider>
 		  </Router>
         </>
@@ -63,27 +62,45 @@ export const Home:FC = () => {
 export default Home;
 
 
-const HomeGridContainer = styled.div<StyleProps>`
+const HomeGridWrapper = styled.div<StyleProps>`
     position: relative;
     display: grid;
     grid-template-columns: 1fr min(65ch, 100%) 1fr;
     grid-template-rows: 1fr;
     grid-template-areas:
-        "nav puzzle right";
+        "left puzzle right";
 	  width: 100vw;
 	  height: 100vh;
     background: hsl(210deg, 30%, 8%);
     color: #fff;
     
     @media screen and (max-width: 768px) {
-        grid-template-rows: 1fr 0.2fr;
+        //grid-template-rows: 1fr 0.2fr;
         grid-template-columns: 1fr min(65ch, 100%) 1fr;
         grid-template-areas:  
-        "left puzzle right" 
-        "left nav right";
+        "left puzzle right" ;
+        //"left nav right";
         //height: ${props => props.height - 24}px;
     }
     
+`;
+
+const HomeGridContainer = styled.div`
+    grid-area: puzzle;
+  	display: flex;
+  	flex-direction: column;
+  
+  
+  @media screen and (min-width: 769px) {
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: stretch;
+	align-content: center;
+	
+	
+  }
+  
 `;
 
 

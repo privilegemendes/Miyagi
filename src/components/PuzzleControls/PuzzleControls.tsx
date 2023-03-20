@@ -61,7 +61,7 @@ const StatsContainer = styled.div`
   align-items: stretch;
   flex-wrap: nowrap;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 34px;
 `;
 
 const PuzzleControlsContainer = styled.div`
@@ -70,6 +70,8 @@ const PuzzleControlsContainer = styled.div`
   margin-top: 16px;
   border-radius: 8px;
   align-items: stretch;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 `
 
 const GameController = styled.div `

@@ -198,7 +198,7 @@ export const PuzzleProvider: FC<Props> =
 				setShowHintToggle(false);
 			}, 1000);
 
-		}, []);
+		}, [setShowHintToggle]);
 
 		const contextValue = useMemo(() => ({
 			puzzle,
@@ -235,7 +235,7 @@ export const PuzzleProvider: FC<Props> =
 					variant={"warning"}
 					enableAction={true}
 					disableIcons={false}
-					action={"Okay, I don't need hints because I'm a badass."}
+					action={"I don't need hints because I'm a badass."}
 					onClick={() => setShowHintToggle(false)}
 				>
 					Oopsie! 😭 Hints are currently only available for puzzles of size 3x3.

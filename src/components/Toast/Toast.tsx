@@ -104,7 +104,7 @@ const ToastNewWrapper = styled.div`
 
     @keyframes slide-in {
         from {
-            transform: translate(100%, -50%);
+           opacity: 0;
         }
     }
 
@@ -204,8 +204,9 @@ const TextContainer = styled.div`
   }
 `;
 const Action = styled.div`
-    margin: 0;
     flex-direction: row;
+    margin: 8px;
+  
 `;
 
 const CloseButton = styled.button`

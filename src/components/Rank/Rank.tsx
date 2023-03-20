@@ -23,7 +23,6 @@ export const Rank: FC = () => {
     }, []);
 
     return <>
-        <NavBar/>
         <RankContainer puzzleSolved={puzzleSolved} gameState={gameState}>
             <RankTable>
                 <Title> {playerName}'s <br/><br/> 🏆 Wall of Shame 🏆</Title>
@@ -51,7 +50,7 @@ export const Rank: FC = () => {
                 }
             </RankTable>
         </RankContainer>
-
+		<NavBar/>
     </>;
 };
 

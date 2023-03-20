@@ -53,7 +53,6 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 	}
 
 	return<>
-		<NavBar/>
 		<SettingsContainer gameState={gameState} puzzleSolved={puzzleSolved}>
 			<SettingsTable>
 				<Title><div>⚙️</div><div>Settings</div></Title>
@@ -131,7 +130,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 											>
 												😝 Privilege Mendes 😝
 											</a><br/><br/>
-											Special thanks to 🦄 <span style={{color:"purple"}}> Ursenna </span> 🦄 for testing dealing with my nonsense while I was building this.
+											Special thanks to 🦄 <span style={{color:"purple"}}> Ursenna </span> 🦄 for testing and dealing with my nonsense while I was building this game.
 										</div>
 									</Toast>)
 								}
@@ -165,6 +164,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 				))}
 			</SettingsTable>
 		</SettingsContainer>
+		<NavBar/>
 	</>
 
 };

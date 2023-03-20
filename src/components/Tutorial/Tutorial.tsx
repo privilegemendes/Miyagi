@@ -34,7 +34,6 @@ export const Tutorial:FC = () => {
 
 
 	return <>
-		<NavBar/>
 		<TutorialWrapper>
 			<TutorialContainer>
 			<ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]}/>
@@ -53,6 +52,7 @@ export const Tutorial:FC = () => {
 
 			</Toast>)}
 		</TutorialWrapper>
+		<NavBar/>
 	</>
 };
 
