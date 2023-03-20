@@ -85,7 +85,6 @@ const GameContainer = styled.div`
 	flex-direction: column;
 	position: relative;
   	justify-content: stretch;
-	
   
 	@media screen and (max-width: 768px) {
 		padding-top: 30px;

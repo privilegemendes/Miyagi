@@ -16,15 +16,3 @@ export const ErrorFallback: FC<FallbackProps> =({error, resetErrorBoundary}) =>{
             {error.message}
         </Toast>;
 }
-
-
-export const ErrorRouterFallback: FC = () =>{
-
-    return <Toast
-        variant="error"
-        action={"Try again"}
-        //onClick={resetErrorBoundary}
-    >
-        {myErrorPrompts.somethingWentWrong}
-    </Toast>;
-}

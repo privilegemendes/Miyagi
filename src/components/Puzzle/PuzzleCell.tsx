@@ -49,7 +49,6 @@ const PuzzleCellContainer = styled.div`
   height: 1fr;
   width: 1fr;
   padding: 2px;
-  //border: 1px solid #48a4ff;
 `;
 const HighlightCell = styled.div<StyleProps>`
   display: flex;
@@ -92,35 +91,3 @@ const Cell = styled.div<StyleProps>`
 
 
 `;
-  // /* If the puzzle is solved, use a different border color */
-  // ${(props) => props.puzzleSolved && "border-color: #08ffbd;"}
-  //
-  //   /* If the value is zero, don't display a border */
-  // ${(props) => props.value === 0 && "border-style: none;"}
-  //
-  //   /* If the puzzle is not solved, the value is not zero, and the game is paused, display a border */
-  // ${(props) =>
-  //         !props.puzzleSolved &&
-  //         props.value !== 0 &&
-  //         props.isPaused &&
-  //         !props.reset &&
-  //         "border-style: solid; border-color: #48a4ff;"}
-  //
-  //   /* If the reset button has been pressed, always display a border */
-  // ${(props) => props.reset && "border-style: solid; border-color: #ffffff;"}
-
-
-
-
-// background: ${props =>
-// 	props.isPaused && !props.reset && !props.isActive ? "#e80909"
-// : props.reset
-// ? "rgba(19,19,33,0.51)"
-// : props.puzzleSolved
-// ? "#13d531"
-// : (
-//   	props.value === 0
-//   	? "none"
-// 	: "#0066ff"
-// )
-// };

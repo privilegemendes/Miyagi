@@ -122,5 +122,4 @@ const RankTableRow = styled.div`
     width: 100%;
     margin-bottom: 5px;
     padding: 5px;
-    //background-color: #fff;
 `;

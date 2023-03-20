@@ -6,14 +6,8 @@ import {ErrorFallback} from "../ErrorFallback";
 
 export const App: FC = () =>
 {
-	const onReset = () => {
-		"";
-	}
-
 	return <ErrorBoundary
-		FallbackComponent={ErrorFallback}
-		onReset={onReset}
-	>
+		FallbackComponent={ErrorFallback}>
 		<Home/>
 	</ErrorBoundary>
 
