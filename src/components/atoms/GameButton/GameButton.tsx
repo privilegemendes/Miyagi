@@ -4,6 +4,7 @@ import {Link, useHistory} from "react-router-dom";
 import styled from "styled-components";
 import {useEffect} from "react";
 import {NavButtonStyleProps, SVGProps} from "../../../types/types";
+import {usePuzzle} from "../../../contexts/puzzle-provider/PuzzleProvider";
 
 
 
@@ -18,14 +19,25 @@ export const GameButton: React.FC<SVGProps> =
     ) => {
 
         const [activeRouteColor, setActiveRouteColor] = React.useState<string>('#ffffff');
-
+		const { puzzleSolved, gameState} = usePuzzle();
 
         const history = useHistory();
         useEffect(() => {
             if (history.location.pathname === '/game') {
-                setActiveRouteColor('#08a0ff');
-            }
-        }, [history]);
+				setActiveRouteColor('#08a0ff');
+
+				if (gameState === 'Pause') {
+					setActiveRouteColor('#08a0ff');
+				}
+
+				if (gameState === 'Resume') {
+					setActiveRouteColor('#E06921FF');
+				}
+				if (puzzleSolved) {
+					setActiveRouteColor('#08ffbd');
+				}
+			}
+        }, [history, gameState, puzzleSolved]);
 
 
         return <GameButtonContainer activeRouteColor={activeRouteColor}>

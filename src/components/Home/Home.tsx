@@ -27,22 +27,14 @@ type StyleProps = {
     width: number;
 }
 const Routes: FC = () => {
-    return <Router>
+    return<>
         <Switch>
-            <Route path="/game">
-                <Game/>
-            </Route>
-            <Route path="/settings">
-                <Settings/>
-            </Route>
-            <Route path="/rank">
-                <Rank/>
-            </Route>
-            <Route path="/">
-                <Player/>
-            </Route>
+            <Route path="/game"><Game/></Route>
+            <Route path="/settings"><Settings/></Route>
+            <Route path="/rank"><Rank/></Route>
+            <Route path="/"><Player/></Route>
         </Switch>
-    </Router>
+    </>
 }
 export const Home:FC = () => {
 
@@ -50,18 +42,20 @@ export const Home:FC = () => {
     const {height, width} = useWindowDimensions();
   return <>
           <ZoomDisabler/>
-          <PortraitModeProvider>
-              <HomeGridContainer width={width} height={height}>
-                  <GameSettingsProvider>
-                      <PuzzleProvider>
-                             <Routes/>
-                          <RightContainer>
-                              <GitHubShareButton/>
-                          </RightContainer>
-                      </PuzzleProvider>
-                  </GameSettingsProvider>
-              </HomeGridContainer>
-          </PortraitModeProvider>
+		  <Router>
+			  <PortraitModeProvider>
+				  <HomeGridContainer width={width} height={height}>
+					  <GameSettingsProvider>
+						  <PuzzleProvider>
+							  <Routes/>
+							  <RightContainer>
+								  <GitHubShareButton/>
+							  </RightContainer>
+						  </PuzzleProvider>
+					  </GameSettingsProvider>
+				  </HomeGridContainer>
+			  </PortraitModeProvider>
+		  </Router>
         </>
 
 }

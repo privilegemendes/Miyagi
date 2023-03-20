@@ -1,11 +1,18 @@
 import * as React from 'react';
-import {FC} from 'react';
+import {FC, useEffect} from 'react';
 import styled from "styled-components";
 
 import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 import NavBar from "../NavBar";
-import {usePlayerName} from "../../hooks/usePlayerName/usePlayerName";
 import {Setting} from "./Settings";
+import {
+	deleteGameData,
+	useSettings
+} from "../../contexts/game-settings-provider/GameSettingsProvider";
+import {Toast} from "../Toast";
+import {GamePlayStyleProps} from "../../types/types";
+import {usePuzzleSize} from "../../hooks/usePuzzleSize/usePuzzleSize";
+import {Tutorial} from "../Tutorial";
 
 
 type Props = {
@@ -13,46 +20,134 @@ type Props = {
 }
 export const GameSettingsTable: FC<Props> = ({settings}) => {
 
-	const name = usePlayerName();
 
-	const {onSliderChange} = usePuzzle();
+	const {onPuzzleSizeChange} = useSettings();
+	const puzzleSize = usePuzzleSize();
+	const [showResetToast, setShowResetToast] = React.useState(false);
+	const [showCreditsToast, setShowCreditsToast] = React.useState(false);
+	const [showPuzzleSizeWarningToast, setShowPuzzleSizeWarningToast] = React.useState(false);
+	const [showHowToPlayToast, setShowHowToPlayToast] = React.useState(false);
 
+	const { puzzleSolved, gameState} = usePuzzle();
+
+	useEffect(() => {
+		if (puzzleSize > 3) {
+			setShowPuzzleSizeWarningToast(true);
+		}
+	},[puzzleSize]);
+
+	const handleReset = () => {
+		deleteGameData();
+		setShowResetToast(true);
+	}
+
+	const handleCredits = () => {
+		setShowCreditsToast(true);
+	}
+
+	const handleHowToPlay = () => {
+		setShowHowToPlayToast(true);
+	}
 
 	return<>
 		<NavBar/>
-		<SettingsContainer>
+		<SettingsContainer gameState={gameState} puzzleSolved={puzzleSolved}>
 			<SettingsTable>
 				<Title><div>⚙️</div><div>Settings</div></Title>
 				{settings.map(setting => (
 					<SettingRow key={setting.name}>
-						<SettingCell>
+						<SettingLabelCell>
 							<SettingLabel>{setting.name}</SettingLabel>
-						</SettingCell>
-						<SettingCell>
+						</SettingLabelCell>
+						<SettingControlCell>
 							<SettingControl>
 								{setting.type === 'checkbox' && (
 									<CheckboxControl
 										type="checkbox"
 										defaultChecked={setting.default}
+										disabled={setting.disabled}
 									/>
 								)}
-								{setting.type === 'range' && (
-									<RangeControl
+								{setting.type === 'dropdown' && (
+									<DropDownControl
 										defaultValue={setting.default}
-										min={setting.min}
-										max={setting.max}
-										step={setting.step}
-										type={setting.type}
-										onChange={onSliderChange}
-									/>
+										onChange={onPuzzleSizeChange}
+									>
+										{setting.options?.map(option => (
+											<option key={option} value={option}>
+												{option}
+											</option>
+										))}
+									</DropDownControl>
 								)}
-								{setting.type === 'button' && (
-									<ButtonControl>
+								{setting.type === 'reset-button' && (
+									<ButtonControl onClick={handleReset}>
 										{setting.name}
 									</ButtonControl>
 								)}
+								{setting.type === 'credits-button' && (
+									<ButtonControl onClick={handleCredits}>
+										{setting.name}
+									</ButtonControl>
+								)}
+								{setting.type === 'how-top-play-button' && (
+									<ButtonControl onClick={handleHowToPlay}>
+										{setting.name}
+									</ButtonControl>
+								)}
+								{ showResetToast &&
+									(<Toast
+										variant={"success"}
+										enableAction={true}
+										disableIcons={false}
+										onClick={() => setShowResetToast(false)}
+									>
+										Gaming data has been successfully deleted.
+									</Toast>)
+								}
+								{ showCreditsToast &&
+									(<Toast
+										variant={"notice"}
+										enableAction={true}
+										disableIcons={true}
+										action={"Okay, now let me play!"}
+										onClick={() => setShowCreditsToast(false)}
+									>
+										<div>👋 Designed, destroyed and tweaked by <br/><br/>
+											<a href={`https://lege.dev`}
+											   style={{textDecoration: "none"}}
+
+											>
+												😝 Privilege Mendes 😝
+											</a><br/><br/>
+											Special thanks to 🦄 <span style={{color:"purple"}}> Ursenna </span> 🦄 for testing dealing with my nonsense while I was building this.
+										</div>
+									</Toast>)
+								}
+								{ showPuzzleSizeWarningToast &&
+									(<Toast
+										variant={"warning"}
+										enableAction={true}
+										disableIcons={false}
+										action={"Okay, I don't need hints because I'm a badass."}
+										onClick={() => setShowPuzzleSizeWarningToast(false)}
+									>
+										Oopsie! 😭 Hints are currently only available for puzzles of size 3x3.
+									</Toast>)
+								}
+								{ showHowToPlayToast &&
+									(<Toast
+										variant={"tutorial"}
+										enableAction={true}
+										disableIcons={true}
+										action={"Okay, now let me play!"}
+										onClick={() => setShowResetToast(false)}
+									>
+										<Tutorial/>
+									</Toast>)
+								}
 							</SettingControl>
-						</SettingCell>
+						</SettingControlCell>
 					</SettingRow>
 				))}
 			</SettingsTable>
@@ -61,9 +156,9 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 
 };
 
-// <Slider onChange={onSliderChange} type="range" min={minPuzzleSize} max={maxPuzzleSize} value={puzzleSize}/>
 
-const SettingsContainer = styled.div`
+
+const SettingsContainer = styled.div<GamePlayStyleProps>`
     grid-area: puzzle;
     display: flex;
     flex-direction: column;
@@ -77,6 +172,10 @@ const SettingsContainer = styled.div`
     @media screen  and (min-width: 769px) {
         margin: 16px 16px 16px 16px;
         border: 1px solid #ffffff;
+		${(props) => props.gameState === "Play" && "border: 1px solid #ffffff;"}
+		${(props) => props.gameState === "Pause" && "border: 1px solid #48a4ff;"}
+		${(props) => props.gameState === "Resume" && "border: 1px solid #DEA883FF;"}
+		${(props) => props.puzzleSolved && "border: 1px solid #08ffbd;"}
         flex-wrap: nowrap;
         border-radius: 4px;
         transition: border 0.1s ease-in-out;
@@ -84,11 +183,16 @@ const SettingsContainer = styled.div`
 `;
 
 const SettingsTable = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    font-size: 16px;
-    flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	font-size: 16px;
+	flex: 1 1 auto;
+	padding: 12px;
+	
+	@media screen  and (min-width: 769px) {
+	padding: 16px;
+	}
 `;
 
 
@@ -109,42 +213,52 @@ const SettingRow = styled.div`
     align-items: center;
     justify-content: space-around;
     width: 100%;
-    margin-bottom: 20px;
+  	margin-top: 12px;
+    margin-bottom: 12px;
 `;
 
-const SettingCell = styled.div`
+const SettingLabelCell = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
     width: 50%;
 `;
+const SettingControlCell = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 50%;
+`;
 
 const SettingLabel = styled.label`
     font-weight: bold;
+    font-size: 0.9rem;
 `;
 
-const SettingControl = styled.div``;
+const SettingControl = styled.div`
+	display: flex;
+	align-items: center;
+`;
 
 const CheckboxControl = styled.input`
   margin-right: 10px;
+  width: 20px;
+  height: 20px;
 `;
 
-const RangeControl = styled.input``;
+const DropDownControl = styled.select`
+	width: 100px;
+  	text-align: center;
+  	border-radius: 4px;
+  	background: transparent;
+  	color: #ffffff;
+  	font-size: 1rem;
+  	border: none;
+	font-weight: bold;
+`;
 
-const ButtonControl = styled.button``;
 
-const Slider = styled.input`
-  color: #ffffff;
-  display: block;
-  margin: 8px auto;
-  width: 50%;
-`
-
-const SliderRange = styled.div`
-    margin-top: 30px;
-    width: 608px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 20px;
-    color: #FFFFFF;
+const ButtonControl = styled.button`
+ width: 100px;
+  height: 40px;
 `;

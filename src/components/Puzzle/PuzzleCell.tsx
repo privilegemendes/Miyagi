@@ -5,7 +5,8 @@ import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 
 export const PuzzleCell:FC = () => {
 
-	const {puzzle, puzzleSolved, reset, hintValue, showHintToggle, movePuzzlePiece} = usePuzzle();
+	const {puzzle, puzzleSolved, reset, gameState, hintValue, showHintToggle, movePuzzlePiece} = usePuzzle();
+
 
 	return <>
 		{puzzle.map((value, index) => (
@@ -15,6 +16,7 @@ export const PuzzleCell:FC = () => {
 				<Cell
 					value={value}
 					puzzleSolved={puzzleSolved}
+					gameState={gameState}
 					reset={reset}
 				>
 					<HighlightCell
@@ -33,9 +35,13 @@ export const PuzzleCell:FC = () => {
 
 type StyleProps = {
 	value?: number;
+	background?: string;
+	gameState?: string;
 	puzzleSolved?: boolean;
 	reset?: boolean;
 	hint?: number;
+	isPaused?: boolean;
+	isActive?: boolean;
 }
 const PuzzleCellContainer = styled.div`
   position: relative;
@@ -67,23 +73,54 @@ const Cell = styled.div<StyleProps>`
   height: 100%;
   width: 100%;
   transition: background 0.2s ease-in-out;
-  border: ${props =>
-    props.reset ? "1px solid #ffffff" 
-    : props.puzzleSolved 
-    ? "1px solid #08ffbd"
-    : (
-		props.value === 0 
-	    ? "none" 
-	    : "1px solid #48a4ff"
-    )};
-  
-  background: ${props => 
-	  props.reset ? "rgba(19,19,33,0.51)" :
-	  props.puzzleSolved
-	  ? "#13d531"
-	  : (
-          props.value === 0
-          ? "none"
-          : "#0066ff"
-	  )};
+
+  background: none;
+  border: 1px solid #ffffff;
+
+  ${(props) => props.gameState === "Play" && "border: 1px solid #ffffff;"}
+  ${(props) => props.gameState === "Pause" && props.value === 0 && "border: none;"}
+  ${(props) => props.gameState === "Pause" && props.value !== 0 && "border: 1px solid #48a4ff;"}
+  ${(props) => props.gameState === "Resume" && "border: 1px solid #DEA883FF;"}
+  ${(props) => props.puzzleSolved && "border: 1px solid #08ffbd;"}
+
+
+  ${(props) => props.gameState === "Play" && "background: none;"}
+  ${(props) => props.gameState === "Pause" && props.value === 0 && "background: none;"}
+  ${(props) => props.gameState === "Pause" && props.value !== 0 && "background: #0066ff;"}
+  ${(props) => props.gameState === "Resume" && "background: #FF6811FF;"}
+  ${(props) => props.puzzleSolved && "background: #13d531;"}
+
+
 `;
+  // /* If the puzzle is solved, use a different border color */
+  // ${(props) => props.puzzleSolved && "border-color: #08ffbd;"}
+  //
+  //   /* If the value is zero, don't display a border */
+  // ${(props) => props.value === 0 && "border-style: none;"}
+  //
+  //   /* If the puzzle is not solved, the value is not zero, and the game is paused, display a border */
+  // ${(props) =>
+  //         !props.puzzleSolved &&
+  //         props.value !== 0 &&
+  //         props.isPaused &&
+  //         !props.reset &&
+  //         "border-style: solid; border-color: #48a4ff;"}
+  //
+  //   /* If the reset button has been pressed, always display a border */
+  // ${(props) => props.reset && "border-style: solid; border-color: #ffffff;"}
+
+
+
+
+// background: ${props =>
+// 	props.isPaused && !props.reset && !props.isActive ? "#e80909"
+// : props.reset
+// ? "rgba(19,19,33,0.51)"
+// : props.puzzleSolved
+// ? "#13d531"
+// : (
+//   	props.value === 0
+//   	? "none"
+// 	: "#0066ff"
+// )
+// };

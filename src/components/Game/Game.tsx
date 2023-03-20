@@ -11,17 +11,22 @@ type Props = {};
 
 type StyleProps = {
 	puzzleSolved: boolean;
+	gameState: string;
 	reset: boolean;
 
 }
 export const Game: FC<Props> = () => {
 
 	const playerName = usePlayerName();
-	const { puzzleSolved, reset} = usePuzzle();
+	const { puzzleSolved, reset, gameState} = usePuzzle();
 
 	return<>
 		<NavBar/>
-		<GameWrapper reset={reset} puzzleSolved={puzzleSolved}>
+		<GameWrapper
+			reset={reset}
+			puzzleSolved={puzzleSolved}
+			gameState={gameState}
+		>
 			<GameContainer>
 				<PlayerNameContainer>
 					<Name>Player:</Name>
@@ -55,12 +60,11 @@ const GameWrapper = styled.div<StyleProps>`
 
   @media screen  and (min-width: 769px) {
     margin: 16px 16px 16px 16px;
-    border: ${props =>
-            props.reset ? "1px solid #ffffff"
-                    : props.puzzleSolved
-                            ? "1px solid #08ffbd"
-                            : "1px solid #08a0ff"
-			};
+    border: 1px solid #ffffff;
+	${(props) => props.gameState === "Play" && "border: 1px solid #ffffff;"} 
+	${(props) => props.gameState === "Pause" && "border: 1px solid #48a4ff;"}
+	${(props) => props.gameState === "Resume" && "border: 1px solid #DEA883FF;"}
+	${(props) => props.puzzleSolved && "border: 1px solid #08ffbd;"}
     flex-wrap: nowrap;
     justify-content: stretch;
     border-radius: 4px;

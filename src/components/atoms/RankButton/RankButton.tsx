@@ -4,6 +4,7 @@ import {Link, useHistory} from "react-router-dom";
 import styled from "styled-components";
 import {useEffect} from "react";
 import {NavButtonStyleProps} from "../../../types/types";
+import {usePuzzle} from "../../../contexts/puzzle-provider/PuzzleProvider";
 
 
 type SVGProps = {
@@ -26,18 +27,34 @@ export const RankButton: React.FC<SVGProps> =
     ) => {
 
         const [activeRouteColor, setActiveRouteColor] = React.useState<string>('#ffffff');
+		const { puzzleSolved, gameState} = usePuzzle();
 
 
         const history = useHistory();
         useEffect(() => {
             if (history.location.pathname === '/rank') {
-                setActiveRouteColor('#08a0ff');
+				setActiveRouteColor('#08a0ff');
+
+				if (gameState === 'Pause') {
+					setActiveRouteColor('#08a0ff');
+				}
+
+				if (gameState === 'Resume') {
+                	setActiveRouteColor('#E06921FF');
+				}
+				if (puzzleSolved) {
+					setActiveRouteColor('#08ffbd');
+				}
             }
-        }, [history]);
+        }, [history, puzzleSolved, gameState]);
 
 
 
-  return <RankButtonContainer activeRouteColor={activeRouteColor} >
+  return <RankButtonContainer
+	  activeRouteColor={activeRouteColor}
+	  puzzleSolved={puzzleSolved}
+	  gameState={gameState}
+  	>
       <Link to={'/rank'}>
           <PrimaryButton
               aria-label={text}

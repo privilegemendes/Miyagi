@@ -9,9 +9,19 @@ body {
   height: 100%;
   max-height: 100vh;
   overflow: hidden;
+
+  --color-notice: hsl(235deg 100% 50%);
+  --color-notice-bg: hsl(235deg 0% 100%);
+  --color-warning: hsl(35deg 100% 46%);
+  --color-warning-bg: hsl(40deg 100% 94%);
+  --color-success: hsl(120deg 80% 35%);
+  --color-success-bg: hsl(120deg 90% 96%);
+  --color-error: hsl(345deg 100% 50%);
+  --color-error-bg: hsl(350deg 90% 96%);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+

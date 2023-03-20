@@ -1,50 +1,59 @@
 import {GameSettingsTable} from "./GameSettingsTable";
+import {
+	useSettings
+} from "../../contexts/game-settings-provider/GameSettingsProvider";
+import * as React from "react";
+import {usePuzzleSize} from "../../hooks/usePuzzleSize/usePuzzleSize";
 
 export type Setting = {
 	name: string;
-	type: 'checkbox' | 'range' | 'button';
+	type: 'checkbox' | 'range'| 'dropdown' | 'reset-button'| 'credits-button'| 'how-top-play-button' ;
 	options?: string[];
 	default?: any;
-	min?: number;
-	max?: number;
-	step?: number;
+	disabled?: boolean;
 }
 
 export const Settings = () => {
 
-	// const {minPuzzleSize, maxPuzzleSize} = useSettings();
+	const {puzzleSizeOptions} = useSettings();
+	const puzzleSize = usePuzzleSize();
 
 	const settings: Setting[] = [
 		{
-			name: 'Grid Size',
-			type: 'range',
-			min: 3,
-			max: 6,
-			step: 1,
-			default: 3,
+			name: '🧩 Grid Size',
+			type: 'dropdown',
+			default: `${puzzleSize}x${puzzleSize}`,
+			options: puzzleSizeOptions,
 		},
 		{
-			name: 'Sound Effects',
+			name: '🔈 Sound Effects (Coming Soon)',
 			type: 'checkbox',
-			default: true,
+			default: false,
+			disabled: true,
 		},
 		{
-			name: 'Show Timer',
+			name: '⏳ Show Timer (Coming Soon)',
 			type: 'checkbox',
 			default: true,
+			disabled: true,
 		},
 		{
-			name: 'Show Hints',
+			name: '❓Show Hints (Coming Soon)',
 			type: 'checkbox',
 			default: true,
+			disabled: true,
 		},
 		{
 			name: 'Reset Scores',
-			type: 'button',
+			type: 'reset-button',
+		},
+		{
+			name: 'How to Play',
+			type: 'how-top-play-button',
 		},
 		{
 			name: 'Credits',
-			type: 'button',
+			type: 'credits-button',
 		},
 	];
 

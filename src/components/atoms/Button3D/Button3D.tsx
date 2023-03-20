@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {FC} from "react";
 import styles from './Button3D.module.css'
+import clsx from "clsx";
 
 type Props = {
   text?: string;
@@ -10,10 +11,13 @@ type Props = {
   onMouseLeave?: (e: React.MouseEvent) => void;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset' | undefined;
+  className?: string;
 }
 export const Button3D:FC<Props> =
   (
       {
+
+        className,
         text,
         onClick,
         disabled,
@@ -25,7 +29,7 @@ export const Button3D:FC<Props> =
   ) => {
 
   return <button
-      className={styles.pushable}
+      className={clsx(className, styles.pushable)}
       onClick={onClick}
       onMouseUp={onMouseUp}
       onMouseDown={onMouseDown}

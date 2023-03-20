@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FC} from 'react';
+import {FC, useEffect} from 'react';
 import styled from "styled-components";
 import {
 	useGameTimer,
@@ -12,15 +12,24 @@ import {formatTime} from "../../common/time";
 
 export const PuzzleControls:FC = () => {
 
+	const {puzzleSize} = usePuzzle();
 	const {startNewGame, resetGame, reset, puzzleSolved, gameState, hintsUsed, showHint, hideHint} = usePuzzle();
 	const {timer} = useGameTimer();
 	const numberOfMoves = usePuzzleMoves();
+
+	const [showHints, setShowHints] = React.useState<boolean>(true);
+
+	useEffect(() => {
+		if (puzzleSize > 3) {
+			setShowHints(false);
+		}
+	},[puzzleSize]);
 
 	return <SettingsContainer>
 		<StatsContainer>
 			<Stats>{formatTime(timer)}</Stats>
 			<Stats>Moves: {numberOfMoves}</Stats>
-			<Stats>Hints: {hintsUsed}</Stats>
+			{showHints ? <Stats>Hints: {hintsUsed}</Stats> : <Stats>Hints: 🚫</Stats>}
 		</StatsContainer>
 		<NewGame>
 			<Button3D
@@ -32,21 +41,21 @@ export const PuzzleControls:FC = () => {
 		<NewGame>
 			<Button3D
 				text={"Hint"}
-				// onClick={solvePuzzle}
 				onMouseDown={showHint}
 				onMouseUp={hideHint}
 				onMouseLeave={hideHint}
-				disabled={reset || puzzleSolved || hintsUsed === 0}
+				disabled={reset || puzzleSolved || puzzleSize > 3 || hintsUsed === 0}
 			/>
 			<Button3D text={"Reset"} onClick={resetGame}/>
 		</NewGame>
-
 	</SettingsContainer>;
 }
 
 const StatsContainer = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: stretch;
+  flex-wrap: nowrap;
   justify-content: space-between;
   margin-bottom: 16px;
 `;
@@ -57,7 +66,6 @@ const SettingsContainer = styled.div`
   margin-top: 16px;
   margin-left: auto;
   margin-right: auto;
-  //border: 1px solid #08a0ff;
   border-radius: 8px;
 `
 
@@ -73,6 +81,5 @@ const Stats = styled.h2`
   margin: auto;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
 `;
 

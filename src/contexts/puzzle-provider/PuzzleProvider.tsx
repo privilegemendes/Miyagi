@@ -19,12 +19,17 @@ import {useTimer} from "../../hooks/useTimer/useTimer";
 import {formatTime} from "../../common/time";
 import {consoleLog} from "../../common/debug";
 import {PuzzleComplete} from "../../components/PuzzleComplete";
-import {SavedGame} from "../../hooks/useLoadGameData/useLoadGameData";
+import {saveGameData} from "../game-settings-provider/GameSettingsProvider";
+import {useLocation} from "react-router-dom";
+import {usePuzzleSize} from "../../hooks/usePuzzleSize/usePuzzleSize";
+import {Toast} from "../../components/Toast";
 
 type Context = {
 	rows?: number
 	columns?: number
 	puzzle: number[]
+	isPaused?: boolean
+	isActive?: boolean
 	puzzleSize: number
 	moves?: number
 	gameState: string
@@ -39,28 +44,26 @@ type Context = {
 	showHint: () => void
 	hideHint: () => void
 	timer: number
-	onSliderChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const ContextRef = createContext<Context | undefined>(undefined);
 
 type Props = {
 	children: React.ReactNode
-	defaultPuzzleSize?: number
 	defaultNumberOfHints?: number
 	defaultMovesPerHint?: number
+
 }
 export const PuzzleProvider: FC<Props> =
 	(
 		{
 			children,
-			defaultPuzzleSize = 4,
 			defaultNumberOfHints = 50,
 			defaultMovesPerHint = -1
 		}
 	) =>
 	{
-		const [puzzleSize, setPuzzleSize] = useState<number>(defaultPuzzleSize);
+		const puzzleSize = usePuzzleSize();
 		const [puzzle, setPuzzle] = useState<number[]>([]);
 		const [reset, setReset] = useState<boolean>(true);
 		const [puzzleSolved, setPuzzleSolved] = useState<boolean>(false);
@@ -74,19 +77,20 @@ export const PuzzleProvider: FC<Props> =
 		const [hintValue, setHintValue] = useState<number>();
 		const [showHintToggle, setShowHintToggle] = useState<boolean>(false);
 
+		const location = useLocation();
+		const currentPath = location!.pathname;
 
+		useEffect(() => {
+			if (gameState === "Pause" && currentPath !== '/game') {
+				setGameState("Resume");
+				handlePause();
+			}
+		}, [gameState,currentPath, handlePause]);
 
 		useEffect(() => {
 			const newPuzzle = generateOrderedPuzzle(puzzleSize);
 			setPuzzle(newPuzzle);
 		}, [puzzleSize]);
-
-
-		const onSliderChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-			const value = parseInt(event.target.value);
-			setPuzzleSize(value);
-			handleReset();
-		}, [handleReset]);
 
 
 		const checkWinCondition = useCallback((puzzle: number[]) => {
@@ -107,7 +111,6 @@ export const PuzzleProvider: FC<Props> =
 				saveGameData(formatTime(timer), moves, hintsUsed, `${puzzleSize}x${puzzleSize}`);
 			}
 		}, [handlePause, timer, moves, hintsUsed, puzzleSize]);
-
 
 		const movePuzzlePiece = useCallback ((index: number) => {
 			if (puzzleSolved || reset || !isPaused) {
@@ -130,8 +133,6 @@ export const PuzzleProvider: FC<Props> =
 				checkWinCondition(newPuzzle);
 			}
 		},[puzzleSolved, reset, isPaused, puzzle, puzzleSize, moves, checkWinCondition]);
-
-
 
 		const resetGame = useCallback(() => {
 			consoleLog("Elapsed time: ", formatTime(timer));
@@ -171,13 +172,10 @@ export const PuzzleProvider: FC<Props> =
 			}
 		}, [puzzleSize, timer, defaultMovesPerHint, defaultNumberOfHints, isPaused, isActive, handlePause, handleResume, handleStart]);
 
-
-
 		const showHint = useCallback(() => {
 			if (!isPaused ) {
 				return;
 			}
-
 			// only use hint per move
 			if (checkMovesForHint < moves) {
 				setShowHintToggle(true);
@@ -214,11 +212,15 @@ export const PuzzleProvider: FC<Props> =
 			puzzleSolved,
 			gameState,
 			startNewGame,
+			isPaused,
+			isActive,
 			resetGame,
 			showHintToggle,
-			onSliderChange,
 			movePuzzlePiece,
-		}), [puzzle, moves, reset, timer, hintValue, hintsUsed, showHint, hideHint, puzzleSize, puzzleSolved, gameState, startNewGame, resetGame, showHintToggle, onSliderChange, movePuzzlePiece]);
+		}), [puzzle, moves, reset, timer, hintValue, hintsUsed, isActive,
+			showHint, hideHint, puzzleSize, isPaused, puzzleSolved, gameState,
+			startNewGame, resetGame, showHintToggle,
+			movePuzzlePiece]);
 
 		return <ContextRef.Provider value={contextValue}>
 			{puzzleSolved && <PuzzleComplete
@@ -226,6 +228,17 @@ export const PuzzleProvider: FC<Props> =
 					moves={moves}
 					onClick={resetGame}
 				/>
+			}
+			{ (showHintToggle && puzzleSize > 3) &&
+				(<Toast
+					variant={"warning"}
+					enableAction={true}
+					disableIcons={false}
+					action={"Okay, I don't need hints because I'm a badass."}
+					onClick={() => setShowHintToggle(false)}
+				>
+					Oopsie! 😭 Hints are currently only available for puzzles of size 3x3.
+				</Toast>)
 			}
 			{children}
 		</ContextRef.Provider>;
@@ -267,19 +280,6 @@ const generateAndShuffleSolution = (puzzleSize: number) => {
 	return shufflePuzzle(orderedPuzzle);
 };
 
-function saveGameData(time: string, moves: number, hints: number, puzzleSize: string) {
-	const savedGames: SavedGame[] = JSON.parse(localStorage.getItem('savedGames') || '[]');
 
-	const newGame: SavedGame = {
-		id: savedGames.length + 1,
-		time,
-		moves,
-		hints,
-		puzzleSize
-	};
-
-	savedGames.push(newGame);
-	localStorage.setItem('savedGames', JSON.stringify(savedGames));
-}
 
 

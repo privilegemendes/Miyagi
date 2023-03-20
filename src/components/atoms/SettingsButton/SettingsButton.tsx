@@ -4,6 +4,7 @@ import {Link, useHistory} from "react-router-dom";
 import styled from "styled-components";
 import {useEffect} from "react";
 import {NavButtonStyleProps, SVGProps} from "../../../types/types";
+import {usePuzzle} from "../../../contexts/puzzle-provider/PuzzleProvider";
 
 
 export const SettingsButton: React.FC<SVGProps> =
@@ -17,14 +18,25 @@ export const SettingsButton: React.FC<SVGProps> =
     ) => {
 
         const [activeRouteColor, setActiveRouteColor] = React.useState<string>('#ffffff');
+		const { puzzleSolved, gameState} = usePuzzle();
 
+		const history = useHistory();
+		useEffect(() => {
+			if (history.location.pathname === '/settings') {
+				setActiveRouteColor('#08a0ff');
 
-        const history = useHistory();
-        useEffect(() => {
-            if (history.location.pathname === '/settings') {
-                setActiveRouteColor('#08a0ff');
-            }
-        }, [history]);
+				if (gameState === 'Pause') {
+					setActiveRouteColor('#08a0ff');
+				}
+
+				if (gameState === 'Resume') {
+					setActiveRouteColor('#e06921');
+				}
+				if (puzzleSolved) {
+					setActiveRouteColor('#08ffbd');
+				}
+			}
+		}, [history, puzzleSolved, gameState]);
 
         return <SettingsButtonContainer activeRouteColor={activeRouteColor}>
             <Link to={'/settings'}>

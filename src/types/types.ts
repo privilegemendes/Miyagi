@@ -10,4 +10,13 @@ export type SVGProps = {
 
 export type NavButtonStyleProps = {
 	activeRouteColor?: string;
+	gameState?: string;
+	puzzleSolved?: boolean;
+}
+
+
+export type GamePlayStyleProps = {
+	gameState: string;
+	puzzleSolved: boolean;
+
 }

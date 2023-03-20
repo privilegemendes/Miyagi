@@ -7,23 +7,15 @@ import {
     SavedGame,
 } from "../../hooks/useLoadGameData/useLoadGameData";
 import {usePlayerName} from "../../hooks/usePlayerName/usePlayerName";
-
-type Player = {
-    rank: number;
-    time: string;
-    moves: number;
-    hints: number;
-    puzzleSize: string;
-};
-
-type Props = {
-    players: Player[];
-};
+import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
+import {GamePlayStyleProps} from "../../types/types";
 
 export const Rank: FC = () => {
 
     const [savedGames, setSavedGames] = useState<SavedGame[]>([]);
     const playerName = usePlayerName();
+	const { puzzleSolved, gameState} = usePuzzle();
+
 
     useEffect(() => {
         const savedGamesFromStorage = loadGameData();
@@ -32,9 +24,9 @@ export const Rank: FC = () => {
 
     return <>
         <NavBar/>
-        <RankContainer>
+        <RankContainer puzzleSolved={puzzleSolved} gameState={gameState}>
             <RankTable>
-                <Title> {playerName}'s <br/><br/> 🏆Wall of Shame 🏆</Title>
+                <Title> {playerName}'s <br/><br/> 🏆 Wall of Shame 🏆</Title>
                 <RankTableHeader>
                     <RankTableCell>Rank</RankTableCell>
                     <RankTableCell>Time</RankTableCell>
@@ -74,7 +66,7 @@ const Title = styled.h1`
     }
 `;
 
-const RankContainer = styled.div`
+const RankContainer = styled.div<GamePlayStyleProps>`
     grid-area: puzzle;
     display: flex;
     flex-direction: column;
@@ -89,6 +81,10 @@ const RankContainer = styled.div`
     @media screen  and (min-width: 769px) {
         margin: 16px 16px 16px 16px;
         border: 1px solid #ffffff;
+		${(props) => props.gameState === "Play" && "border: 1px solid #ffffff;"}
+		${(props) => props.gameState === "Pause" && "border: 1px solid #48a4ff;"}
+		${(props) => props.gameState === "Resume" && "border: 1px solid #DEA883FF;"}
+		${(props) => props.puzzleSolved && "border: 1px solid #08ffbd;"}
         justify-content: stretch;
         border-radius: 4px;
         transition: border 0.1s ease-in-out;

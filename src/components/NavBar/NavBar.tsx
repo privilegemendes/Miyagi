@@ -7,14 +7,19 @@ import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 
 type StyleProps = {
   puzzleSolved: boolean;
+  gameState: string;
   reset: boolean;
 
 }
 function NavBar() {
 
-  const { puzzleSolved, reset} = usePuzzle();
+  const { puzzleSolved, reset, gameState} = usePuzzle();
 
-  return <NavContainer puzzleSolved={puzzleSolved} reset={reset}>
+  return <NavContainer
+	  puzzleSolved={puzzleSolved}
+	  reset={reset}
+	  gameState={gameState}
+  >
     <RankButton/>
     <GameButton/>
     <SettingsButton/>
@@ -39,12 +44,11 @@ const NavContainer = styled.div<StyleProps>`
     //box-shadow: 0 2px 20px 0 #000000;
     border-radius: 4px;
     margin: 16px 0 16px auto;
-    border: ${props =>
-        props.reset ? "1px solid #ffffff"
-            : props.puzzleSolved
-                ? "1px solid #08ffbd"
-                : "1px solid #08a0ff"
-    };
+    border: 1px solid #ffffff;
+    ${(props) => props.gameState === "Play" && "border: 1px solid #ffffff;"}
+    ${(props) => props.gameState === "Pause" && "border: 1px solid #48a4ff;"}
+    ${(props) => props.gameState === "Resume" && "border: 1px solid #DEA883FF;"}
+    ${(props) => props.puzzleSolved && "border: 1px solid #08ffbd;"}
 
   }
 

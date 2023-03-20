@@ -1,8 +1,33 @@
 import * as React from "react";
+import {useEffect} from "react";
 
 import styled from "styled-components";
+import {usePuzzle} from "../../../contexts/puzzle-provider/PuzzleProvider";
+import {useHistory} from "react-router-dom";
+
 
 export const GitHubShareButton: React.FC = () => {
+
+	const [activeColor, setActiveColor] = React.useState<string>('#0066ff');
+	const { puzzleSolved, gameState} = usePuzzle();
+
+
+	const history = useHistory();
+	useEffect(() => {
+		setActiveColor('#0066ff');
+
+			if (gameState === 'Pause') {
+				setActiveColor('#0066ff');
+			}
+
+			if (gameState === 'Resume') {
+				setActiveColor('#f87014');
+			}
+			if (puzzleSolved) {
+				setActiveColor('#048563');
+			}
+	}, [history, puzzleSolved, gameState]);
+
   return (
     <GitHubCorner
         href={`https://github.com/privilegemendes/miyagi`}
@@ -15,7 +40,7 @@ export const GitHubShareButton: React.FC = () => {
         height='70'
         viewBox='0 0 250 250'
         style={{
-          fill: '#006eff',
+          fill: `${activeColor}`,
           color: '#fff',
           position: 'fixed',
           zIndex: 0,

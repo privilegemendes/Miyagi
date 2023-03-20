@@ -1,11 +1,12 @@
 import * as React from 'react';
-import {FC, useRef} from 'react';
+import {FC} from 'react';
 import styled from "styled-components";
 import {PuzzleCell} from "./PuzzleCell";
-import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 import {
 	useWindowDimensions
 } from "../../hooks/useWindowDimensions/useWindowDimensions";
+import {usePuzzleSize} from "../../hooks/usePuzzleSize/usePuzzleSize";
+
 
 type PuzzleContainerProps = {
 	puzzleSize: number;
@@ -13,46 +14,14 @@ type PuzzleContainerProps = {
 	height: number;
 }
 
-const images = [
-	'//i.giphy.com/26FPCXdkvDbKBbgOI.gif',
-	'//i.giphy.com/13CoXDiaCcCoyk.gif',
-	'//i.giphy.com/xWlPqPbrlkEQU.gif',
-	'//i.giphy.com/QPDVAzBOnShLq.gif',
-	'//i.giphy.com/13FJKNTaIiZ2lG.gif',
-	'//i.giphy.com/5ZdCsQHEoCUBq.gif',
-	'//i.giphy.com/BeGJ3IXngxyeY.gif',
-	'//i.giphy.com/LhenEkp5EsPJe.gif',
-	'//i.giphy.com/3o6UB65bfF8P1anIZ2.gif',
-	'//i.giphy.com/l0NwLUVdksjwmtgLC.gif'
-];
 export const PuzzleLayout:FC = () => {
 
-	const {puzzleSize, puzzleSolved} = usePuzzle();
+	const puzzleSize = usePuzzleSize();
+	console.log("puzzleSize in game", puzzleSize);
+
 	const {height, width} = useWindowDimensions();
 
-	const canvasRef = useRef<HTMLCanvasElement>(null);
-
-	const startCanvas = () => {
-		const canvas = canvasRef.current;
-		if (canvas) {
-			const context = canvas.getContext('2d');
-			if (context) {
-				const image = new Image();
-				image.src = images[Math.floor(Math.random() * images.length)];
-				image.onload = () => {
-				};
-			}
-		}
-	};
-
 	return <PuzzleContainer puzzleSize={puzzleSize} height={height} width={width}>
-			{/*{puzzleSolved &&*/}
-			{/*	<Canvas*/}
-			{/*		ref={canvasRef}*/}
-			{/*		width={puzzleSize}*/}
-			{/*		height={puzzleSize}*/}
-			{/*	/>*/}
-			{/*}*/}
 			<PuzzleCell/>
 		</PuzzleContainer>;
 }
@@ -73,7 +42,7 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
   @media screen and (orientation: portrait) and (max-width: 320px) {
     width: 90vw;
     height: 40vh;
-    padding: 20px;
+
   }
   @media screen and (orientation: landscape) and (max-height: 320px) {
     width: 38vw;
@@ -136,10 +105,4 @@ const PuzzleContainer = styled.div<PuzzleContainerProps>`
 	//}
   //
 
-`
-const Canvas = styled.canvas`
-	background: linear-gradient(to bottom, rgba(19, 19, 33, 0.51) 0%, rgba(31, 28, 44, 0.58) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	box-shadow: 0 2px 20px 0 #000000;
-	padding: 16px;
-	margin: 24px;
 `;
