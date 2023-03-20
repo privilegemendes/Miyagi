@@ -12,8 +12,6 @@ import {
 import {Toast} from "../Toast";
 import {GamePlayStyleProps} from "../../types/types";
 import {usePuzzleSize} from "../../hooks/usePuzzleSize/usePuzzleSize";
-import {Tutorial} from "../Tutorial";
-import {useHistory} from "react-router-dom";
 import {Button3D} from "../atoms/Button3D";
 
 
@@ -29,7 +27,6 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 	const [showCreditsToast, setShowCreditsToast] = React.useState(false);
 	const [showPuzzleSizeWarningToast, setShowPuzzleSizeWarningToast] = React.useState(false);
 	const [showHowToPlayToast, setShowHowToPlayToast] = React.useState(false);
-	const history = useHistory();
 
 	const { puzzleSolved, gameState} = usePuzzle();
 

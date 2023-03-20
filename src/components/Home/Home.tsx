@@ -17,7 +17,6 @@ import {
 import {
 	useWindowDimensions
 } from "../../hooks/useWindowDimensions/useWindowDimensions";
-import {Tutorial} from "../Tutorial";
 
 
 type StyleProps = {
