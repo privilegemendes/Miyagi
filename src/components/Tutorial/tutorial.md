@@ -11,14 +11,27 @@ and you cannot move the empty space itself. Your goal is to use these movements 
 The game can be quite challenging, but don't worry! You can always hit the "reset" or "hint" button to start over if you get stuck.
 You can also time yourself to see how quickly you can solve the puzzle, and try to beat your own record.
 
-So go ahead and give the 3x3 puzzle slider game a try!
+| Control    | *Description*                                                              |
+|------------|----------------------------------------------------------------------------|
+| Play/Pause | *Pauses the game*                                                          |
+| Reset      | *Resets the game to the initial state*                                     |
+| Hint       | *Generates a limited amount of hints one at a time for the current puzzle* |
+
+## Statistics
+| Statistic   | *Description*                                     |
+|-------------|---------------------------------------------------|
+| Time        | *The time it took to solve the puzzle*            |
+| Moves       | *The number of moves it took to solve the puzzle* |
+| Hints       | *The number of hints used to solve the puzzle*    |
+
+So go ahead and give the puzzle slider game a try!
 It's a great way to test your problem-solving skills and have some fun at the same time.
 
 ## Tricks to solving any size Puzzles
 
-So the first thing you’re going to one to do is to solve the first two pieces on the top left. Let's use a 4x4 for example:
+So the first thing you’re going to one to do is to solve the first two pieces on the top left. Let's use a 5x5 for example:
 
-![tutorial.gif](./tutorial.gif)
+![tutorial.gif](tutorial.gif)
 
 1. Solve the top corner (green row)
 2. Solve the left corner (green column)
