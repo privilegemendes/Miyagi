@@ -19,8 +19,11 @@ import {useTimer} from "../../hooks/useTimer/useTimer";
 import {formatTime} from "../../common/time";
 import {consoleLog} from "../../common/debug";
 import {PuzzleComplete} from "../../components/PuzzleComplete";
-import {saveGameData} from "../game-settings-provider/GameSettingsProvider";
-import {useLocation} from "react-router-dom";
+import {
+	saveGameData,
+	useSettings
+} from "../game-settings-provider/GameSettingsProvider";
+import {useHistory, useLocation} from "react-router-dom";
 import {usePuzzleSize} from "../../hooks/usePuzzleSize/usePuzzleSize";
 import {Toast} from "../../components/Toast";
 
@@ -44,6 +47,7 @@ type Context = {
 	showHint: () => void
 	hideHint: () => void
 	timer: number
+	onPuzzleSizeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 const ContextRef = createContext<Context | undefined>(undefined);
@@ -135,6 +139,19 @@ export const PuzzleProvider: FC<Props> =
 			}
 		},[puzzleSolved, reset, isPaused, puzzle, puzzleSize, moves, checkWinCondition]);
 
+		//const {handleReset} = useTimer(0);
+		const {setPuzzleSize} = useSettings();
+		const history = useHistory();
+
+		const onPuzzleSizeChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+			const [value] = event.target.value.split("x");
+			setPuzzleSize(parseInt(value));
+			localStorage.setItem('puzzleSize', value);
+			resetGame();
+			history.push('/');
+
+		},[history, setPuzzleSize, handleReset]);
+
 		const resetGame = useCallback(() => {
 			consoleLog("Elapsed time: ", formatTime(timer));
 			setReset(true);
@@ -216,10 +233,11 @@ export const PuzzleProvider: FC<Props> =
 			resetGame,
 			showHintToggle,
 			movePuzzlePiece,
+			onPuzzleSizeChange
 		}), [puzzle, moves, reset, timer, hintValue, hintsUsed, isActive,
 			showHint, hideHint, puzzleSize, isPaused, puzzleSolved, gameState,
 			startNewGame, resetGame, showHintToggle,
-			movePuzzlePiece]);
+			movePuzzlePiece, onPuzzleSizeChange]);
 
 		return <ContextRef.Provider value={contextValue}>
 			{puzzleSolved && <PuzzleComplete

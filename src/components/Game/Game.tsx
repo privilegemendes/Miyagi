@@ -1,5 +1,5 @@
 import * as React from "react";
-import {FC, useEffect} from "react";
+import {FC, useEffect, useState} from "react";
 import {PuzzleLayout} from "../Puzzle";
 import {PuzzleControls} from "../PuzzleControls";
 import styled from "styled-components";
@@ -21,9 +21,9 @@ type StyleProps = {
 export const Game: FC<Props> = () => {
 
 	const playerName = usePlayerName();
-	const { puzzleSolved, reset, gameState, startNewGame} = usePuzzle();
+	const { puzzleSolved, reset, gameState,startNewGame} = usePuzzle();
 
-	const [rememberMe, setRememberMe] = React.useState(false);
+	const [rememberMe, setRememberMe] = useState(false);
 	const firstTimeVisitor = useFirstTimeVisitor('firstTimeVisitor');
 
 	useEffect (() => {
@@ -32,6 +32,10 @@ export const Game: FC<Props> = () => {
 		}
 	}, [firstTimeVisitor]);
 
+	const handleNewGame = () => {
+		startNewGame();
+		setRememberMe(false);
+	}
 
 	return<>
 		<GameWrapper
@@ -55,11 +59,11 @@ export const Game: FC<Props> = () => {
 					variant={"notice"}
 					enableAction={true}
 					action={"New game"}
-					onClick={() => startNewGame}
+					onClick={handleNewGame}
 					onClose={() => setRememberMe(false)}
 				>
 					<h1>Hi 👋, Welcome to Miyagi</h1><br/>
-					<p>To start a new game Click here 👇👇.</p>
+					<p>To start a new game Click here <br/>👇👇.</p>
 				</Toast>
 			)
 		}

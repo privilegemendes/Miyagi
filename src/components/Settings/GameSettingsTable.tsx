@@ -6,14 +6,14 @@ import {usePuzzle} from "../../contexts/puzzle-provider/PuzzleProvider";
 import NavBar from "../NavBar";
 import {Setting} from "./Settings";
 import {
-	deleteGameData,
-	useSettings
+	deleteGameData
 } from "../../contexts/game-settings-provider/GameSettingsProvider";
 import {Toast} from "../Toast";
 import {GamePlayStyleProps} from "../../types/types";
 import {usePuzzleSize} from "../../hooks/usePuzzleSize/usePuzzleSize";
 import {Button3D} from "../atoms/Button3D";
 import {useHistory} from "react-router-dom";
+import {LogoFooter} from "../Logo/Logo";
 
 
 type Props = {
@@ -22,7 +22,7 @@ type Props = {
 export const GameSettingsTable: FC<Props> = ({settings}) => {
 
 
-	const {onPuzzleSizeChange} = useSettings();
+	const {onPuzzleSizeChange} = usePuzzle() ;
 	const puzzleSize = usePuzzleSize();
 	const [showResetToast, setShowResetToast] = React.useState(false);
 	const [showCreditsToast, setShowCreditsToast] = React.useState(false);
@@ -144,6 +144,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 										onClose={() => setShowPuzzleSizeWarningToast(false)}
 									>
 										Oopsie! 😭 Hints are currently only available for puzzles of size 3x3.
+										Check out the how to play section for more tricks and tips.
 									</Toast>)
 								}
 								{ showHowToPlayToast &&
@@ -163,6 +164,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 					</SettingRow>
 				))}
 			</SettingsTable>
+			<LogoFooter/>
 		</SettingsContainer>
 		<NavBar/>
 	</>

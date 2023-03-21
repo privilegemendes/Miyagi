@@ -2,7 +2,12 @@ import * as React from 'react';
 import {FC} from 'react';
 import {PuzzleProvider} from "../../contexts/puzzle-provider/PuzzleProvider";
 import styled from "styled-components";
-import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch,
+	useHistory,
+} from "react-router-dom";
 import {GitHubShareButton} from "../atoms/GitHubShareButton";
 import {Game} from "../Game";
 import {Settings} from "../Settings";
@@ -18,6 +23,7 @@ import {
 	useWindowDimensions
 } from "../../hooks/useWindowDimensions/useWindowDimensions";
 import {Tutorial} from "../Tutorial";
+import {Toast} from "../Toast";
 
 
 type StyleProps = {
@@ -27,10 +33,11 @@ type StyleProps = {
 const Routes: FC = () => {
     return<>
         <Switch>
-			<Route path="/tutorial"><Tutorial/></Route>
-            <Route path="/settings"><Settings/></Route>
-            <Route path="/rank"><Rank/></Route>
-			<Route path="/"><Game/></Route>
+			<Route path="/tutorial" component={Tutorial}/>
+            <Route path="/settings" component={Settings}/>
+            <Route path="/rank" component={Rank}/>
+			<Route path="/" component={Game}/>
+			<Route path="*" component={PageNotFound}/>
         </Switch>
     </>
 }
@@ -113,3 +120,15 @@ const RightContainer = styled.div`
         
     }
 `;
+
+
+const PageNotFound: FC = () => {
+	const history = useHistory();
+	return <Toast
+		variant={"error"}
+		enableAction={true}
+		action={"Return"}
+		onClick={() => history.push("/")}
+	>Oops! <br/><br/> Page not found 🚧
+	</Toast>
+}

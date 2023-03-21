@@ -41,20 +41,22 @@ const MyLogoFooter = styled.a `
 `
 const Privi = styled.span `
   display: inline-flex;
-  font-weight: 600;
+  font-weight: bold;
   color: #ffff;
   font-Family: 'Schoolbell', 'Roboto',sans-serif;
   letter-spacing: 1px;
+  font-size: 2.5rem;
   align-items: center;
 
 `;
 
 const Lege = styled.span `
   display: inline-flex;
-  font-weight: 600;
+  font-weight: bold;
   font-Family: 'Roboto',sans-serif;
   color: #006eff;
   letter-spacing: 1.5px;
+  font-size: 2.5rem;
   align-items: center;
 `;
 
@@ -88,7 +90,7 @@ export const LogoFooter: FC = () => {
 
   return (
     <MyLogoContainer>
-      <MyLogoFooter href="/">
+      <MyLogoFooter href="https://lege.dev">
         <Privi>Privi</Privi>
         <Lege>lege</Lege>
         <Slogan>Yes, that&apos;s<SloganReally>&nbsp;really&nbsp;</SloganReally>my name</Slogan>

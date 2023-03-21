@@ -4,7 +4,6 @@ import {
 	Dispatch,
 	FC,
 	SetStateAction,
-	useCallback,
 	useMemo,
 	useState
 } from "react";
@@ -13,8 +12,7 @@ import {
 	useAndRequireContext
 } from "../../hooks/useAndRequireContext/useAndRequireContext";
 import {SavedGame} from "../../hooks/useLoadGameData/useLoadGameData";
-import {useTimer} from "../../hooks/useTimer/useTimer";
-import {useHistory} from "react-router-dom";
+
 
 type Context = {
 	playerName: string
@@ -22,7 +20,9 @@ type Context = {
 	setPlayerName:  Dispatch<SetStateAction<string>>
 	setPuzzleSize:  Dispatch<SetStateAction<number>>
 	puzzleSizeOptions: string[]
-	onPuzzleSizeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
+	isFirstTimeVisitor: boolean
+	setIsFirstTimeVisitor:  Dispatch<SetStateAction<boolean>>
+
 }
 
 
@@ -44,6 +44,7 @@ export const GameSettingsProvider: FC<Props> =
 	{
 		const [playerName, setPlayerName] = useState<string>("");
 		const [puzzleSize, setPuzzleSize] = useState<number>(minimumPuzzleSize);
+		const [isFirstTimeVisitor, setIsFirstTimeVisitor] = useState<boolean>(true);
 
 		const puzzleSizeOptions = useMemo(() => {
 			const puzzleSizeOptionsArray: string[] = [];
@@ -54,27 +55,16 @@ export const GameSettingsProvider: FC<Props> =
 		}, [minimumPuzzleSize, maximumPuzzleSize]);
 
 
-		const {handleReset} = useTimer(0);
-		const history = useHistory();
-
-		const onPuzzleSizeChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
-			const [value] = event.target.value.split("x");
-			setPuzzleSize(parseInt(value));
-			localStorage.setItem('puzzleSize', value);
-			handleReset();
-			history.push('/');
-
-		},[setPuzzleSize, handleReset]);
-
 		const contextValue = useMemo(() => ({
 			puzzleSize,
 			playerName,
 			puzzleSizeOptions,
-			onPuzzleSizeChange,
 			setPlayerName,
 			setPuzzleSize,
+			setIsFirstTimeVisitor,
+			isFirstTimeVisitor
 
-		}), [playerName, puzzleSize, puzzleSizeOptions, onPuzzleSizeChange, setPlayerName, setPuzzleSize]);
+		}), [playerName, puzzleSize, puzzleSizeOptions, isFirstTimeVisitor,setIsFirstTimeVisitor, setPlayerName, setPuzzleSize]);
 
 		return <ContextRef.Provider value={contextValue}>
 			{children}
@@ -86,6 +76,7 @@ export function useSettings() {
 
 	return useAndRequireContext(ContextRef);
 }
+
 
 export function saveGameData(time: string, moves: number, hints: number, puzzleSize: string) {
 	const savedGames: SavedGame[] = JSON.parse(localStorage.getItem('savedGames') || '[]');
