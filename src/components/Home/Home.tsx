@@ -17,6 +17,7 @@ import {
 import {
 	useWindowDimensions
 } from "../../hooks/useWindowDimensions/useWindowDimensions";
+import {Tutorial} from "../Tutorial";
 
 
 type StyleProps = {
@@ -26,6 +27,7 @@ type StyleProps = {
 const Routes: FC = () => {
     return<>
         <Switch>
+			<Route path="/tutorial"><Tutorial/></Route>
             <Route path="/settings"><Settings/></Route>
             <Route path="/rank"><Rank/></Route>
 			<Route path="/"><Game/></Route>
@@ -87,6 +89,7 @@ const HomeGridContainer = styled.div`
     grid-area: puzzle;
   	display: flex;
   	flex-direction: column;
+  	overflow: auto;
   
   
   @media screen and (min-width: 769px) {

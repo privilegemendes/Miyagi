@@ -7,8 +7,10 @@ import {usePlayerName} from "../../hooks/usePlayerName/usePlayerName";
 import useFirstTimeVisitor
 	from "../../hooks/useFirstTimeVisitor/useFirstTimeVisitor";
 import {useHistory} from "react-router-dom";
-
+import tutorial from './tutorial.md';
 import remarkGfm from "remark-gfm";
+import "./markdown.css";
+import rehypeRaw from "rehype-raw";
 
 export const Tutorial:FC = () => {
 
@@ -34,7 +36,7 @@ export const Tutorial:FC = () => {
 	const [content, setContent] = useState("");
 
 	useEffect(() => {
-		fetch("tutorial.md")
+		fetch(tutorial)
 			.then((res) => res.text())
 			.then((text) => setContent(text));
 	}, []);
@@ -43,9 +45,12 @@ export const Tutorial:FC = () => {
 	return <>
 		<TutorialWrapper>
 			<TutorialContainer>
-				<ReactMarkdown remarkPlugins={[remarkGfm]}>
-					{content}
-				</ReactMarkdown>
+				<ReactMarkdown
+					children={content}
+					remarkPlugins={[remarkGfm]}
+					rehypePlugins={[rehypeRaw]}
+					className={"markdown-body"}
+				/>
 			</TutorialContainer>
 			{rememberMe && (
 			<Toast
@@ -67,7 +72,6 @@ export const Tutorial:FC = () => {
 
 const TutorialWrapper = styled.div`
   grid-area: puzzle;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-content: stretch;
@@ -76,6 +80,7 @@ const TutorialWrapper = styled.div`
   padding: 12px;
   margin: 12px;
   flex: 1 1 auto;
+  overflow: hidden !important;
 
   @media screen  and (min-width: 769px) {
     margin: 16px 16px 16px 16px;
@@ -93,6 +98,7 @@ const TutorialContainer = styled.div`
   flex-direction: column;
   align-content: stretch;
   padding: 12px;
-  overflow-y: auto;
   flex: 1 1 auto;
+  overflow-y: scroll;
+  height: 100%;
 `;

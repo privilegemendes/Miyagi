@@ -77,6 +77,7 @@ const RankContainer = styled.div<GamePlayStyleProps>`
     box-shadow: 0 2px 20px 0 #000000;
     padding: 12px;
     margin: 12px;
+  	overflow: hidden !important;
 
     @media screen  and (min-width: 769px) {
         margin: 16px 16px 16px 16px;
@@ -115,6 +116,7 @@ const RankTableCell = styled.div`
     flex-basis: 25%;
     text-align: center;
     color: #fff;
+  
 `;
 
 const RankTableRow = styled.div`
@@ -123,5 +125,6 @@ const RankTableRow = styled.div`
     width: 100%;
     margin-bottom: 5px;
     padding: 5px;
+  	overflow: scroll;
   
 `;

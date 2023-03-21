@@ -13,6 +13,7 @@ import {Toast} from "../Toast";
 import {GamePlayStyleProps} from "../../types/types";
 import {usePuzzleSize} from "../../hooks/usePuzzleSize/usePuzzleSize";
 import {Button3D} from "../atoms/Button3D";
+import {useHistory} from "react-router-dom";
 
 
 type Props = {
@@ -29,6 +30,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 	const [showHowToPlayToast, setShowHowToPlayToast] = React.useState(false);
 
 	const { puzzleSolved, gameState} = usePuzzle();
+	const history = useHistory();
 
 	useEffect(() => {
 		if (puzzleSize > 3) {
@@ -47,6 +49,7 @@ export const GameSettingsTable: FC<Props> = ({settings}) => {
 
 	const handleHowToPlay = () => {
 		setShowHowToPlayToast(true);
+		history.push('/tutorial');
 	}
 
 	return<>
