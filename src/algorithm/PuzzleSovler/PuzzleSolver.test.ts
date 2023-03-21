@@ -9,7 +9,7 @@ test('solves the puzzle correctly', () => {
 
 
 test('solves the puzzle of different sizes', () => {
-	const puzzle = [4, 11, 14, 1, 2, 9, 5, 6, 12, 15, 3, 0, 10, 7, 13, 8];
+	const puzzle = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 14, 0];
 	const solution = PuzzleSolver(puzzle);
 	console.log(solution!.pathValue);
 	expect(solution!.pathValue).toBeGreaterThan(0)

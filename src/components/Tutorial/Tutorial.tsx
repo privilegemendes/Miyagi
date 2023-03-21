@@ -41,7 +41,6 @@ export const Tutorial:FC = () => {
 			.then((text) => setContent(text));
 	}, []);
 
-
 	return <>
 		<TutorialWrapper>
 			<TutorialContainer>

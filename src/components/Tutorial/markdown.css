@@ -319,6 +319,8 @@
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 2em;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .markdown-body ol ol,
@@ -517,7 +519,7 @@
 }
 
 .markdown-body ol[type="1"] {
-    list-style-type: decimal;
+    list-style-type: decimal !important;
 }
 
 .markdown-body div>ol:not([type]) {
@@ -578,6 +580,9 @@
 
 .markdown-body table img {
     background-color: transparent;
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .markdown-body img[align=right] {
@@ -793,6 +798,7 @@
 
 .markdown-body .footnotes ol {
     padding-left: 16px;
+
 }
 
 .markdown-body .footnotes ol ul {
