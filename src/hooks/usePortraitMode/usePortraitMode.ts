@@ -7,10 +7,12 @@ export const usePortraitMode = () => {
         const portraitOrientation = window.matchMedia("(orientation: portrait)");
         const lockOrientation = () => {
             document.body.classList.add("portrait");
+			document.body.classList.remove("landscape");
         }
 
         const unlockOrientation = () => {
             document.body.classList.remove("portrait");
+			document.body.classList.add("landscape");
         }
 
         // Apply the orientation lock or unlock depending on the screen size and orientation

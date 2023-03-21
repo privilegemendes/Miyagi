@@ -6,6 +6,9 @@ import {
 } from "../../hooks/useAndRequireContext/useAndRequireContext";
 import styled from "styled-components";
 import {Toast} from "../../components/Toast";
+import {
+	useWindowDimensions
+} from "../../hooks/useWindowDimensions/useWindowDimensions";
 
 type Context = { }
 
@@ -23,16 +26,19 @@ export const PortraitModeProvider: FC<Props> =
 	) =>
 	{
 		const [orientation, setOrientation] = React.useState<boolean>(false);
+		const {height} = useWindowDimensions();
 
 		useEffect(() => {
 			const checkForLandscapeMode = window.matchMedia("(orientation: landscape)");
 
-			if (checkForLandscapeMode.matches) {
+			if (checkForLandscapeMode.matches && height <= 425) {
 				setOrientation(true);
+			} else {
+				setOrientation(false);
 			}
 
 
-		}, [orientation])
+		}, [height, orientation])
 
 
 
@@ -42,9 +48,6 @@ export const PortraitModeProvider: FC<Props> =
 		}), []);
 
 		return <ContextRef.Provider value={contextValue}>
-			<PortraitMode>
-				{children}
-			</PortraitMode>
 			{ orientation ?
 					<LandscapeMode>
 						<Toast
@@ -53,7 +56,9 @@ export const PortraitModeProvider: FC<Props> =
 							For a better experience, Please rotate your device to portrait mode.
 						</Toast>
 					</LandscapeMode>
-				: null
+				: <PortraitMode>
+					{children}
+				</PortraitMode>
 			}
 		</ContextRef.Provider>;
 	};
@@ -66,21 +71,11 @@ export function usePortraitMode() {
 
 
 const PortraitMode = styled.div`
-  display: none;
-  
-  @media screen and (orientation: portrait) and (max-height: 2000px) {
-    height: 100%;
-    width: 100%;
-    display: block;
-  }
 
-  @media screen and (orientation: landscape) and (min-height: 425px) {
-    height: 100%;
-    width: 100%;
-    display: block;
-	min-height: 500px;
-	overflow-x: hidden;
+  @media screen and (orientation: landscape) and (max-height: 425px)  {
+    display: none;
   }
+  
 `;
 
 const LandscapeMode = styled.div`

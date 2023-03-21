@@ -34,12 +34,12 @@ const Routes: FC = () => {
 }
 export const Home:FC = () => {
 
-    usePortraitMode();
     const {height, width} = useWindowDimensions();
+	usePortraitMode();
   return <>
 		  <Router>
 			  <PortraitModeProvider>
-				  <HomeGridWrapper width={width} height={height}>
+			  	<HomeGridWrapper width={width} height={height}>
 					  <HomeGridContainer>
 						  <GameSettingsProvider>
 							  <PuzzleProvider>
@@ -50,7 +50,7 @@ export const Home:FC = () => {
 							  </PuzzleProvider>
 						  </GameSettingsProvider>
 					  </HomeGridContainer>
-				  </HomeGridWrapper>
+			  	</HomeGridWrapper>
 			  </PortraitModeProvider>
 		  </Router>
         </>

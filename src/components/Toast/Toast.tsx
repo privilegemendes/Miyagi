@@ -90,7 +90,7 @@ const ToastNewWrapper = styled.div`
     align-items: center;
     border-radius: 16px;
    	max-width: 350px;
-    overflow: hidden !important;
+    //overflow: hidden !important;
   
   @media screen and (max-width: 768px) {
 	
