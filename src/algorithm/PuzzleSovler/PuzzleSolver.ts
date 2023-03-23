@@ -19,7 +19,6 @@ export type PuzzleDirection = 'up' | 'down' | 'left' | 'right' | null;
 
 export function PuzzleSolver(puzzle: number[]): { path: PuzzleDirection[] | null; pathValue: number[] } | null {
 	const puzzleSize = Math.sqrt(puzzle.length);
-	const visited = new Set<string>();
 
 	const initialState: PuzzleState = {
 		tiles: puzzle,
@@ -90,9 +89,7 @@ function AStarAlgorithm (startNode: PuzzleNode, initialState: PuzzleState, goalS
 
 function IDAstarAlgorithm (startNode: PuzzleNode, initialState: PuzzleState, goalState: PuzzleState): { path: PuzzleDirection[]; pathValue: number[] } | null {
 
-	const heuristicValue = manhattanDistance(initialState, goalState);
-
-	let bound = heuristicValue;
+	let bound = manhattanDistance(initialState, goalState);
 	let result: { path: PuzzleDirection[] | null; pathValue: number[] } | null = null;
 
 	while (true) {
@@ -335,7 +332,6 @@ function checkIfPuzzleIsSolvable(puzzle: number[]): boolean {
 	if (puzzleSize % 2 === 1) {
 		return inversions % 2 === 0;
 	} else {
-		return (inversions + emptyRowIndex) % 2 === 1;
+		return (inversions + emptyRowIndex) % 2 === 0;
 	}
-
 }
